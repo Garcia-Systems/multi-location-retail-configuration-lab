@@ -1,0 +1,11 @@
+{
+  "valid_statuses": ["INITIATED", "ACCEPTED", "COMPLETED", "REJECTED", "UNKNOWN"],
+  "valid_reasons": ["DEFECTIVE", "WRONG_SIZE", "CUSTOMER_CHANGED_MIND", "WRONG_ITEM", "DAMAGED", "OTHER"],
+  "reason_required_for_statuses": ["COMPLETED"],
+  "cross_store_returns_supported": true,
+  "online_returns_supported": true,
+  "restock_inventory_effect": "RETURN_LOCATION_PLUS_QUANTITY",
+  "non_restockable_reasons": ["DEFECTIVE", "DAMAGED"],
+  "non_restockable_inventory_effect": 0,
+  "evidence_classification": "MODELED ALTERNATIVE ASSUMPTION"
+}

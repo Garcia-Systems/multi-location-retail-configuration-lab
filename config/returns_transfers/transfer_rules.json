@@ -1,0 +1,11 @@
+{
+  "valid_statuses": ["CREATED", "SENT", "PARTIALLY_RECEIVED", "RECEIVED", "CANCELLED", "UNKNOWN"],
+  "sent_semantics": "sender evidence does not imply receiver evidence",
+  "received_semantics": "receipt requires receiving evidence and quantity comparison",
+  "quantity_reconciliation": "sent quantity must equal received quantity for closure",
+  "locations_must_differ": true,
+  "closure_status": "RECEIVED",
+  "inventory_effect_at_send": "NEGATIVE_SENT_QUANTITY",
+  "inventory_effect_at_receipt": "POSITIVE_RECEIVED_QUANTITY",
+  "evidence_classification": "MODELED ALTERNATIVE ASSUMPTION"
+}
