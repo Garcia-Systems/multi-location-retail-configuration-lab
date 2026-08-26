@@ -15,6 +15,9 @@ from .ecommerce_reconciliation import (
     ReconciliationResult, load_connector_configuration, run_ecommerce_reconciliation,
 )
 from .purchasing import PurchasingResult, run_purchasing_experiment
+from .returns_transfers import (
+    ReturnResult, TransferResult, run_returns_transfers_experiment,
+)
 
 
 def _money(value: Decimal) -> str:
@@ -341,6 +344,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("native-reporting", help="run the Chapter 4 native reporting experiment")
     subparsers.add_parser("ecommerce-reconciliation", help="run the Chapter 5 native connector experiment")
     subparsers.add_parser("purchasing", help="run the Chapter 6 purchasing configuration experiment")
+    subparsers.add_parser("returns-transfers", help="run the Chapter 7 returns/transfers experiment")
     return parser
 
 
@@ -360,6 +364,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(ecommerce_reconciliation_report())
     elif args.command == "purchasing":
         print(purchasing_report())
+    elif args.command == "returns-transfers":
+        print(returns_transfers_report())
     return 0
 
 
@@ -374,4 +380,72 @@ def purchasing_report() -> str:
     def trace(title,x):
         return [title,"","PURCHASE ORDER",x.po.canonical_po_id,"","SUPPLIER",x.po.supplier_id,"","SUPPLIER ITEM",x.line.supplier_item_id,"","CANONICAL SKU",x.canonical_sku or "UNRESOLVED","","ORDERED",str(x.line.ordered_quantity),"","RECEIVED",str(x.receipt.received_quantity if x.receipt else 0),"","EXPECTED LOCATION",x.po.destination_store_id,"","ACTUAL RECEIPT LOCATION",x.actual_location or "NONE","","RESULT",x.result.value.replace('_',' '),""]
     lines += trace("CLEAN RECEIPT",clean)+trace("PARTIAL RECEIPT",partial)+trace("WRONG LOCATION",wrong)+trace("UNRESOLVED SUPPLIER ITEM",unresolved)
+    return "\n".join(lines)
+
+
+def returns_transfers_report() -> str:
+    result = run_returns_transfers_experiment()
+    rc, tc = result.return_counts, result.transfer_counts
+    return_labels = (ReturnResult.RECONCILED, ReturnResult.CROSS_STORE_RECONCILED,
+        ReturnResult.MISSING_ORIGINAL_REFERENCE, ReturnResult.UNRESOLVED_IDENTITY,
+        ReturnResult.MISSING_REASON, ReturnResult.INVENTORY_EFFECT_EXCEPTION,
+        ReturnResult.PARTIALLY_RECONCILED, ReturnResult.UNKNOWN)
+    transfer_labels = (TransferResult.RECONCILED, TransferResult.MISSING_RECEIPT,
+        TransferResult.PARTIAL_RECEIPT, TransferResult.OVER_RECEIPT,
+        TransferResult.LOCATION_EXCEPTION, TransferResult.CANCELLED_TRANSFER_MOVEMENT,
+        TransferResult.UNRESOLVED_IDENTITY, TransferResult.INVENTORY_EFFECT_EXCEPTION,
+        TransferResult.UNKNOWN)
+    lines = ["James River Outfitters", "Chapter 7 — Returns and Transfers", "",
+        "Before configuration", "--------------------",
+        f"Manual return/transfer reviews: {result.before['manual_return_transfer_reviews']}",
+        f"Manual transaction lookups: {result.before['manual_transaction_lookups']}",
+        f"Manual transfer closure checks: {result.before['manual_transfer_closure_checks']}",
+        f"Manual identity interpretations: {result.before['manual_identity_interpretations']}",
+        f"Apparent inventory exceptions: {result.before['apparent_inventory_exceptions']}", "",
+        "Returns after configuration", "---------------------------",
+        f"Total returns: {result.total_returns}",
+        *[f"{item.value.replace('_', ' ')}: {rc[item]}" for item in return_labels], "",
+        "Transfers after configuration", "-----------------------------",
+        f"Total transfers: {result.total_transfers}",
+        *[f"{item.value.replace('_', ' ')}: {tc[item]}" for item in transfer_labels], "",
+        f"Records requiring manual reconciliation: {result.manual_reviews_after}",
+        f"Return reconciliation rate: {result.return_reconciliation_rate:.2%}",
+        f"Transfer reconciliation rate: {result.transfer_reconciliation_rate:.2%}",
+        f"Manual review reduction ratio: {result.manual_return_transfer_review_reduction_ratio:.2%}",
+        "OBSERVED LAB RESULT from deterministic synthetic fixtures; no success threshold is imposed.", "",
+        "Chapter 2 question impact",
+        *[f"{x.question_id}: {x.status.value.replace('_', ' ')} — {x.reason}" for x in result.question_impacts], "",
+        "Modeled return/transfer burden categories (MODELED ASSUMPTION): manual return lookup; cross-store reconciliation; reason follow-up; transfer closure and quantity/inventory investigation.",
+        "No modeled reduction is an observed labor or dollar saving.", "",
+        "Detection is not correction: configuration detects a missing return reason but cannot guarantee employee compliance.",
+        "Accounting reconciliation is outside Chapter 7; no accounting evidence is fabricated.", "",
+        "Current lab verdict: UNTESTED", ""]
+
+    def return_trace(title: str, outcome):
+        record = outcome.record
+        return [title, "", "RETURN", record.return_id, "", "ORIGINAL TRANSACTION",
+            record.original_reference or "MISSING", "", "ORIGINAL SALE STORE",
+            record.original_sale_store or "ONLINE / NO SALE STORE", "", "RETURN STORE",
+            record.return_store, "", "SKU", record.canonical_sku or "UNRESOLVED", "",
+            "REASON", record.reason or "MISSING", "", "INVENTORY EFFECT",
+            f"{record.inventory_effect:+d} at {record.return_store}", "", "RESULT",
+            outcome.result.value.replace("_", " "), ""]
+
+    def transfer_trace(title: str, outcome):
+        record = outcome.record
+        return [title, "", "TRANSFER", record.transfer_id, "", "FROM", record.sending_store,
+            "", "TO", record.receiving_store, "", "SENT", str(record.quantity_sent), "",
+            "RECEIVED", str(record.quantity_received), "", "SENDER / RECEIVER EFFECT",
+            f"{record.sender_inventory_effect:+d} / {record.receiver_inventory_effect:+d}", "",
+            "RESULT", outcome.result.value.replace("_", " "), ""]
+
+    find_return = lambda value: next(x for x in result.return_outcomes if x.result is value)
+    find_transfer = lambda value: next(x for x in result.transfer_outcomes if x.result is value)
+    lines += return_trace("CLEAN RETURN", find_return(ReturnResult.RECONCILED))
+    lines += return_trace("CLEAN CROSS-STORE RETURN", find_return(ReturnResult.CROSS_STORE_RECONCILED))
+    lines += return_trace("MISSING RETURN REASON", find_return(ReturnResult.MISSING_REASON))
+    lines += transfer_trace("CLEAN TRANSFER", find_transfer(TransferResult.RECONCILED))
+    lines += transfer_trace("SENT, NOT RECEIVED", find_transfer(TransferResult.MISSING_RECEIPT))
+    lines += transfer_trace("PARTIAL TRANSFER", find_transfer(TransferResult.PARTIAL_RECEIPT))
+    lines += transfer_trace("TRUE INVENTORY-EFFECT EXCEPTION", find_transfer(TransferResult.INVENTORY_EFFECT_EXCEPTION))
     return "\n".join(lines)
