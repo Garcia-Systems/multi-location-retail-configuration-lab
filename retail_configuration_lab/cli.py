@@ -24,6 +24,8 @@ from .process_change import ResidualCause, run_process_change_experiment
 from .residual_gaps import ResidualStatus, analyze_residual_gaps, load_residual_gaps
 from .support_surface import analyze_support_surface, load_support_inventory
 from .add_store import TaskClassification, load_store7_experiment
+from .acquired_store import (AcquisitionResponse, CompatibilityFit,
+                             load_acquired_store_experiment, recommend_response)
 
 
 def _money(value: Decimal) -> str:
@@ -359,6 +361,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("residual-gaps", help="run the Chapter 11 residual-gap analysis")
     subparsers.add_parser("support-surface", help="run the Chapter 12 support-surface analysis")
     subparsers.add_parser("add-store", help="run the Chapter 13 standardized Store #7 onboarding")
+    subparsers.add_parser("acquired-store", help="run the Chapter 14 acquired Store #8 stress test")
     return parser
 
 
@@ -392,6 +395,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(support_surface_report())
     elif args.command == "add-store":
         print(add_store_report())
+    elif args.command == "acquired-store":
+        print(acquired_store_report())
     return 0
 
 
@@ -428,6 +433,53 @@ def add_store_report() -> str:
         "CLASSIFICATION", "REUSED UNCHANGED", "", "TASK", issue["task"], "",
         "INITIAL RESULT", issue["initial_result"], "", "FIX", issue["fix"], "",
         "FINAL RESULT", issue["final_result"], "", "Current lab verdict: UNTESTED"]
+    return "\n".join(lines)
+
+
+def acquired_store_report() -> str:
+    x = load_acquired_store_experiment(); decision = recommend_response(x)
+    count = lambda fit: x.count_fit(fit)
+    std = x.raw["standardization"]; structure = x.raw["structure"]
+    ambiguous = x.mapping("1042"); clean = x.mapping("BLTS-M-BL")
+    lines = ["James River Outfitters", "Chapter 14 — Acquired Store Stress Test", "",
+        f"Acquired store: {x.store_id}", f"State: {x.raw['store']['state']}",
+        f"Different POS: {x.pos_system['id']}", f"Separate inventory system: {x.inventory_system['id']}", "",
+        "Initial compatibility", "---------------------",
+        f"Reusable: {count(CompatibilityFit.REUSABLE)}",
+        f"Reusable with configuration: {count(CompatibilityFit.REUSABLE_WITH_CONFIGURATION)}",
+        f"Requires new mapping: {count(CompatibilityFit.REQUIRES_NEW_MAPPING)}",
+        f"Requires new module: {count(CompatibilityFit.REQUIRES_NEW_MODULE)}",
+        f"Technical gaps: {count(CompatibilityFit.TECHNICAL_GAP)}",
+        f"Process gaps: {count(CompatibilityFit.PROCESS_GAP)}",
+        f"Migration candidates: {count(CompatibilityFit.MIGRATION_CANDIDATE)}",
+        f"Unknown: {count(CompatibilityFit.UNKNOWN)}", "",
+        "After bounded standardization", "-----------------------------",
+        f"Resolved mappings: {std['resolved_mappings']}", f"Ambiguous mappings: {std['ambiguous_mappings']}",
+        f"Unmapped identities: {std['unmapped_identities']}", f"Local-only merchandise: {std['local_only_merchandise']}",
+        f"Residual technical gaps: {std['residual_technical_gaps']}", "",
+        "Scaling comparison", "------------------",
+        f"Store #7 structural reuse ratio: {x.store7_structural_reuse_ratio:.2%}",
+        f"Store #8 structural reuse ratio: {x.structural_reuse_ratio:.2%}",
+        f"Fragmentation reuse delta: {x.fragmentation_reuse_delta:.2%}",
+        f"Store #7 new capability ratio: {load_store7_experiment().new_capability_ratio:.2%}",
+        f"Store #8 technical-gap/new-capability ratio: {x.technical_gap_new_capability_ratio:.2%}",
+        f"Store #7 new mappings: {load_store7_experiment().count(TaskClassification.NEW_MAPPING)}",
+        f"Store #8 new mappings: {structure['new_mappings']}",
+        "Store #7 blocked/unknown tasks: 0",
+        f"Store #8 blocked/unknown tasks: {structure['blocked_or_unknown_items']}",
+        f"Additional support surface items: {x.additional_support_surface_items}", "",
+        "Acquisition response", "--------------------",
+        f"Primary response: {decision.primary_response.value}", f"Rationale: {decision.rationale}",
+        "Other live paths: " + ", ".join(r.value for r in decision.considered_responses if r is not decision.primary_response), "",
+        "CLEAN MAPPING", "", "LOCAL SKU", clean.local_sku, "", "CANONICAL SKU", clean.resolved_canonical_sku, "", "RESULT", "REQUIRES NEW MAPPING", "",
+        "AMBIGUOUS MAPPING", "", "LOCAL SKU", ambiguous.local_sku, "", "POSSIBLE CANONICAL MATCHES", *ambiguous.canonical_matches, "", "RESULT", "AMBIGUOUS", "DO NOT GUESS", "",
+        "LOCAL-ONLY ITEM", "", "LOCAL SKU", "SHEN-001", "", "JAMES RIVER EQUIVALENT", "NONE", "", "RESULT", "LOCAL-ONLY MERCHANDISE", "",
+        "TRANSFER STANDARDIZATION", "", "BEFORE", "free-text spreadsheet transfer", "", "AFTER", "canonical store + SKU mappings", "", "RESULT", "STANDARDIZE FIRST improves current-period data", "",
+        "PERSISTENT TECHNICAL GAP", "", "AREA", "RidgePOS change notification / automation", "", "CONFIGURATION ATTEMPT", "configured daily CSV import module", "", "RESULT", "TECHNICAL GAP REMAINS", "",
+        "MIGRATION CANDIDATE", "", "SYSTEM", x.raw["migration_scenario"]["candidate"], "", "WHY", "keeping a second inventory platform adds export, mapping, user-support, and schema-change obligations", "",
+        "NARROW CUSTOM CANDIDATE (NOT IMPLEMENTED)", x.raw["custom_candidates"][0]["name"], "",
+        "Evidence: fictional capabilities and effort are MODELED ALTERNATIVE ASSUMPTION / MODELED ASSUMPTION; ratios are OBSERVED LAB RESULT.", "",
+        "Current lab verdict: UNTESTED"]
     return "\n".join(lines)
 
 
