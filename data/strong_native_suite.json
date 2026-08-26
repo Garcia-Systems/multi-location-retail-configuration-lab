@@ -1,0 +1,446 @@
+{
+  "suite_name": "RiverSuite Enterprise",
+  "scenario_evidence": "MODELED ALTERNATIVE ASSUMPTION",
+  "capabilities": [
+    {
+      "capability_id": "sales-store",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-sku",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-channel",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-returns",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-multistore",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-category",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-store-onhand",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-adjustments",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-transfers",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-fulfillment-effect",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-store-ownership",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-orders",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-receiving",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-supplier",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-supplier-item",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-discrepancies",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-order-id",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-store-fulfillment",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-cancellation",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-cross-channel-return",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-inventory-sync",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "return-cross-store",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-sent-received",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-discrepancy",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "bi-exception-views",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "bi-cross-store-management",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-alerts",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-scheduled-reports",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-exception-notification",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-sales-posting",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-return-posting",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-purchase-posting",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-reconciliation",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "roles-access",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "store-onboarding",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "historical-migration-quality",
+      "status": "UNKNOWN",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "proprietary-exception-priority",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    }
+  ],
+  "question_comparisons": [
+    {
+      "question_id": "SAL-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "SAL-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "SAL-03",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-03",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "ECOM-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "ECOM-02",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "TRN-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "TRN-02",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "RET-01",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "RET-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "PUR-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "PUR-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "FIN-01",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "material": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "MGT-01",
+      "base_status": "ANSWERED",
+      "strong_status": "PARTIALLY_ANSWERED",
+      "material": false,
+      "evidence": "OBSERVED LAB RESULT"
+    }
+  ],
+  "burden_categories": [
+    {
+      "category_id": "sales-report-consolidation",
+      "status": "REDUCED",
+      "remaining": "600.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "identity-reconciliation",
+      "status": "REDUCED",
+      "remaining": "700.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "ecommerce-reconciliation",
+      "status": "REDUCED",
+      "remaining": "600.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "purchasing-receiving",
+      "status": "REDUCED",
+      "remaining": "900.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "return-reconciliation",
+      "status": "REDUCED",
+      "remaining": "700.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "transfer-reconciliation",
+      "status": "REDUCED",
+      "remaining": "500.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "inventory-mismatch-investigation",
+      "status": "REDUCED",
+      "remaining": "3500.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "spreadsheet-assembly",
+      "status": "ELIMINATED",
+      "remaining": "0.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "manual-coordination",
+      "status": "MOVED_TO_ADMINISTRATION",
+      "remaining": "500.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "accounting-reconciliation",
+      "status": "REDUCED",
+      "remaining": "800.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "other-operational-exceptions",
+      "status": "REDUCED",
+      "remaining": "2500.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "identity-maintenance",
+      "status": "ELIMINATED",
+      "remaining": "0.00",
+      "evidence": "MODELED ASSUMPTION"
+    },
+    {
+      "category_id": "automation-failure-handling",
+      "status": "ELIMINATED",
+      "remaining": "0.00",
+      "evidence": "MODELED ASSUMPTION"
+    }
+  ],
+  "strong_residual_total": "11300.00",
+  "costs": {
+    "subscription_platform": "78000.00",
+    "connector_modules": "12000.00",
+    "administration_support_labor": "18000.00",
+    "setup_migration": {
+      "configuration": "22000.00",
+      "data_cleanup": "18000.00",
+      "training": "12000.00",
+      "migration": "30000.00",
+      "validation": "10000.00"
+    }
+  },
+  "accounting_postings": [
+    {
+      "posting_id": "ACC-SALE-001",
+      "record_type": "SALES",
+      "operational_amount": "1250.00",
+      "accounting_amount": "1250.00"
+    },
+    {
+      "posting_id": "ACC-RETURN-001",
+      "record_type": "RETURN",
+      "operational_amount": "85.00",
+      "accounting_amount": "85.00"
+    },
+    {
+      "posting_id": "ACC-PURCHASE-001",
+      "record_type": "PURCHASING",
+      "operational_amount": "2400.00",
+      "accounting_amount": "2400.00"
+    },
+    {
+      "posting_id": "ACC-SALE-002",
+      "record_type": "SALES",
+      "operational_amount": "410.00",
+      "accounting_amount": "400.00"
+    }
+  ],
+  "custom_edge": {
+    "area": "company-specific exception rule",
+    "affected_question": "MGT-01",
+    "classification": "NARROW_TECHNICAL_EDGE",
+    "modeled_burden": "500.00",
+    "current_workaround": "Manager sorts the native exception view weekly.",
+    "why_not_covered": "The proprietary prioritization rule spans supported workflows but is not a native rule.",
+    "material": false,
+    "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+  },
+  "economics": {
+    "unfavorable": false
+  },
+  "limitations": [
+    "administrative effort",
+    "configuration maintenance",
+    "vendor dependency",
+    "user/process problems",
+    "unusual edge cases",
+    "historical migration",
+    "support obligations"
+  ]
+}

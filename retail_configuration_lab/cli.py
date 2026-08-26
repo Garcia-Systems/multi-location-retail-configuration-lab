@@ -26,6 +26,7 @@ from .support_surface import analyze_support_surface, load_support_inventory
 from .add_store import TaskClassification, load_store7_experiment
 from .acquired_store import (AcquisitionResponse, CompatibilityFit,
                              load_acquired_store_experiment, recommend_response)
+from .strong_native_suite import load_strong_native_suite, derive_verdict
 
 
 def _money(value: Decimal) -> str:
@@ -362,6 +363,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("support-surface", help="run the Chapter 12 support-surface analysis")
     subparsers.add_parser("add-store", help="run the Chapter 13 standardized Store #7 onboarding")
     subparsers.add_parser("acquired-store", help="run the Chapter 14 acquired Store #8 stress test")
+    subparsers.add_parser("strong-native-suite", help="run the Chapter 15 strong native suite scenario")
     return parser
 
 
@@ -397,7 +399,38 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(add_store_report())
     elif args.command == "acquired-store":
         print(acquired_store_report())
+    elif args.command == "strong-native-suite":
+        print(strong_native_suite_report())
     return 0
+
+
+def strong_native_suite_report() -> str:
+    s = load_strong_native_suite(); verdict, rationale = derive_verdict(s)
+    edge = s.raw["custom_edge"]
+    lines = ["James River Outfitters", "Chapter 15 — Strong Native Suite Scenario", "",
+        f"Fictional suite: {s.raw['suite_name']} (MODELED ALTERNATIVE ASSUMPTION)", "",
+        "Question coverage", "-----------------", f"Total business questions: {s.total_questions}",
+        f"Base configured ecosystem answered: {s.base_questions_answered}",
+        f"Strong native suite answered: {s.strong_questions_answered}",
+        f"Incremental questions answered: {s.strong_suite_question_gain}", "",
+        "Residual burden", "---------------", f"Base residual operational burden: {_money(s.base_residual_operational_burden)}",
+        f"Strong-suite residual operational burden: {_money(s.strong_residual_operational_burden)}",
+        f"Strong-suite residual burden reduction: {_money(s.strong_suite_residual_burden_reduction)}", "",
+        "Recurring support / administration", "----------------------------------",
+        f"Base configuration support: {_money(s.base_administration_support_cost)}",
+        f"Strong-suite support/admin: {_money(s.administration_cost)}",
+        f"Strong-suite platform cash cost: {_money(s.recurring_platform_cost)}", "",
+        "Setup / migration", "-----------------", f"Modeled strong-suite setup/migration cost: {_money(s.setup_migration_cost)}",
+        "  configuration + data cleanup + training + migration + validation (MODELED ASSUMPTION)", "",
+        f"Remaining technical gaps: {s.remaining_technical_gaps}", f"Remaining unknowns: {s.remaining_unknowns}",
+        f"Custom relevance: {s.custom_relevance.value}", "", f"Scenario verdict: {verdict.value.replace('_', ' / ', 1) if verdict.value == 'BUY_CONFIGURE' else verdict.value}",
+        f"Rationale: {rationale}", "", "Overall lab verdict: UNTESTED", "", "Accounting reconciliation", "-------------------------"]
+    lines += [f"{x.record_type} | {x.posting_id} | operational {_money(x.operational_amount)} | accounting {_money(x.accounting_amount)} | {x.status.value}" for x in s.accounting_results]
+    lines += ["", "QUESTION", "Which operational records fail to reconcile with accounting evidence?", "", "BASE CONFIGURED ECOSYSTEM", "PARTIALLY ANSWERED", "", "STRONG SUITE", "accounting-side synthetic evidence available", "", "RESULT", "ANSWERED",
+        "", "AREA", "cross-store returns", "", "BASE", "configuration + multiple components", "", "STRONG SUITE", "native shared workflow", "", "RESULT", "less integration structure required",
+        "", "AREA", edge["area"], "", "NATIVE COVERAGE", "insufficient", "", "RESIDUAL", "bounded technical edge", "", "MATERIALITY", "immaterial" if not edge["material"] else "material",
+        "", "LOWER RESIDUAL BURDEN", "        +", "HIGHER PLATFORM COST"]
+    return "\n".join(lines)
 
 
 def add_store_report() -> str:
