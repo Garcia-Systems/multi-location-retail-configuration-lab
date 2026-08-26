@@ -1,10 +1,23 @@
-"""Small, dependency-free domain models and validation for Chapter 0."""
+"""Small, dependency-free domain models and validation for the lab."""
 
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
+from enum import StrEnum
 from typing import Any
 
 from .evidence import EvidenceCategory
+
+
+class CapabilityStatus(StrEnum):
+    """The seven deliberately non-numeric capability classifications."""
+
+    SUPPORTED = "SUPPORTED"
+    SUPPORTED_WITH_CONFIGURATION = "SUPPORTED_WITH_CONFIGURATION"
+    SUPPORTED_WITH_NATIVE_INTEGRATION = "SUPPORTED_WITH_NATIVE_INTEGRATION"
+    EXPORT_ONLY = "EXPORT_ONLY"
+    AUTOMATION_POSSIBLE = "AUTOMATION_POSSIBLE"
+    GAP = "GAP"
+    UNKNOWN = "UNKNOWN"
 
 
 class BaselineValidationError(ValueError):

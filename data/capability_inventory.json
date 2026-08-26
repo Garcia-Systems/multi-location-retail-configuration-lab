@@ -1,0 +1,645 @@
+{
+  "customer_name": "James River Outfitters",
+  "fictional_inventory": true,
+  "systems": [
+    {
+      "id": "riverpos",
+      "name": "RiverPOS",
+      "category": "Store POS / Returns",
+      "authoritative_responsibility": "Store sales transactions and in-store returns",
+      "major_capabilities": [
+        "store sales",
+        "transaction lookup",
+        "returns"
+      ],
+      "known_limitations": [
+        "Cross-channel history depends on connected systems"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverstock",
+      "name": "RiverStock",
+      "category": "Inventory / Store transfers",
+      "authoritative_responsibility": "SKU records, location stock, adjustments, and transfers",
+      "major_capabilities": [
+        "on-hand inventory",
+        "SKU lookup",
+        "transfers"
+      ],
+      "known_limitations": [
+        "Available-to-sell requires channel synchronization"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverbuy",
+      "name": "RiverBuy",
+      "category": "Purchasing / purchase orders",
+      "authoritative_responsibility": "Suppliers, purchase orders, and receiving",
+      "major_capabilities": [
+        "purchase orders",
+        "suppliers",
+        "receipts"
+      ],
+      "known_limitations": [
+        "Exception reporting is limited"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "rivercommerce",
+      "name": "RiverCommerce",
+      "category": "E-commerce",
+      "authoritative_responsibility": "Online orders, cancellations, and online returns",
+      "major_capabilities": [
+        "online orders",
+        "fulfillment routing",
+        "cancellations"
+      ],
+      "known_limitations": [
+        "Store inventory impact depends on a connector"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverbooks",
+      "name": "RiverBooks",
+      "category": "Accounting",
+      "authoritative_responsibility": "General-ledger posting and accounting dimensions",
+      "major_capabilities": [
+        "sales posting",
+        "purchase posting",
+        "location dimensions"
+      ],
+      "known_limitations": [
+        "Operational detail is available primarily through exports"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverschedule",
+      "name": "RiverSchedule",
+      "category": "Scheduling",
+      "authoritative_responsibility": "Store labor schedules and staffing assignments",
+      "major_capabilities": [
+        "schedules",
+        "staffing by store"
+      ],
+      "known_limitations": [
+        "Not an authority for sales or inventory"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverbi",
+      "name": "RiverBI",
+      "category": "BI / reporting",
+      "authoritative_responsibility": "Configured management reports and report delivery",
+      "major_capabilities": [
+        "multi-store reports",
+        "scheduled delivery"
+      ],
+      "known_limitations": [
+        "Cross-system semantics are not predefined"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverflow",
+      "name": "RiverFlow",
+      "category": "Automation / workflow",
+      "authoritative_responsibility": "Deterministic notifications and file movement",
+      "major_capabilities": [
+        "notifications",
+        "scheduled file transfer"
+      ],
+      "known_limitations": [
+        "No general-purpose application or reconciliation engine"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riversheets",
+      "name": "RiverSheets",
+      "category": "Spreadsheets / exports",
+      "authoritative_responsibility": "Analyst-managed structured extracts and mappings",
+      "major_capabilities": [
+        "CSV review",
+        "mapping tables"
+      ],
+      "known_limitations": [
+        "Manual custody and version control"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "riverreturns",
+      "name": "RiverReturns",
+      "category": "Returns",
+      "authoritative_responsibility": "Cross-channel return intake and disposition",
+      "major_capabilities": [
+        "return references",
+        "reason capture"
+      ],
+      "known_limitations": [
+        "Historical reason-code completeness is undocumented"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "id": "rivertransfer",
+      "name": "RiverTransfer",
+      "category": "Store transfers",
+      "authoritative_responsibility": "Transfer shipment and receipt workflow",
+      "major_capabilities": [
+        "transfer identity",
+        "send and receipt events"
+      ],
+      "known_limitations": [
+        "Missing-receipt alerts are not native"
+      ],
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    }
+  ],
+  "capability_assessments": [
+    {
+      "capability_id": "sales-store",
+      "business_area": "Sales",
+      "name": "Sales by store",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED",
+      "rationale": "RiverPOS models sales by store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-sku",
+      "business_area": "Sales",
+      "name": "Sales by SKU",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED",
+      "rationale": "RiverPOS models sales by sku in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-channel",
+      "business_area": "Sales",
+      "name": "Sales by channel",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverPOS models sales by channel in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "standardize channel identifiers"
+    },
+    {
+      "capability_id": "sales-net-returns",
+      "business_area": "Sales",
+      "name": "Returns netted against sales",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverPOS models returns netted against sales in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverPOS \u2194 RiverReturns native connector"
+    },
+    {
+      "capability_id": "sales-period",
+      "business_area": "Sales",
+      "name": "Date-period filtering",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED",
+      "rationale": "RiverPOS models date-period filtering in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-category",
+      "business_area": "Sales",
+      "name": "Category-level reporting",
+      "primary_system": "riverpos",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverPOS models category-level reporting in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "standardize category mappings"
+    },
+    {
+      "capability_id": "inventory-store",
+      "business_area": "Inventory",
+      "name": "On-hand quantity by store",
+      "primary_system": "riverstock",
+      "status": "SUPPORTED",
+      "rationale": "RiverStock models on-hand quantity by store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-sku",
+      "business_area": "Inventory",
+      "name": "Centralized SKU lookup",
+      "primary_system": "riverstock",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverStock models centralized sku lookup in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "standardize cross-store SKU identifiers"
+    },
+    {
+      "capability_id": "inventory-adjust",
+      "business_area": "Inventory",
+      "name": "Inventory adjustments",
+      "primary_system": "riverstock",
+      "status": "SUPPORTED",
+      "rationale": "RiverStock models inventory adjustments in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-location",
+      "business_area": "Inventory",
+      "name": "Store ownership/location",
+      "primary_system": "riverstock",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverStock models store ownership/location in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "assign authoritative location codes"
+    },
+    {
+      "capability_id": "inventory-ats",
+      "business_area": "Inventory",
+      "name": "Available-to-sell quantity",
+      "primary_system": "riverstock",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverStock models available-to-sell quantity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverCommerce \u2194 RiverStock native connector"
+    },
+    {
+      "capability_id": "inventory-history",
+      "business_area": "Inventory",
+      "name": "Inventory history",
+      "primary_system": "riverstock",
+      "status": "UNKNOWN",
+      "rationale": "RiverStock models inventory history in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "discovery_note": "Confirm retention period and whether adjustments are reconstructable"
+    },
+    {
+      "capability_id": "po-orders",
+      "business_area": "Purchasing",
+      "name": "Purchase orders",
+      "primary_system": "riverbuy",
+      "status": "SUPPORTED",
+      "rationale": "RiverBuy models purchase orders in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "po-supplier",
+      "business_area": "Purchasing",
+      "name": "Supplier identity",
+      "primary_system": "riverbuy",
+      "status": "SUPPORTED",
+      "rationale": "RiverBuy models supplier identity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "po-status",
+      "business_area": "Purchasing",
+      "name": "PO status",
+      "primary_system": "riverbuy",
+      "status": "SUPPORTED",
+      "rationale": "RiverBuy models po status in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "po-receiving",
+      "business_area": "Purchasing",
+      "name": "Receiving status",
+      "primary_system": "riverbuy",
+      "status": "SUPPORTED",
+      "rationale": "RiverBuy models receiving status in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "po-quantity",
+      "business_area": "Purchasing",
+      "name": "Received quantity",
+      "primary_system": "riverbuy",
+      "status": "SUPPORTED",
+      "rationale": "RiverBuy models received quantity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "po-exceptions",
+      "business_area": "Purchasing",
+      "name": "Purchasing exceptions",
+      "primary_system": "riverbuy",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverBuy models purchasing exceptions in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "commerce-order",
+      "business_area": "E-commerce",
+      "name": "Online order identity",
+      "primary_system": "rivercommerce",
+      "status": "SUPPORTED",
+      "rationale": "RiverCommerce models online order identity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "commerce-fulfillment",
+      "business_area": "E-commerce",
+      "name": "Fulfillment store",
+      "primary_system": "rivercommerce",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverCommerce models fulfillment store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverCommerce \u2194 RiverStock native connector"
+    },
+    {
+      "capability_id": "commerce-sku",
+      "business_area": "E-commerce",
+      "name": "Online SKU identity",
+      "primary_system": "rivercommerce",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverCommerce models online sku identity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "map commerce item identifiers to centralized SKUs"
+    },
+    {
+      "capability_id": "commerce-cancel",
+      "business_area": "E-commerce",
+      "name": "Cancellation state",
+      "primary_system": "rivercommerce",
+      "status": "SUPPORTED",
+      "rationale": "RiverCommerce models cancellation state in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "commerce-return",
+      "business_area": "E-commerce",
+      "name": "Return state",
+      "primary_system": "rivercommerce",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverCommerce models return state in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverCommerce \u2194 RiverReturns native connector"
+    },
+    {
+      "capability_id": "commerce-impact",
+      "business_area": "E-commerce",
+      "name": "Inventory impact",
+      "primary_system": "rivercommerce",
+      "status": "UNKNOWN",
+      "rationale": "RiverCommerce models inventory impact in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "discovery_note": "Test cancellation and return timing against store stock events"
+    },
+    {
+      "capability_id": "transfer-id",
+      "business_area": "Transfers",
+      "name": "Transfer identity",
+      "primary_system": "rivertransfer",
+      "status": "SUPPORTED",
+      "rationale": "RiverTransfer models transfer identity in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-from",
+      "business_area": "Transfers",
+      "name": "Sending store",
+      "primary_system": "rivertransfer",
+      "status": "SUPPORTED",
+      "rationale": "RiverTransfer models sending store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-to",
+      "business_area": "Transfers",
+      "name": "Receiving store",
+      "primary_system": "rivertransfer",
+      "status": "SUPPORTED",
+      "rationale": "RiverTransfer models receiving store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-sent",
+      "business_area": "Transfers",
+      "name": "Sent status",
+      "primary_system": "rivertransfer",
+      "status": "SUPPORTED",
+      "rationale": "RiverTransfer models sent status in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-received",
+      "business_area": "Transfers",
+      "name": "Received status",
+      "primary_system": "rivertransfer",
+      "status": "SUPPORTED",
+      "rationale": "RiverTransfer models received status in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-unresolved",
+      "business_area": "Transfers",
+      "name": "Unresolved transfer visibility",
+      "primary_system": "riverflow",
+      "status": "AUTOMATION_POSSIBLE",
+      "rationale": "A deterministic comparison of sent and received transfer events could flag missing receipts.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "return-original",
+      "business_area": "Returns",
+      "name": "Original transaction reference",
+      "primary_system": "riverreturns",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverReturns models original transaction reference in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverReturns \u2194 RiverPOS native connector"
+    },
+    {
+      "capability_id": "return-store",
+      "business_area": "Returns",
+      "name": "Return store",
+      "primary_system": "riverreturns",
+      "status": "SUPPORTED",
+      "rationale": "RiverReturns models return store in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "return-channel",
+      "business_area": "Returns",
+      "name": "Return channel",
+      "primary_system": "riverreturns",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverReturns models return channel in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "require channel selection in return workflow"
+    },
+    {
+      "capability_id": "return-reason",
+      "business_area": "Returns",
+      "name": "Reason code",
+      "primary_system": "riverreturns",
+      "status": "UNKNOWN",
+      "rationale": "RiverReturns models reason code in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "discovery_note": "Profile historical reason-code completeness before classification"
+    },
+    {
+      "capability_id": "return-inventory",
+      "business_area": "Returns",
+      "name": "Inventory effect",
+      "primary_system": "riverreturns",
+      "status": "SUPPORTED_WITH_NATIVE_INTEGRATION",
+      "rationale": "RiverReturns models inventory effect in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "enable fictional RiverReturns \u2194 RiverStock native connector"
+    },
+    {
+      "capability_id": "return-accounting",
+      "business_area": "Returns",
+      "name": "Accounting effect",
+      "primary_system": "riverreturns",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverReturns models accounting effect in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "acct-sales",
+      "business_area": "Accounting",
+      "name": "Sales posting/export",
+      "primary_system": "riverbooks",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverBooks models sales posting/export in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "acct-return",
+      "business_area": "Accounting",
+      "name": "Return posting/export",
+      "primary_system": "riverbooks",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverBooks models return posting/export in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "acct-purchase",
+      "business_area": "Accounting",
+      "name": "Purchasing posting/export",
+      "primary_system": "riverbooks",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverBooks models purchasing posting/export in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "acct-location",
+      "business_area": "Accounting",
+      "name": "Store/location dimensions",
+      "primary_system": "riverbooks",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverBooks models store/location dimensions in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "configure consistent accounting location dimensions"
+    },
+    {
+      "capability_id": "acct-reconcile",
+      "business_area": "Accounting",
+      "name": "Reconciliation export",
+      "primary_system": "riverbooks",
+      "status": "EXPORT_ONLY",
+      "rationale": "RiverBooks models reconciliation export in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "report-store",
+      "business_area": "Reporting",
+      "name": "Native store reporting",
+      "primary_system": "riverbi",
+      "status": "SUPPORTED",
+      "rationale": "RiverBI models native store reporting in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "report-multi",
+      "business_area": "Reporting",
+      "name": "Multi-store reporting",
+      "primary_system": "riverbi",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverBI models multi-store reporting in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "configure shared report definitions and access roles"
+    },
+    {
+      "capability_id": "report-cross",
+      "business_area": "Reporting",
+      "name": "Cross-system reporting",
+      "primary_system": "riverbi",
+      "status": "GAP",
+      "rationale": "No plausible existing route exposes reusable cross-channel exception logic.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "report-exception",
+      "business_area": "Reporting",
+      "name": "Exception reporting",
+      "primary_system": "riverbi",
+      "status": "GAP",
+      "rationale": "No plausible existing route exposes reusable cross-channel exception logic.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "report-scheduled",
+      "business_area": "Reporting",
+      "name": "Scheduled report delivery",
+      "primary_system": "riverbi",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "RiverBI models scheduled report delivery in the fictional current ecosystem.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "configure recipients, schedule, and report permissions"
+    },
+    {
+      "capability_id": "auto-export",
+      "business_area": "Automation",
+      "name": "Scheduled export transfer",
+      "primary_system": "riverflow",
+      "status": "AUTOMATION_POSSIBLE",
+      "rationale": "A bounded deterministic workflow is plausible, but has not been configured or tested.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "auto-trigger",
+      "business_area": "Automation",
+      "name": "Trigger-based notification",
+      "primary_system": "riverflow",
+      "status": "AUTOMATION_POSSIBLE",
+      "rationale": "A bounded deterministic workflow is plausible, but has not been configured or tested.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "auto-missing",
+      "business_area": "Automation",
+      "name": "Missing-record notification",
+      "primary_system": "riverflow",
+      "status": "AUTOMATION_POSSIBLE",
+      "rationale": "A bounded deterministic workflow is plausible, but has not been configured or tested.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "auto-mapping",
+      "business_area": "Automation",
+      "name": "Mapping validation",
+      "primary_system": "riverflow",
+      "status": "AUTOMATION_POSSIBLE",
+      "rationale": "A bounded deterministic workflow is plausible, but has not been configured or tested.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "auto-report",
+      "business_area": "Automation",
+      "name": "Scheduled report distribution",
+      "primary_system": "riverflow",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "rationale": "A bounded deterministic workflow is plausible, but has not been configured or tested.",
+      "evidence_category": "MODELED ALTERNATIVE ASSUMPTION",
+      "dependency": "configure approved report trigger and recipient rules"
+    }
+  ]
+}

@@ -50,6 +50,7 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 pytest
 python -m retail_configuration_lab baseline
+python -m retail_configuration_lab capabilities
 python -m retail_configuration_lab --help
 ```
 
@@ -58,6 +59,22 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 ## Chapter index
 
 1. [Chapter 0 — The BUY / CONFIGURE Hypothesis](book/00-buy-configure-hypothesis.md) — establishes the synthetic baseline; status **UNTESTED**.
+2. [Chapter 1 — Inventory What Already Exists](book/01-inventory-what-already-exists.md) — classifies the fictional ecosystem without validating the hypothesis.
 
-No later chapter is implemented yet. The roadmap is to test current capabilities, configuration, native integrations, automation, BI/reporting, and process change; measure residual burden; and consider a narrow custom edge only if the evidence justifies it. The next task is capability inventory—not integration code.
+The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
+
+## Study path
+
+```text
+Chapter 0
+BUY / CONFIGURE hypothesis
+        ↓
+Chapter 1
+Inventory existing capabilities
+        ↓
+Next:
+Define the business questions
+```
+
+The current lab verdict remains **UNTESTED**. Chapter 1 inventories modeled claims; it does not prove that BUY / CONFIGURE works. Chapter 2 and later chapters are not implemented.
 
