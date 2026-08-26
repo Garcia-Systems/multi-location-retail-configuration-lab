@@ -1,0 +1,47 @@
+{
+  "customer_name": "James River Outfitters",
+  "stores": 6,
+  "ecommerce_channels": 1,
+  "business_description": "A fictional centrally owned regional retailer with a mostly common catalog, store-level assortment variation, and central operating functions.",
+  "workflow_stages": [
+    "supplier / purchasing", "purchase order", "receiving", "inventory",
+    "store / e-commerce sale", "return / transfer / adjustment", "reconciliation",
+    "central management reporting"
+  ],
+  "system_categories": [
+    "store POS", "inventory", "purchasing", "transfers", "e-commerce", "returns",
+    "scheduling", "accounting", "spreadsheets / exports", "reconciliation",
+    "central management reporting"
+  ],
+  "annual_current_state_burden": "111020.00",
+  "recoverable_annual_value": "51513.80",
+  "custom_implementation_price": "62000.00",
+  "custom_annual_recurring_fee": "15000.00",
+  "modeled_engineering_hours": "378",
+  "modeled_direct_delivery_cost": "32440.00",
+  "original_verdict": "BUY / CONFIGURE",
+  "original_verdict_reasoning": "An existing buy/configure alternative adequately meets the need at materially lower cost or risk.",
+  "current_lab_verdict": "UNTESTED",
+  "experiment_questions": [
+    "Can configuration genuinely solve enough of the problem to deserve the BUY / CONFIGURE verdict?",
+    "If configuration does not solve everything, what economically meaningful residual problem remains?"
+  ],
+  "evidence": {
+    "customer_name": "MODELED ASSUMPTION",
+    "stores": "MODELED ASSUMPTION",
+    "ecommerce_channels": "MODELED ASSUMPTION",
+    "business_description": "MODELED ASSUMPTION",
+    "workflow_stages": "MODELED ASSUMPTION",
+    "system_categories": "MODELED ASSUMPTION",
+    "annual_current_state_burden": "MODELED ASSUMPTION",
+    "recoverable_annual_value": "MODELED ASSUMPTION",
+    "custom_implementation_price": "MODELED ASSUMPTION",
+    "custom_annual_recurring_fee": "MODELED ASSUMPTION",
+    "modeled_engineering_hours": "MODELED ASSUMPTION",
+    "modeled_direct_delivery_cost": "MODELED ASSUMPTION",
+    "original_verdict": "MODELED ALTERNATIVE ASSUMPTION",
+    "original_verdict_reasoning": "MODELED ALTERNATIVE ASSUMPTION",
+    "current_lab_verdict": "OBSERVED LAB RESULT",
+    "experiment_questions": "MODELED ASSUMPTION"
+  }
+}
