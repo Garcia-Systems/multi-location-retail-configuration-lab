@@ -1,5 +1,7 @@
 # Chapter 0 — The BUY / CONFIGURE Hypothesis
 
+![Chapter 0 — The BUY / CONFIGURE Hypothesis](../images/chapters/0.png)
+
 James River Outfitters is a synthetic, centrally owned regional retailer: six physical stores, one e-commerce channel, a mostly shared merchandise catalog with local assortment variation, and central operations, purchasing, inventory, finance, and e-commerce responsibilities. It is not a real customer, and this chapter makes no claims about real software vendors.
 
 ## The fictional opportunity

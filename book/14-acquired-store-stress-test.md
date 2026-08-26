@@ -1,5 +1,7 @@
 # Chapter 14 — Acquired Store Stress Test
 
+![Chapter 14 — Acquired Store Stress Test](../images/chapters/14.png)
+
 Chapter 13 was a control: Store #7 used the same platforms, identities, processes, and reporting structure. Chapter 14 deliberately breaks those reuse assumptions with **James River Outfitters — Shenandoah Acquisition**, canonical identity `JRO-STORE-008`. It is newly acquired, fictional, and not yet standardized.
 
 ```text

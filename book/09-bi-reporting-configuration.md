@@ -1,5 +1,7 @@
 # Chapter 9 — BI / Reporting Configuration
 
+![Chapter 9 — BI / Reporting Configuration](../images/chapters/9.png)
+
 Business intelligence comes after business questions: otherwise a team can produce a large dashboard without knowing which decision it supports. Chapter 2 supplies the evidence contracts and freshness requirements. This experiment asks whether fictional **RiverBI** can organize evidence already produced by Chapters 4–8. RiverBI's configured dataset, filtering, grouping, and scheduling capability is a **MODELED ALTERNATIVE ASSUMPTION**; the JSON configuration is **OBSERVED IMPLEMENTATION STRUCTURE**; deterministic rows and coverage transitions are **OBSERVED LAB RESULT**.
 
 ```bash

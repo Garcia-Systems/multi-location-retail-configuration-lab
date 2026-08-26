@@ -1,5 +1,7 @@
 # Chapter 5 — Configure E-Commerce and Store Reconciliation
 
+![Chapter 5 — Configure E-Commerce and Store Reconciliation](../images/chapters/5.png)
+
 Chapter 4 established what configured native store reporting can answer. This chapter tests the next, narrower hypothesis: whether a **fictional supported native connector** can remove cross-channel matching work while preserving real discrepancies. A supported integration should be tested before custom software because configuration may remove the work that a custom reconciliation application would merely reproduce.
 
 All RiverCommerce, RiverPOS, RiverStock, and RiverReturns capabilities in this chapter are **MODELED ALTERNATIVE ASSUMPTION**. Connector configuration, rules, mappings, and fixtures are **OBSERVED IMPLEMENTATION STRUCTURE**. Deterministic output counts are **OBSERVED LAB RESULT**. They say nothing about a real vendor.

@@ -1,5 +1,7 @@
 # Chapter 17 — The Narrow Custom Edge
 
+![Chapter 17 — The Narrow Custom Edge](../images/chapters/17.png)
+
 Custom code appears only after configuration, native integration, automation, BI, and process change have been tested. It does not revisit the original, broad retail problem. It addresses Chapter 16's **bounded** `cross-channel-exception-rule`: exported order and fulfillment evidence exists, but one James River-specific inventory-effect rule still requires review.
 
 ```text

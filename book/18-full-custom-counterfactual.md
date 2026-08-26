@@ -1,5 +1,7 @@
 # Chapter 18 — Full Custom Counterfactual
 
+![Chapter 18 — Full Custom Counterfactual](../images/chapters/18.png)
+
 Full custom must be compared with the **best configured alternative**, not with doing nothing. Chapters 3–17 have already established identity configuration, native reporting and connectors, purchasing and return/transfer rules, automation, BI, process controls, and one narrow edge. This chapter asks what broader ownership buys *after* those mechanisms have removed much of the problem.
 
 > The full-custom architecture is a modeled counterfactual. The repository does not implement the entire system, and the 378 engineering hours remain a modeled assumption from the original case.

@@ -1,5 +1,7 @@
 # Chapter 19 — Economics After Configuration
 
+![Chapter 19 — Economics After Configuration](../images/chapters/19.png)
+
 Sticker price is not an economic comparison. This chapter rejects **CUSTOM COSTS $62K / CONFIGURATION COSTS LESS / THEREFORE CONFIGURATION WINS**. Instead it asks what each option costs, what burden it leaves, what support it creates, and what risk it owns—then compares the whole economic system.
 
 > **Every financial result in this chapter is modeled. The executable lab provides structure and sensitivity, not observed customer ROI.**

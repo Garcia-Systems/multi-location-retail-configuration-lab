@@ -1,5 +1,7 @@
 # Chapter 7 — Returns and Transfers
 
+![Chapter 7 — Returns and Transfers](../images/chapters/7.png)
+
 James River Outfitters remains fictional. This chapter asks how much synthetic return and transfer reconciliation can be achieved with identities, status rules, native transaction behavior, and explicit process semantics. Existing operational systems remain authoritative: the Python code evaluates configured evidence; it is not a return application, transfer application, integration service, or accounting system.
 
 ## Different business events

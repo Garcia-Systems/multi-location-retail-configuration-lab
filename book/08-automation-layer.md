@@ -1,5 +1,7 @@
 # Chapter 8 — Automation Layer
 
+![Chapter 8 — Automation Layer](../images/chapters/8.png)
+
 Automation follows configuration, native capability, governed identity, and supported integration. RiverFlow is fictional; its schedule, alert, validation, distribution, and reconciliation-launch capabilities are **MODELED ALTERNATIVE ASSUMPTION**. The six narrow contracts in `config/automation/automations.json` are **OBSERVED IMPLEMENTATION STRUCTURE**. Only deterministic execution outcomes are **OBSERVED LAB RESULT**.
 
 ```text

@@ -1,5 +1,7 @@
 # Chapter 11 — What Still Hurts?
 
+![Chapter 11 — What Still Hurts?](../images/chapters/11.png)
+
 Solution work must periodically stop. An implementation is evidence that something was built, not evidence that economically meaningful work disappeared. Chapter 11 therefore adds no capability: it synthesizes the deterministic evidence from Chapters 3–10 and measures the residual against Chapter 0's `$111,020.00` modeled baseline.
 
 ```text

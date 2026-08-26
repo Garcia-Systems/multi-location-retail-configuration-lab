@@ -1,5 +1,7 @@
 # Chapter 15 — Strong Native Suite Scenario
 
+![Chapter 15 — Strong Native Suite Scenario](../images/chapters/15.png)
+
 Scenario extremes are useful because they challenge a recommendation at its strongest boundary. Chapter 14 weakened reuse through fragmentation; this chapter asks the opposite question: if one mature fictional suite covers nearly the whole workflow, does an economically meaningful custom problem remain?
 
 > This is a synthetic modeled alternative, not a claim about any real enterprise retail suite.

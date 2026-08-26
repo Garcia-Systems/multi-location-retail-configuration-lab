@@ -1,5 +1,7 @@
 # Chapter 6 — Purchasing and Inventory Configuration
 
+![Chapter 6 — Purchasing and Inventory Configuration](../images/chapters/6.png)
+
 Procurement reconciliation should begin with identity and configuration, not a new procurement application. The experiment asks which purchasing questions existing fictional capabilities could answer after coherent configuration:
 
 ```text

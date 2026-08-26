@@ -1,5 +1,7 @@
 # Chapter 4 — Configure Native Multi-Store Reporting
 
+![Chapter 4 — Configure Native Multi-Store Reporting](../images/chapters/4.png)
+
 Reporting starts with a business question, not a dashboard. This experiment asks whether the modeled native capabilities of the fictional RiverPOS/RiverStock ecosystem can supply the evidence contracts defined in Chapter 2. Those capabilities—including store grouping, inventory snapshots, and aggregation—are **MODELED ALTERNATIVE ASSUMPTIONS**, never vendor claims.
 
 Run the deterministic experiment:
