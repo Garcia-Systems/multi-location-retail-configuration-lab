@@ -1,0 +1,27 @@
+{
+ "manual_reporting":{"before":["export native sales report","open inventory exception output","inspect purchasing exception list","inspect transfer exceptions","inspect return exceptions","assemble spreadsheet","send management summary"],"after":["configured datasets refresh","exception views apply","central briefing produced"]},
+ "coverage":[
+  {"question_id":"SAL-01","before":"ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"INV-01","before":"PARTIALLY_ANSWERED","after":"PARTIALLY_ANSWERED","required_evidence_available":false},
+  {"question_id":"ECOM-01","before":"PARTIALLY_ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"TRN-01","before":"ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"TRN-02","before":"ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"RET-01","before":"PARTIALLY_ANSWERED","after":"PARTIALLY_ANSWERED","required_evidence_available":false},
+  {"question_id":"RET-02","before":"ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"PUR-01","before":"PARTIALLY_ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"PUR-02","before":"PARTIALLY_ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"FIN-01","before":"NOT_ANSWERED","after":"PARTIALLY_ANSWERED","required_evidence_available":false},
+  {"question_id":"MGT-01","before":"NOT_ANSWERED","after":"ANSWERED","required_evidence_available":true},
+  {"question_id":"SAL-03","before":"NOT_ANSWERED","after":"NOT_ANSWERED","required_evidence_available":false},
+  {"question_id":"INV-03","before":"UNKNOWN","after":"UNKNOWN","required_evidence_available":false}
+ ],
+ "reports":[
+  {"id":"cross-store-sales-summary","dataset":"cross_store_sales","columns":["store","gross_sales","returns","net_sales","units"],"group_by":["store"],"freshness":"ON_DEMAND","question_ids":["SAL-01"]},
+  {"id":"inventory-exception-report","dataset":"inventory_exceptions","columns":["exception_id","store","canonical_sku","exception_type","expected_effect","observed_effect","status"],"group_by":["store","canonical_sku"],"freshness":"DAILY","question_ids":["INV-01"]},
+  {"id":"purchasing-exception-report","dataset":"purchasing_exceptions","columns":["po","supplier","destination_store","canonical_sku","ordered_quantity","received_quantity","reconciliation_result","external_accounting_evidence_required"],"group_by":["supplier","destination_store"],"freshness":"DAILY","question_ids":["PUR-01","PUR-02"]},
+  {"id":"return-discrepancy-report","dataset":"return_exceptions","columns":["return_id","original_reference","original_channel","return_store","canonical_sku","reason","reconciliation_result","inventory_effect"],"group_by":["return_store"],"freshness":"DAILY","question_ids":["RET-01","RET-02"]},
+  {"id":"transfer-status-report","dataset":"transfer_exceptions","columns":["transfer_id","sending_store","receiving_store","canonical_sku","quantity_sent","quantity_received","transfer_result"],"group_by":["sending_store","receiving_store"],"freshness":"DAILY","question_ids":["TRN-01","TRN-02"]},
+  {"id":"channel-reconciliation-report","dataset":"channel_reconciliation","columns":["online_order","channel","fulfillment_store","canonical_sku","order_status","reconciliation_result","unresolved_issue"],"group_by":["channel","fulfillment_store"],"freshness":"DAILY","question_ids":["ECOM-01"]},
+  {"id":"management-briefing","dataset":"inventory_exceptions","columns":["exception_id","exception_type","store","canonical_sku","status"],"group_by":["exception_type"],"freshness":"WEEKLY","question_ids":["MGT-01"],"sections":["actionable_inventory","actionable_purchasing","actionable_returns","actionable_transfers","actionable_channel"]}
+ ]
+}
