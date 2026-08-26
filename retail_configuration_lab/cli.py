@@ -5,6 +5,8 @@ from decimal import Decimal
 from typing import Sequence
 
 from .baseline import assess, load_baseline
+from .capabilities import analyze_inventory, load_inventory
+from .models import CapabilityStatus
 
 
 def _money(value: Decimal) -> str:
@@ -39,10 +41,65 @@ def baseline_report() -> str:
     return "\n".join(lines)
 
 
+def _status_label(status: CapabilityStatus) -> str:
+    return status.value.replace("_", " ")
+
+
+def capabilities_report(area: str | None = None, status: str | None = None) -> str:
+    """Render unfiltered analysis followed by a optionally filtered matrix."""
+    inventory = load_inventory()
+    analysis = analyze_inventory(inventory)
+    selected_status = CapabilityStatus(status.upper().replace(" ", "_")) if status else None
+    rows = [item for item in inventory.assessments
+            if (area is None or item.capability.business_area.casefold() == area.casefold())
+            and (selected_status is None or item.status is selected_status)]
+    lines = [
+        inventory.customer_name,
+        "Chapter 1 — Inventory What Already Exists", "",
+        f"Total capabilities: {analysis.total_capabilities}", "",
+        "Capability status summary:",
+    ]
+    lines.extend(f"{_status_label(item)}: {analysis.count_by_status[item]}"
+                 for item in CapabilityStatus)
+    lines.extend([
+        "", f"Explicit gaps: {analysis.explicit_gaps}",
+        f"Explicit unknowns: {analysis.explicit_unknowns}",
+        "Potential non-custom paths worth testing: "
+        f"{analysis.potentially_addressable_without_custom_software}",
+        "  (a plausible path worth testing; not proof that a business problem is solved)", "",
+        "Important:",
+        "Capability inventory does not prove business value or implementation success.",
+        "CAPABILITY EXISTS is not the same as CAPABILITY SOLVES BUSINESS QUESTION.", "",
+        "Capability matrix" + (" (filtered rows)" if area or status else ""),
+        f"{'AREA':<13} {'CAPABILITY':<38} {'SYSTEM':<16} STATUS",
+        "-" * 92,
+    ])
+    system_names = {item.identifier: item.name for item in inventory.systems}
+    for item in rows:
+        lines.append(f"{item.capability.business_area:<13} {item.capability.name:<38} "
+                     f"{system_names[item.primary_system]:<16} {_status_label(item.status)}")
+        lines.append(f"  Rationale: {item.rationale}")
+        if item.dependency:
+            lines.append(f"  Dependency: {item.dependency}")
+        if item.discovery_note:
+            lines.append(f"  Discovery: {item.discovery_note}")
+    if not rows:
+        lines.append("No capability rows match the requested filters.")
+    return "\n".join(lines)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the synthetic retail configuration lab.")
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("baseline", help="print the Chapter 0 baseline assessment")
+    capabilities = subparsers.add_parser(
+        "capabilities", help="print the Chapter 1 fictional capability inventory"
+    )
+    capabilities.add_argument("--area", help="show matrix rows for one business area")
+    capabilities.add_argument(
+        "--status", choices=[status.value for status in CapabilityStatus],
+        help="show matrix rows for one capability status",
+    )
     return parser
 
 
@@ -50,4 +107,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "baseline":
         print(baseline_report())
+    elif args.command == "capabilities":
+        print(capabilities_report(args.area, args.status))
     return 0
