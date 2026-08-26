@@ -1,0 +1,9 @@
+{
+  "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE",
+  "common_categories": ["APPAREL", "FOOTWEAR", "EQUIPMENT", "ACCESSORIES"],
+  "mappings": [
+    {"source_system": "RiverPOS", "source_category": "Clothing", "common_category": "APPAREL"},
+    {"source_system": "RiverPOS", "source_category": "Apparel", "common_category": "APPAREL"},
+    {"source_system": "RiverPOS", "source_category": "Trail Gear", "common_category": "EQUIPMENT"}
+  ]
+}
