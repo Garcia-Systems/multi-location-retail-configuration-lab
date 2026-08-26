@@ -1,0 +1,21 @@
+{
+  "connector_id": "JRO-NATIVE-ECOM-STORE-01",
+  "source_system": "rivercommerce",
+  "target_systems": ["riverpos", "riverstock", "riverreturns"],
+  "enabled": true,
+  "order_id_mapping": {"rule": "PREFIX_NUMERIC_SUFFIX", "canonical_prefix": "JRO-ORDER-", "store_reference_prefix": "ECOM-"},
+  "channel_mapping": {"source_identifier": "WEB", "canonical_channel_id": "JRO-CHANNEL-ECOM"},
+  "fulfillment_store_mapping": {
+    "fulfillment_williamsburg": "JRO-STORE-001",
+    "fulfillment_richmond": "JRO-STORE-002",
+    "fulfillment_yorktown": "JRO-STORE-003"
+  },
+  "sku_identity_dependency": {"identity_type": "SKU", "require_confirmed_mapping": true},
+  "supported_order_statuses": ["PLACED", "ALLOCATED", "FULFILLED", "CANCELLED", "RETURNED", "PARTIALLY_RETURNED"],
+  "cancellation_handling": {"rule": "NO_EFFECT_OR_RELEASE", "before_fulfillment_effect": 0, "after_allocation_effect": "RELEASE_RESERVATION"},
+  "return_handling": {"rule": "INCREMENT_SELLABLE_AT_ORIGINAL_STORE", "cross_store": "PARTIAL"},
+  "inventory_effect_rules": {"FULFILLED": "DECREMENT_FULFILLED_QUANTITY", "CANCELLED": "NO_NET_DECREMENT", "RETURNED": "INCREMENT_RETURNED_QUANTITY", "PARTIALLY_RETURNED": "INCREMENT_RETURNED_QUANTITY"},
+  "synchronization_mode": "ORDER_EVENTS_TO_STORE_ECOSYSTEM",
+  "connector_acknowledgement": "REQUIRED",
+  "evidence_classification": "MODELED ALTERNATIVE ASSUMPTION"
+}
