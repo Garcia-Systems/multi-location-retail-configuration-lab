@@ -21,6 +21,7 @@ from .returns_transfers import (
 from .automation import ExecutionStatus, run_automation_experiment
 from .bi_reporting import BIQuestionStatus, run_bi_reporting
 from .process_change import ResidualCause, run_process_change_experiment
+from .residual_gaps import ResidualStatus, analyze_residual_gaps, load_residual_gaps
 
 
 def _money(value: Decimal) -> str:
@@ -353,6 +354,7 @@ def build_parser() -> argparse.ArgumentParser:
     bi.add_argument("--report", choices=["management-briefing", "transfer-exceptions"],
                     help="show only one compact report after the experiment summary")
     subparsers.add_parser("process-change", help="run the Chapter 10 process-change experiment")
+    subparsers.add_parser("residual-gaps", help="run the Chapter 11 residual-gap analysis")
     return parser
 
 
@@ -380,7 +382,52 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(bi_reporting_report(args.report))
     elif args.command == "process-change":
         print(process_change_report())
+    elif args.command == "residual-gaps":
+        print(residual_gaps_report())
     return 0
+
+
+def residual_gaps_report() -> str:
+    inventory = load_residual_gaps()
+    result = analyze_residual_gaps(inventory)
+    lines = [inventory.customer_name, "Chapter 11 — What Still Hurts?", "",
+        f"Original annual burden: {_money(result.original_annual_burden)}", "",
+        "Residual burden summary", "-----------------------",
+        f"Residual operational burden: {_money(result.residual_operational_burden)}",
+        f"New administration burden: {_money(result.new_administration_burden)}",
+        f"Combined post-configuration burden: {_money(result.combined_post_configuration_burden)}", "",
+        f"Modeled burden reduction: {_money(result.modeled_burden_reduction)}",
+        f"Modeled burden reduction ratio: {result.modeled_burden_reduction_ratio:.2%}",
+        "  MODELED ASSUMPTION informed by observed synthetic ratios; not observed savings.",
+        f"Original recoverable value: {_money(result.original_recoverable_value)}",
+        "  Kept separate from modeled burden reduction.", "",
+        "Residual status counts", "----------------------"]
+    lines.extend(f"{status.value}: {result.status_counts[status]}" for status in ResidualStatus)
+    lines.extend(["", "Largest remaining burdens", "-------------------------"])
+    lines.extend(f"{number}. {item.name} — {_money(item.modeled_remaining_burden)}"
+                 for number, item in enumerate(result.largest_residuals[:5], 1))
+    lines.extend(["", "Category table", "--------------",
+                  f"{'CATEGORY':<38} {'ORIGINAL':>12}  {'STATUS':<28} {'REMAINING':>12}"])
+    for item in inventory.categories:
+        lines.append(f"{item.name:<38} {_money(item.original_annual_burden):>12}  "
+                     f"{item.residual_status.value:<28} {_money(item.modeled_remaining_burden):>12}")
+    identity = next(x for x in inventory.categories if x.category_id == "identity-reconciliation")
+    moved = next(x for x in inventory.categories if x.category_id == "identity-maintenance")
+    accounting = next(x for x in inventory.categories if x.category_id == "accounting-reconciliation")
+    support = next(x for x in inventory.categories if x.category_id == "automation-failure-handling")
+    lines.extend(["", "Residual traces", "---------------", "", "CATEGORY", identity.name,
+        "", "ORIGINAL MODELED BURDEN", _money(identity.original_annual_burden),
+        "", "OBSERVED SYNTHETIC EVIDENCE", identity.observed_lab_evidence,
+        "", "RESIDUAL STATUS", identity.residual_status.value,
+        "", "MODELED REMAINING BURDEN", _money(identity.modeled_remaining_burden),
+        "", "CATEGORY", moved.name, "", "ORIGINAL WORK", "manual reconciliation",
+        "", "POST-CONFIGURATION WORK", "mapping administration", "", "RESIDUAL STATUS", moved.residual_status.value,
+        "", "CATEGORY", accounting.name, "", "INTERVENTIONS TESTED", "configuration / BI / process change",
+        "", "MISSING EVIDENCE", "accounting-side reconciliation data", "", "RESIDUAL STATUS", accounting.residual_status.value,
+        "", "CATEGORY", support.name, "", "ORIGINAL BURDEN", "not present as automation support",
+        "", "POST-CONFIGURATION", "retry / validation / failure handling required", "", "STATUS", support.residual_status.value,
+        "", "Current lab verdict: UNTESTED"])
+    return "\n".join(lines)
 
 
 def process_change_report() -> str:

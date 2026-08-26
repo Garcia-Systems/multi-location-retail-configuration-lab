@@ -60,6 +60,7 @@ python -m retail_configuration_lab returns-transfers
 python -m retail_configuration_lab automation
 python -m retail_configuration_lab bi-reporting
 python -m retail_configuration_lab process-change
+python -m retail_configuration_lab residual-gaps
 python -m retail_configuration_lab --help
 ```
 
@@ -78,6 +79,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 9. [Chapter 8 — Automation Layer](book/08-automation-layer.md) — automates narrow deterministic handoffs and alerts while preserving exceptions for human judgment.
 10. [Chapter 9 — BI / Reporting Configuration](book/09-bi-reporting-configuration.md) — configures RiverBI views over existing evidence and measures management-question coverage without repairing source exceptions.
 11. [Chapter 10 — Process Change Experiment](book/10-process-change-experiment.md) — changes synthetic operating behavior and replays existing reconciliation logic without adding technology.
+12. [Chapter 11 — What Still Hurts?](book/11-what-still-hurts.md) — reconciles the original burden and classifies the modeled operational, administrative, support, technical, and unknown residuals.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -100,14 +102,16 @@ Configure purchasing
         ↓
 Configure returns / transfers
         ↓
-Automate narrow routine work
+Automate narrow gaps
         ↓
 Configure BI
         ↓
 Change process
         ↓
+Measure residual burden
+        ↓
 Next:
-Formal residual-gap analysis
+Configuration support surface
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 10 observes that some synthetic process and governance exceptions disappear while a technical evidence gap remains; it does not prove real retailer compliance or savings. Formal residual-gap analysis is not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 11 observes synthetic mechanism changes and models their residual economic implications without calling them measured customer savings. It identifies support obligations but leaves their systematic pricing and analysis to Chapter 12.
