@@ -4,13 +4,17 @@
 
 This compact Python textbook tests a configuration-first method against a wholly synthetic opportunity. **James River Outfitters is fictional**, and every business detail, financial quantity, and alternative capability is a modeled assumption unless deterministic execution labels it otherwise. No real customer or commercial vendor is represented.
 
-## Starting hypothesis
+## Purpose and completed status
 
 The earlier fictional cookbook verdict was **BUY / CONFIGURE**: it assumed that an existing alternative adequately met the need at materially lower cost or risk. The final lab verdict is **INVESTIGATE** and the original hypothesis is **WEAKENED**.
 
 > The original BUY / CONFIGURE verdict is an input hypothesis, not a conclusion of this executable lab.
 
 The central question is: **Can configuration genuinely solve enough of the problem to deserve the BUY / CONFIGURE verdict?** If not, what economically meaningful residual remains?
+
+## Architecture and configuration-first principle
+
+The textbook is deliberately file-backed and stateless: immutable Python value objects load synthetic JSON fixtures and configuration, chapter functions derive results, and one CLI exposes the complete experiment. It does not require a database or implement the Chapter 18 counterfactual architecture. The intervention order is the architectural boundary, not merely a reading order:
 
 ```text
 BUSINESS PROBLEM
@@ -103,9 +107,9 @@ The Chapter 1 command loads and validates the structured inventory, reports unfi
 
 ## Final result and study path
 
-**Original cookbook verdict:** BUY / CONFIGURE
-**Final lab verdict:** INVESTIGATE
-**Effect:** WEAKENED
+- **Original cookbook verdict:** BUY / CONFIGURE
+- **Final lab verdict:** INVESTIGATE
+- **Effect on original hypothesis:** WEAKENED
 
 Chapter 19 splits the economic result: BUY / CONFIGURE leads first-year net benefit while FULL CUSTOM leads three-year net benefit, so economics are TOO CLOSE. Configuration achieves meaningful coverage with manageable support and strong standardized Store #7 reuse, but broad residuals, Store #8 fragmentation, and high native-platform dependence prevent a commitment before discovery.
 
@@ -124,7 +128,7 @@ No material custom ownership is currently authorized. If discovery validates the
 
 Store #7 demonstrates strong reuse under standardized growth. Fragmented Store #8 demonstrates that acquisitions may require standardization or migration before integration. Strong native coverage makes configuration more plausible; weak native coverage creates workaround sprawl and broad gaps.
 
-### Discovery checklist and unknowns
+### Discovery checklist and remaining unknowns
 
 Verify identifier standardization; authoritative systems; supported integrations; unanswered Chapter 2 questions; actual manual and support burden; growth/acquisition shape; platform fragmentation; bounded-gap materiality; accounting evidence; process causes; migration preference; real volumes, labor, licensing, API behavior, historical quality, and change-management cost. The executable structured checklist is `data/final_verdict.json`.
 
