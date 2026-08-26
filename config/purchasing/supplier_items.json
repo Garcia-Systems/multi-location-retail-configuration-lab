@@ -1,0 +1,9 @@
+{
+  "identity_type": "SUPPLIER_ITEM",
+  "mappings": [
+    {"supplier_id":"JRO-SUPPLIER-014","supplier_item_id":"BR-1042","aliases":["1042"],"canonical_skus":["JRO-1042-BLU-M"],"status":"RESOLVED","provenance":"fictional supplier catalog"},
+    {"supplier_id":"JRO-SUPPLIER-014","supplier_item_id":"BR-1055","canonical_skus":["JRO-1055-GRN-L"],"status":"RESOLVED","provenance":"fictional supplier catalog"},
+    {"supplier_id":"JRO-SUPPLIER-014","supplier_item_id":"BR-UNKNOWN","canonical_skus":[],"status":"MISSING","provenance":"deliberate missing mapping fixture"},
+    {"supplier_id":"JRO-SUPPLIER-014","supplier_item_id":"BR-AMBIG","canonical_skus":["JRO-1042-BLU-M","JRO-1055-GRN-L"],"status":"AMBIGUOUS","provenance":"deliberate ambiguous mapping fixture"}
+  ]
+}

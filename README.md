@@ -55,6 +55,7 @@ python -m retail_configuration_lab questions
 python -m retail_configuration_lab identity
 python -m retail_configuration_lab native-reporting
 python -m retail_configuration_lab ecommerce-reconciliation
+python -m retail_configuration_lab purchasing
 python -m retail_configuration_lab --help
 ```
 
@@ -68,6 +69,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 4. [Chapter 3 — Standardize Retail Identity](book/03-standardize-retail-identity.md) — tests configured identity mappings against synthetic false and true exceptions.
 5. [Chapter 4 — Configure Native Multi-Store Reporting](book/04-configure-native-multi-store-reporting.md) — measures which questions configured synthetic POS/inventory reports can answer.
 6. [Chapter 5 — Configure E-Commerce and Store Reconciliation](book/05-configure-ecommerce-store-reconciliation.md) — tests a fictional supported connector against order, identity, cancellation, return, and inventory evidence.
+7. [Chapter 6 — Purchasing and Inventory Configuration](book/06-purchasing-and-inventory-configuration.md) — tests configured supplier-item, PO, location, receipt, replenishment, and inventory-effect rules.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -86,10 +88,12 @@ Native multi-store reporting
         ↓
 Native e-commerce/store reconciliation
         ↓
-Measure manual reconciliation removed
+Purchasing and inventory configuration
+        ↓
+Measure routine reconciliation removed
         ↓
 Next:
-Configure purchasing and inventory
+Returns and transfers
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 5 observes synthetic native-reconciliation results, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Purchasing/inventory configuration and later experiments are not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 6 observes synthetic purchasing-reconciliation results, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Returns/transfers and later experiments are not implemented.

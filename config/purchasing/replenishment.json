@@ -1,0 +1,4 @@
+{
+  "allowed_categories":["CORE","SEASONAL","LOCAL_ASSORTMENT","NON_REPLENISHING"],
+  "sku_categories":{"JRO-1042-BLU-M":"CORE","JRO-1055-GRN-L":"SEASONAL"}
+}

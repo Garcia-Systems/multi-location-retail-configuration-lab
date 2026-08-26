@@ -14,6 +14,7 @@ from .native_reporting import QuestionResult, load_reporting_configuration, run_
 from .ecommerce_reconciliation import (
     ReconciliationResult, load_connector_configuration, run_ecommerce_reconciliation,
 )
+from .purchasing import PurchasingResult, run_purchasing_experiment
 
 
 def _money(value: Decimal) -> str:
@@ -339,6 +340,7 @@ def build_parser() -> argparse.ArgumentParser:
                           help="filter displayed mappings by identity type")
     subparsers.add_parser("native-reporting", help="run the Chapter 4 native reporting experiment")
     subparsers.add_parser("ecommerce-reconciliation", help="run the Chapter 5 native connector experiment")
+    subparsers.add_parser("purchasing", help="run the Chapter 6 purchasing configuration experiment")
     return parser
 
 
@@ -356,4 +358,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(native_reporting_report())
     elif args.command == "ecommerce-reconciliation":
         print(ecommerce_reconciliation_report())
+    elif args.command == "purchasing":
+        print(purchasing_report())
     return 0
+
+
+def purchasing_report() -> str:
+    result=run_purchasing_experiment(); counts=result.counts
+    clean=next(x for x in result.outcomes if x.result is PurchasingResult.RECONCILED)
+    partial=next(x for x in result.outcomes if x.result is PurchasingResult.PARTIAL_RECEIPT)
+    wrong=next(x for x in result.outcomes if x.result is PurchasingResult.LOCATION_EXCEPTION)
+    unresolved=next(x for x in result.outcomes if x.result is PurchasingResult.UNRESOLVED_IDENTITY)
+    labels=[PurchasingResult.RECONCILED,PurchasingResult.PARTIAL_RECEIPT,PurchasingResult.OVER_RECEIPT,PurchasingResult.MISSING_RECEIPT,PurchasingResult.LOCATION_EXCEPTION,PurchasingResult.CANCELLED_PO_RECEIPT,PurchasingResult.UNRESOLVED_IDENTITY,PurchasingResult.INVENTORY_EFFECT_EXCEPTION]
+    lines=["James River Outfitters","Chapter 6 — Purchasing and Inventory Configuration","","Before configuration","--------------------",f"PO/receipt manual matches: {result.before['manual_po_receipt_links']}",f"Supplier item lookups: {result.before['supplier_item_lookups']}",f"Manual location interpretations: {result.before['manual_location_interpretations']}",f"Apparent discrepancies: {result.before['apparent_discrepancies']}","","After configuration","-------------------",f"Total purchase orders: {result.total_purchase_orders}",f"Total PO lines: {result.total_po_lines}",f"Supplier items resolved: {result.supplier_items_resolved}",f"Supplier items unresolved: {result.supplier_items_unresolved}",*[f"{x.value.replace('_',' ')}: {counts[x]}" for x in labels],f"EXTERNAL EVIDENCE REQUIRED: {result.records_requiring_external_accounting_evidence}",f"PO/receipt manual matches: {result.manual_links_after}","",f"Purchasing manual reconciliation reduction ratio: {result.purchasing_manual_reconciliation_reduction_ratio:.2%}",f"PO-line reconciliation rate: {result.po_line_reconciliation_rate:.2%}","OBSERVED LAB RESULT from deterministic synthetic fixtures; no success threshold is imposed.","","Chapter 2 question impact",*[f"{x.question_id}: {x.status.value.replace('_',' ')} — {x.reason}" for x in result.question_impacts],"","Modeled purchasing reconciliation burden (MODELED ASSUMPTION): 80 annual hours","This is not observed labor savings.","","Current lab verdict: UNTESTED",""]
+    def trace(title,x):
+        return [title,"","PURCHASE ORDER",x.po.canonical_po_id,"","SUPPLIER",x.po.supplier_id,"","SUPPLIER ITEM",x.line.supplier_item_id,"","CANONICAL SKU",x.canonical_sku or "UNRESOLVED","","ORDERED",str(x.line.ordered_quantity),"","RECEIVED",str(x.receipt.received_quantity if x.receipt else 0),"","EXPECTED LOCATION",x.po.destination_store_id,"","ACTUAL RECEIPT LOCATION",x.actual_location or "NONE","","RESULT",x.result.value.replace('_',' '),""]
+    lines += trace("CLEAN RECEIPT",clean)+trace("PARTIAL RECEIPT",partial)+trace("WRONG LOCATION",wrong)+trace("UNRESOLVED SUPPLIER ITEM",unresolved)
+    return "\n".join(lines)
