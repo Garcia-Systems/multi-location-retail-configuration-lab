@@ -1,0 +1,8 @@
+{
+  "canonical_prefix":"JRO-PO-",
+  "source_system":"RiverBuy",
+  "source_prefix":"PO-",
+  "receipt_reference_prefix":"RCV-PO-",
+  "accounting_reference_prefix":"BUY-",
+  "allowed_statuses":["DRAFT","OPEN","PARTIALLY_RECEIVED","RECEIVED","CANCELLED","CLOSED"]
+}
