@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-location-retail-configuration-lab"
+version = "0.1.0"
+description = "An executable solutions-engineering lab that tests whether configuration, native integrations, automation, BI, and process change can solve a multi-location retailer's operational problems before custom software is justified."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+retail-configuration-lab = "retail_configuration_lab.cli:main"
+
+[tool.setuptools]
+packages = ["retail_configuration_lab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
