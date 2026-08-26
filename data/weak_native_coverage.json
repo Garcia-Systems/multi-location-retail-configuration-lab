@@ -1,0 +1,604 @@
+{
+  "scenario_name": "Weak Native Coverage",
+  "scenario_evidence": "MODELED ALTERNATIVE ASSUMPTION",
+  "capabilities": [
+    {
+      "capability_id": "sales-store",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-sku",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-channel",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-returns",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-multistore",
+      "status": "AUTOMATION_POSSIBLE",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "sales-category",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-store-onhand",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-adjustments",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-transfers",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-fulfillment-effect",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "inventory-store-ownership",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-orders",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-receiving",
+      "status": "SUPPORTED_WITH_CONFIGURATION",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-supplier",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-supplier-item",
+      "status": "AUTOMATION_POSSIBLE",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "purchase-discrepancies",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-order-id",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-store-fulfillment",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-cancellation",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-cross-channel-return",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "ecommerce-inventory-sync",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "return-cross-store",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-sent-received",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "transfer-discrepancy",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "bi-exception-views",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "bi-cross-store-management",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-alerts",
+      "status": "UNKNOWN",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-scheduled-reports",
+      "status": "EXPORT_ONLY",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "automation-exception-notification",
+      "status": "AUTOMATION_POSSIBLE",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-sales-posting",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-return-posting",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-purchase-posting",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "accounting-reconciliation",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "roles-access",
+      "status": "GAP",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "store-onboarding",
+      "status": "AUTOMATION_POSSIBLE",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "historical-migration-quality",
+      "status": "UNKNOWN",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    },
+    {
+      "capability_id": "proprietary-exception-priority",
+      "status": "SUPPORTED",
+      "evidence": "MODELED ALTERNATIVE ASSUMPTION"
+    }
+  ],
+  "question_comparisons": [
+    {
+      "question_id": "SAL-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "ANSWERED",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "SAL-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "SAL-03",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "UNKNOWN",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "INV-03",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "ECOM-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "ECOM-02",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "NOT_ANSWERED",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "TRN-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "NOT_ANSWERED",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "TRN-02",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "NOT_ANSWERED",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "RET-01",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "RET-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "UNKNOWN",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "PUR-01",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "PUR-02",
+      "base_status": "ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "FIN-01",
+      "base_status": "PARTIALLY_ANSWERED",
+      "strong_status": "ANSWERED",
+      "weak_status": "NOT_ANSWERED",
+      "workaround_dependent": false,
+      "evidence": "OBSERVED LAB RESULT"
+    },
+    {
+      "question_id": "MGT-01",
+      "base_status": "ANSWERED",
+      "strong_status": "PARTIALLY_ANSWERED",
+      "weak_status": "PARTIALLY_ANSWERED",
+      "workaround_dependent": true,
+      "evidence": "OBSERVED LAB RESULT"
+    }
+  ],
+  "cross_system_question_ids": [
+    "SAL-02",
+    "SAL-03",
+    "INV-01",
+    "INV-02",
+    "INV-03",
+    "ECOM-01",
+    "ECOM-02",
+    "TRN-01",
+    "TRN-02",
+    "RET-01",
+    "PUR-02",
+    "FIN-01",
+    "MGT-01"
+  ],
+  "workarounds": [
+    {
+      "control_id": "EC-EXP",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "EXPORT_WORKAROUND",
+      "dependency": null,
+      "manual_admin_obligation": "Monitor scheduled exports",
+      "failure_mode": "Late or incomplete extract",
+      "affected_business_questions": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "EC-STORE",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "MAPPING_WORKAROUND",
+      "dependency": "EC-EXP",
+      "manual_admin_obligation": "Maintain store mapping",
+      "failure_mode": "Inconsistent fulfillment store",
+      "affected_business_questions": [
+        "ECOM-01"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "EC-SKU",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "MAPPING_WORKAROUND",
+      "dependency": "EC-STORE",
+      "manual_admin_obligation": "Maintain SKU mapping",
+      "failure_mode": "Unmapped SKU",
+      "affected_business_questions": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "EC-AUTO",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "AUTOMATION_WORKAROUND",
+      "dependency": "EC-SKU",
+      "manual_admin_obligation": "Monitor rule runs",
+      "failure_mode": "Alert absent or duplicated",
+      "affected_business_questions": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "EC-BI",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "BI_WORKAROUND",
+      "dependency": "EC-AUTO",
+      "manual_admin_obligation": "Validate report",
+      "failure_mode": "Missing evidence appears complete",
+      "affected_business_questions": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "EC-MAN",
+      "business_area": "E-commerce",
+      "underlying_gap": "ecommerce-store-fulfillment",
+      "workaround_type": "MANUAL_RECONCILIATION",
+      "dependency": "EC-BI",
+      "manual_admin_obligation": "Review exceptions",
+      "failure_mode": "Exception not resolved",
+      "affected_business_questions": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "TR-EXP",
+      "business_area": "Transfers",
+      "underlying_gap": "inventory-transfers",
+      "workaround_type": "EXPORT_WORKAROUND",
+      "dependency": null,
+      "manual_admin_obligation": "Move spreadsheet export",
+      "failure_mode": "Stale sent state",
+      "affected_business_questions": [
+        "TRN-01",
+        "TRN-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "TR-MAP",
+      "business_area": "Transfers",
+      "underlying_gap": "inventory-transfers",
+      "workaround_type": "MAPPING_WORKAROUND",
+      "dependency": "TR-EXP",
+      "manual_admin_obligation": "Maintain location mapping",
+      "failure_mode": "Location mismatch",
+      "affected_business_questions": [
+        "TRN-01",
+        "TRN-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "TR-BI",
+      "business_area": "Transfers",
+      "underlying_gap": "inventory-transfers",
+      "workaround_type": "BI_WORKAROUND",
+      "dependency": "TR-MAP",
+      "manual_admin_obligation": "Maintain exception view",
+      "failure_mode": "False completeness",
+      "affected_business_questions": [
+        "TRN-01",
+        "TRN-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "TR-MAN",
+      "business_area": "Transfers",
+      "underlying_gap": "inventory-transfers",
+      "workaround_type": "MANUAL_RECONCILIATION",
+      "dependency": "TR-BI",
+      "manual_admin_obligation": "Obtain receiving acknowledgement",
+      "failure_mode": "Physical receipt unprovable",
+      "affected_business_questions": [
+        "TRN-01",
+        "TRN-02"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "FIN-EXP",
+      "business_area": "Accounting",
+      "underlying_gap": "accounting-reconciliation",
+      "workaround_type": "EXPORT_WORKAROUND",
+      "dependency": null,
+      "manual_admin_obligation": "Compare aggregate postings",
+      "failure_mode": "No transaction linkage",
+      "affected_business_questions": [
+        "FIN-01"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "control_id": "FIN-MAN",
+      "business_area": "Accounting",
+      "underlying_gap": "accounting-reconciliation",
+      "workaround_type": "MANUAL_RECONCILIATION",
+      "dependency": "FIN-EXP",
+      "manual_admin_obligation": "Investigate totals",
+      "failure_mode": "Operational record not identifiable",
+      "affected_business_questions": [
+        "FIN-01"
+      ],
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    }
+  ],
+  "costs": {
+    "setup_configuration": {
+      "exports": "12000",
+      "mapping": "16000",
+      "automation": "14000",
+      "bi": "12000",
+      "validation": "10000",
+      "process_changes": "8000"
+    },
+    "annual_platform_cash": "42000",
+    "annual_support_admin": "48000",
+    "residual_operational_burden": "38200",
+    "administration_burden": "22000",
+    "unknown_burden": "6400"
+  },
+  "support_obligations": {
+    "base": 18,
+    "strong": 12,
+    "weak": 31
+  },
+  "residual_gaps": [
+    {
+      "gap_id": "cross-channel-exception-rule",
+      "name": "Cross-channel exception reconciliation",
+      "classification": "BOUNDED",
+      "inputs": [
+        "order export",
+        "POS sales export",
+        "store and SKU mappings"
+      ],
+      "output": "Defined exception record",
+      "ownership_surface": "One reconciliation rule and its validation",
+      "question_ids": [
+        "ECOM-01",
+        "ECOM-02"
+      ],
+      "modeled_burden": "14200",
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "gap_id": "accounting-operational-linkage",
+      "name": "Accounting/operational transaction linkage",
+      "classification": "BROAD",
+      "inputs": [],
+      "output": "Unavailable",
+      "ownership_surface": "Sales, returns, and purchasing workflows",
+      "question_ids": [
+        "FIN-01",
+        "RET-01",
+        "PUR-02"
+      ],
+      "modeled_burden": "17600",
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "gap_id": "transfer-receipt-behavior",
+      "name": "Reliable physical receiving acknowledgement",
+      "classification": "PROCESS",
+      "inputs": [
+        "sent record"
+      ],
+      "output": "Receiving acknowledgement",
+      "ownership_surface": "Store operating procedure",
+      "question_ids": [
+        "TRN-01",
+        "TRN-02"
+      ],
+      "modeled_burden": "6400",
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "gap_id": "export-chain-admin",
+      "name": "Change-sensitive workaround maintenance",
+      "classification": "ADMINISTRATION",
+      "inputs": [],
+      "output": "Maintained controls",
+      "ownership_surface": "All workaround layers",
+      "question_ids": [
+        "MGT-01"
+      ],
+      "modeled_burden": "0",
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "gap_id": "return-reason-export",
+      "name": "Return reason export consistency",
+      "classification": "UNKNOWN",
+      "inputs": [],
+      "output": "Discovery result",
+      "ownership_surface": "Returns export",
+      "question_ids": [
+        "RET-02"
+      ],
+      "modeled_burden": "0",
+      "evidence": "OBSERVED IMPLEMENTATION STRUCTURE"
+    }
+  ],
+  "response": {
+    "value": "STANDARDIZE_FIRST",
+    "rationale": "A broad accounting linkage gap and permanent workaround/support burden span multiple workflows; standardize or investigate migration before owning broad custom software."
+  }
+}
