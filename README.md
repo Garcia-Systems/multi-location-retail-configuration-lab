@@ -61,6 +61,7 @@ python -m retail_configuration_lab automation
 python -m retail_configuration_lab bi-reporting
 python -m retail_configuration_lab process-change
 python -m retail_configuration_lab residual-gaps
+python -m retail_configuration_lab support-surface
 python -m retail_configuration_lab --help
 ```
 
@@ -80,6 +81,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 10. [Chapter 9 — BI / Reporting Configuration](book/09-bi-reporting-configuration.md) — configures RiverBI views over existing evidence and measures management-question coverage without repairing source exceptions.
 11. [Chapter 10 — Process Change Experiment](book/10-process-change-experiment.md) — changes synthetic operating behavior and replays existing reconciliation logic without adding technology.
 12. [Chapter 11 — What Still Hurts?](book/11-what-still-hurts.md) — reconciles the original burden and classifies the modeled operational, administrative, support, technical, and unknown residuals.
+13. [Chapter 12 — Configuration Support Surface](book/12-configuration-support-surface.md) — inventories recurring administration and support, separates labor from fictional platform cash cost, and reconciles Chapter 11 without double counting.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -88,30 +90,14 @@ The Chapter 1 command loads and validates the structured inventory, reports unfi
 ```text
 BUY / CONFIGURE hypothesis
         ↓
-Inventory capabilities
-        ↓
-Define business questions
-        ↓
-Standardize identity
-        ↓
-Configure native reporting
-        ↓
-Enable native integration
-        ↓
-Configure purchasing
-        ↓
-Configure returns / transfers
-        ↓
-Automate narrow gaps
-        ↓
-Configure BI
-        ↓
-Change process
+Configure existing ecosystem
         ↓
 Measure residual burden
         ↓
+Measure configuration support surface
+        ↓
 Next:
-Configuration support surface
+Add Store #7
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 11 observes synthetic mechanism changes and models their residual economic implications without calling them measured customer savings. It identifies support obligations but leaves their systematic pricing and analysis to Chapter 12.
+The current lab verdict remains **UNTESTED**. Chapter 12 demonstrates a recurring support surface and models—but does not observe—its labor and fictional platform economics. It does not onboard Store #7.

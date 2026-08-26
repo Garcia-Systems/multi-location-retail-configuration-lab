@@ -22,6 +22,7 @@ from .automation import ExecutionStatus, run_automation_experiment
 from .bi_reporting import BIQuestionStatus, run_bi_reporting
 from .process_change import ResidualCause, run_process_change_experiment
 from .residual_gaps import ResidualStatus, analyze_residual_gaps, load_residual_gaps
+from .support_surface import analyze_support_surface, load_support_inventory
 
 
 def _money(value: Decimal) -> str:
@@ -355,6 +356,7 @@ def build_parser() -> argparse.ArgumentParser:
                     help="show only one compact report after the experiment summary")
     subparsers.add_parser("process-change", help="run the Chapter 10 process-change experiment")
     subparsers.add_parser("residual-gaps", help="run the Chapter 11 residual-gap analysis")
+    subparsers.add_parser("support-surface", help="run the Chapter 12 support-surface analysis")
     return parser
 
 
@@ -384,7 +386,50 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(process_change_report())
     elif args.command == "residual-gaps":
         print(residual_gaps_report())
+    elif args.command == "support-surface":
+        print(support_surface_report())
     return 0
+
+
+def support_surface_report() -> str:
+    inventory = load_support_inventory()
+    result = analyze_support_surface(inventory)
+    lines = [inventory.customer_name, "Chapter 12 — Configuration Support Surface", "",
+        "Configured support surface", "--------------------------",
+        f"Mappings/configuration artifacts: {result.active_mappings}",
+        f"Native integration configurations: {result.native_integration_configurations}",
+        f"Automations: {result.automations}", f"Reports/views: {result.configured_reports}",
+        f"Support obligations: {len(inventory.obligations)}",
+        f"External-platform-dependent obligations: {result.external_platform_obligations}", "",
+        "Modeled recurring support", "-------------------------",
+        f"Annual support labor hours: {result.annual_support_labor_hours:.2f}",
+        f"Annual support labor cost: {_money(result.annual_support_labor_cost)}",
+        f"Annual platform cash cost: {_money(result.annual_platform_cash_cost)}",
+        f"Annual total configuration support cost: {_money(result.annual_total_configuration_support_cost)}", "",
+        f"Chapter 11 residual operational burden: {_money(result.residual_operational_burden)}",
+        f"Chapter 11 provisional new administration burden: {_money(result.chapter11_new_administration_burden)}",
+        "Reconciliation: Chapter 12 replaces (does not add to) the Chapter 11 provisional administration estimate.",
+        f"Chapter 11 modeled burden reduction: {_money(result.chapter11_modeled_burden_reduction)}",
+        "Support cost as share of modeled burden reduction: " + (f"{result.support_cost_as_share_of_modeled_burden_reduction:.2%}" if result.support_cost_as_share_of_modeled_burden_reduction is not None else "N/A"),
+        f"Modeled net burden reduction after support: {_money(result.net_modeled_burden_reduction_after_support)}",
+        "  Educational modeled comparison only; implementation/setup cost and complete deal economics are excluded.", "",
+        "Support obligations by category", "-------------------------------"]
+    for category in type(inventory.obligations[0].category):
+        cost=sum((x.annual_support_cost for x in inventory.obligations if x.category is category),Decimal())
+        lines.append(f"{category.value.replace('_',' ').title()}: {_money(cost)}")
+    lines += ["", f"{'OBLIGATION':<34} {'INCIDENTS/YR':>12} {'HRS/INCIDENT':>14} {'ANNUAL HRS':>12} {'ANNUAL COST':>13}", "-"*91]
+    for item in inventory.obligations:
+        lines.append(f"{item.name:<34} {item.modeled_incidents_per_year:>12} {item.modeled_hours_per_incident:>14} {item.annual_effort_hours:>12} {_money(item.annual_support_cost):>13}")
+    traces=[
+        ("MAPPING MAINTENANCE SCENARIO","new supplier item","Mapping maintenance","configuration updated","CONFIGURATION REMOVED OPERATIONAL WORK; CREATED RECURRING ADMINISTRATION"),
+        ("AUTOMATION-FAILURE SUPPORT SCENARIO","retry exhausted","Automation failure handling","human investigation required","Observed prior synthetic failure path; effort remains modeled"),
+        ("BI/REPORT MAINTENANCE SCENARIO","new management category","BI/report maintenance","report configuration updated","Question coverage is unchanged; delivery has support risk"),
+        ("VENDOR/SCHEMA-CHANGE SCENARIO","fictional export field renamed","Vendor/schema changes","mapping/report rule update; configuration maintenance required","Fictional bounded change, not a real vendor claim")]
+    by_name={x.name:x for x in inventory.obligations}
+    for title,trigger,name,outcome,note in traces:
+        item=by_name[name]; lines += ["",title,"","TRIGGER",trigger,"","OBLIGATION",name,"","MODELED EFFORT",f"{item.modeled_hours_per_incident} hours/incident at {_money(item.modeled_hourly_cost)}/hour","","RESULT",outcome,"",note]
+    lines += ["", "Configured support is not a full-custom counterfactual; runtime, deployments, custom adapters, observability, defects, and dependency upgrades are deferred.", "", "Current lab verdict: UNTESTED"]
+    return "\n".join(lines)
 
 
 def residual_gaps_report() -> str:
