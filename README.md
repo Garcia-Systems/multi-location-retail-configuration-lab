@@ -59,6 +59,7 @@ python -m retail_configuration_lab purchasing
 python -m retail_configuration_lab returns-transfers
 python -m retail_configuration_lab automation
 python -m retail_configuration_lab bi-reporting
+python -m retail_configuration_lab process-change
 python -m retail_configuration_lab --help
 ```
 
@@ -76,6 +77,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 8. [Chapter 7 — Returns and Transfers](book/07-returns-and-transfers.md) — tests configured return linkage, location, reason, transfer status, quantity, and inventory-effect rules while preserving true exceptions.
 9. [Chapter 8 — Automation Layer](book/08-automation-layer.md) — automates narrow deterministic handoffs and alerts while preserving exceptions for human judgment.
 10. [Chapter 9 — BI / Reporting Configuration](book/09-bi-reporting-configuration.md) — configures RiverBI views over existing evidence and measures management-question coverage without repairing source exceptions.
+11. [Chapter 10 — Process Change Experiment](book/10-process-change-experiment.md) — changes synthetic operating behavior and replays existing reconciliation logic without adding technology.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -84,28 +86,28 @@ The Chapter 1 command loads and validates the structured inventory, reports unfi
 ```text
 BUY / CONFIGURE hypothesis
         ↓
-Capability inventory
+Inventory capabilities
         ↓
-Business questions
+Define business questions
         ↓
-Identity standardization
+Standardize identity
         ↓
-Native reporting
+Configure native reporting
         ↓
-Native integration
+Enable native integration
         ↓
-Purchasing configuration
+Configure purchasing
         ↓
-Returns / transfers
+Configure returns / transfers
         ↓
-Automation
+Automate narrow routine work
         ↓
-BI / reporting configuration
+Configure BI
         ↓
-Consolidate existing evidence
+Change process
         ↓
 Next:
-Process change experiment
+Formal residual-gap analysis
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 9 observes configured synthetic evidence consolidation, but does not prove real retailer savings, repair source evidence, or remove operational exceptions. Process-change and later experiments are not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 10 observes that some synthetic process and governance exceptions disappear while a technical evidence gap remains; it does not prove real retailer compliance or savings. Formal residual-gap analysis is not implemented.
