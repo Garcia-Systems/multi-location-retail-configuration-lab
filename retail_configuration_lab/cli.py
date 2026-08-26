@@ -11,6 +11,9 @@ from .models import QuestionCoverageStatus, QuestionType
 from .questions import analyze_questions, load_questions
 from .identity import IdentityType, load_identity_configuration, run_identity_experiment
 from .native_reporting import QuestionResult, load_reporting_configuration, run_native_reporting
+from .ecommerce_reconciliation import (
+    ReconciliationResult, load_connector_configuration, run_ecommerce_reconciliation,
+)
 
 
 def _money(value: Decimal) -> str:
@@ -250,6 +253,65 @@ def native_reporting_report() -> str:
     return "\n".join(lines)
 
 
+def ecommerce_reconciliation_report() -> str:
+    connector = load_connector_configuration()
+    result = run_ecommerce_reconciliation(connector)
+    counts = result.count_by_result
+    clean = next(item for item in result.outcomes
+                 if item.result is ReconciliationResult.RECONCILED)
+    identity_failure = next(item for item in result.outcomes
+                            if item.result is ReconciliationResult.UNRESOLVED_IDENTITY
+                            and item.canonical_store_id is None)
+    quantity_exception = next(item for item in result.outcomes
+                              if item.result is ReconciliationResult.EXCEPTION
+                              and item.order.inventory_effect != item.expected_inventory_effect)
+    lines = [
+        "James River Outfitters",
+        "Chapter 5 — Configure E-Commerce and Store Reconciliation", "",
+        "Before native integration", "-------------------------",
+        f"Orders requiring manual reconciliation: {result.before.orders_requiring_manual_reconciliation}",
+        f"Manual identity lookups: {result.before.manual_identity_lookups}",
+        f"Records lacking direct order linkage: {result.before.records_lacking_direct_order_linkage}",
+        f"Apparent exceptions: {result.before.apparent_exceptions}",
+        f"True exceptions: {result.before.true_exceptions}", "",
+        "After native integration", "------------------------",
+        f"Total synthetic online orders: {result.total_orders}",
+        f"Automatically linked orders: {result.automatically_linked_orders}",
+        f"RECONCILED: {counts[ReconciliationResult.RECONCILED]}",
+        f"PARTIALLY RECONCILED: {counts[ReconciliationResult.PARTIALLY_RECONCILED]}",
+        f"EXCEPTION: {counts[ReconciliationResult.EXCEPTION]}",
+        f"UNRESOLVED IDENTITY: {counts[ReconciliationResult.UNRESOLVED_IDENTITY]}",
+        f"UNKNOWN: {counts[ReconciliationResult.UNKNOWN]}",
+        f"Orders requiring manual reconciliation: {result.orders_requiring_manual_reconciliation_after}", "",
+        f"Manual reconciliation reduction ratio: {result.manual_reconciliation_reduction_ratio:.2%}",
+        f"Native reconciliation rate: {result.native_reconciliation_rate:.2%}",
+        "  OBSERVED LAB RESULT from deterministic synthetic evidence; no success threshold is imposed.", "",
+        "Chapter 2 question impact",
+        *[f"{item.question_id}: {item.status.value.replace('_', ' ')} — {item.reason}"
+          for item in result.question_impacts], "",
+        "Modeled e-commerce reconciliation burden (MODELED ASSUMPTION): 96 annual hours",
+        f"Modeled remaining burden (MODELED EXTRAPOLATION): "
+        f"{96 * (1 - result.manual_reconciliation_reduction_ratio):.1f} annual hours",
+        "This is not observed labor savings.", "", "Current lab verdict: UNTESTED", "",
+        "CLEAN RECONCILIATION", "", "ORDER", clean.order.online_order_id, "",
+        "CANONICAL ORDER", clean.canonical_order_id, "", "STORE REFERENCE",
+        clean.order.store_reference or "MISSING", "", "CHANNEL",
+        clean.canonical_channel_id or "UNRESOLVED", "", "FULFILLMENT STORE",
+        clean.canonical_store_id or "UNRESOLVED", "", "SKU",
+        ", ".join(clean.canonical_skus), "", "RESULT", clean.result.value.replace("_", " "), "",
+        "IDENTITY FAILURE", "", "ORDER", identity_failure.order.online_order_id, "",
+        "FULFILLMENT STORE SOURCE ID", identity_failure.order.fulfillment_store_source_id, "",
+        "CANONICAL STORE", "UNRESOLVED", "", "RESULT",
+        identity_failure.result.value.replace("_", " "), "",
+        "TRUE OPERATIONAL EXCEPTION", "", "ORDER", quantity_exception.order.online_order_id, "",
+        "ORDER QUANTITY", str(sum(line.quantity for line in quantity_exception.order.lines)), "",
+        "EXPECTED INVENTORY DECREMENT", str(abs(quantity_exception.expected_inventory_effect or 0)), "",
+        "OBSERVED INVENTORY DECREMENT", str(abs(quantity_exception.order.inventory_effect or 0)), "",
+        "RESULT", quantity_exception.result.value,
+    ]
+    return "\n".join(lines)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the synthetic retail configuration lab.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -276,6 +338,7 @@ def build_parser() -> argparse.ArgumentParser:
     identity.add_argument("--type", choices=[item.value.lower() for item in IdentityType],
                           help="filter displayed mappings by identity type")
     subparsers.add_parser("native-reporting", help="run the Chapter 4 native reporting experiment")
+    subparsers.add_parser("ecommerce-reconciliation", help="run the Chapter 5 native connector experiment")
     return parser
 
 
@@ -291,4 +354,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(identity_report(args.show_mappings, args.type))
     elif args.command == "native-reporting":
         print(native_reporting_report())
+    elif args.command == "ecommerce-reconciliation":
+        print(ecommerce_reconciliation_report())
     return 0
