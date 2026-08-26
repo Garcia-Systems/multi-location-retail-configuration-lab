@@ -9,6 +9,7 @@ from .capabilities import analyze_inventory, load_inventory
 from .models import CapabilityStatus
 from .models import QuestionCoverageStatus, QuestionType
 from .questions import analyze_questions, load_questions
+from .identity import IdentityType, load_identity_configuration, run_identity_experiment
 
 
 def _money(value: Decimal) -> str:
@@ -150,6 +151,69 @@ def questions_report(
     return "\n".join(lines)
 
 
+def identity_report(show_mappings: bool = False, identity_type: str | None = None) -> str:
+    configuration = load_identity_configuration()
+    result = run_identity_experiment(configuration)
+    lines = [
+        "James River Outfitters", "Chapter 3 — Standardize Retail Identity", "",
+        "Before standardization", "----------------------",
+        f"Raw comparisons: {result.raw_comparisons}",
+        f"Direct identity matches: {result.raw_direct_matches}",
+        f"Apparent mismatches: {result.raw_apparent_mismatches}", "",
+        "After configured identity mapping", "---------------------------------",
+        f"Mappings applied: {result.mappings_applied}",
+        f"Canonical matches: {result.canonical_matches}",
+        f"False exceptions eliminated: {result.false_exceptions_eliminated}",
+        f"True operational exceptions remaining: {result.true_operational_exceptions_remaining}",
+        f"Ambiguous identities: {result.ambiguous_identities}",
+        f"Unmapped identities: {result.unmapped_identities}",
+        f"Conflicts: {result.conflicts}", "",
+        f"False-exception elimination ratio: {result.false_exception_elimination_ratio:.2%}",
+        "  OBSERVED LAB RESULT from synthetic comparisons; no success threshold is imposed.", "",
+        "Chapter 2 identity readiness",
+    ]
+    lines.extend(f"{impact.question_id}: {impact.readiness.value} — {impact.reason}"
+                 for impact in result.question_impacts)
+    eliminated = next(item for item in result.outcomes
+                      if item.classification == "FALSE_EXCEPTION_ELIMINATED")
+    true = next(item for item in result.outcomes
+                if item.classification == "TRUE_OPERATIONAL_EXCEPTION")
+    e = eliminated.comparison
+    t = true.comparison
+    lines.extend([
+        "", "ELIMINATED FALSE EXCEPTION", "",
+        f"{e.left_system} {e.identity_type.value}: {e.left_identifier}",
+        f"{e.right_system} {e.identity_type.value}: {e.right_identifier}",
+        f"Canonical {e.identity_type.value}: {eliminated.canonical_id}", "",
+        f"Both systems report quantity: {e.left_value}", "", "Result:",
+        "The apparent disagreement was identity-only.", "",
+        "TRUE EXCEPTION REMAINS", "",
+        f"{t.left_system} {t.identity_type.value}: {t.left_identifier}",
+        f"{t.right_system} {t.identity_type.value}: {t.right_identifier}",
+        f"Canonical {t.identity_type.value}: {true.canonical_id}", "",
+        f"{t.left_system} quantity: {t.left_value}", f"{t.right_system} quantity: {t.right_value}",
+        "", "Result:", "Identity is standardized, but quantity still disagrees.", "",
+        "Modeled identity-reconciliation burden (MODELED ASSUMPTION)",
+    ])
+    lines.extend(f"- {item.category}: {item.annual_hours} annual hours" for item in result.burden_categories)
+    total_hours = sum(item.annual_hours for item in result.burden_categories)
+    lines.extend([
+        f"Modeled extrapolation at the synthetic elimination ratio: "
+        f"{total_hours * result.false_exception_elimination_ratio:.1f} annual hours",
+        "This is not an observed saving at a retailer.", "",
+        "Current lab verdict: UNTESTED",
+    ])
+    if show_mappings:
+        selected = IdentityType(identity_type.upper()) if identity_type else None
+        lines.extend(["", "Configured mappings (OBSERVED IMPLEMENTATION STRUCTURE)"])
+        for mapping in configuration.mappings:
+            if selected is None or mapping.identity_type is selected:
+                target = ", ".join(mapping.canonical_ids)
+                lines.append(f"{mapping.identity_type.value} | {mapping.source_system} | "
+                             f"{mapping.source_identifier} -> {target} [{mapping.status.value}]")
+    return "\n".join(lines)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the synthetic retail configuration lab.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -169,6 +233,12 @@ def build_parser() -> argparse.ArgumentParser:
     questions.add_argument("--coverage", choices=[item.value for item in QuestionCoverageStatus])
     questions.add_argument("--owner", help="show questions assigned to one primary owner")
     questions.add_argument("--id", dest="question_id", help="trace one business question")
+    identity = subparsers.add_parser(
+        "identity", help="run the Chapter 3 identity-standardization experiment"
+    )
+    identity.add_argument("--show-mappings", action="store_true", help="show mapping provenance")
+    identity.add_argument("--type", choices=[item.value.lower() for item in IdentityType],
+                          help="filter displayed mappings by identity type")
     return parser
 
 
@@ -180,4 +250,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(capabilities_report(args.area, args.status))
     elif args.command == "questions":
         print(questions_report(args.area, args.coverage, args.owner, args.question_id))
+    elif args.command == "identity":
+        print(identity_report(args.show_mappings, args.type))
     return 0

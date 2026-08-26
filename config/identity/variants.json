@@ -1,0 +1,10 @@
+{
+  "identity_type": "VARIANT",
+  "canonical_identities": [
+    {"canonical_id": "JRO-VARIANT-1042-BLU-M", "description": "Blue / Medium", "product_id": "JRO-PRODUCT-1042"},
+    {"canonical_id": "JRO-VARIANT-1055-GRN-L", "description": "Green / Large", "product_id": "JRO-PRODUCT-1055"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-VARIANT-1042-BLU-M", "source_system": "RiverCommerce", "source_identifier": "blue-medium", "status": "CONFIRMED", "provenance": "fictional variant catalog", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}

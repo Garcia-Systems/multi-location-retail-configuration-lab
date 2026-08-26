@@ -1,0 +1,13 @@
+{
+  "identity_type": "SUPPLIER",
+  "canonical_identities": [
+    {"canonical_id": "JRO-SUPPLIER-014", "description": "Blue Ridge Textiles"},
+    {"canonical_id": "JRO-SUPPLIER-022", "description": "Tidewater Goods"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-SUPPLIER-014", "source_system": "RiverBuy", "source_identifier": "SUP-014", "status": "CONFIRMED", "provenance": "fictional supplier register", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-SUPPLIER-014", "source_system": "RiverBooks", "source_identifier": "VENDOR-281", "status": "CONFIRMED", "provenance": "fictional vendor crosswalk", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-SUPPLIER-014", "source_system": "Spreadsheet", "source_identifier": "BLUE-RIDGE", "status": "CONFIRMED", "provenance": "fictional purchasing workbook", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_ids": ["JRO-SUPPLIER-014", "JRO-SUPPLIER-022"], "source_system": "Spreadsheet", "source_identifier": "BR-TG", "status": "CONFLICT", "provenance": "deliberate fixture: contradictory legacy evidence", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}

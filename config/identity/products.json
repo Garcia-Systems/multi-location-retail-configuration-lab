@@ -1,0 +1,10 @@
+{
+  "identity_type": "PRODUCT",
+  "canonical_identities": [
+    {"canonical_id": "JRO-PRODUCT-1042", "description": "Blue Ridge Trail Shirt"},
+    {"canonical_id": "JRO-PRODUCT-1055", "description": "James River Hiking Pant"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-PRODUCT-1042", "source_system": "RiverCommerce", "source_identifier": "trail-shirt", "status": "CONFIRMED", "provenance": "fictional product catalog", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}
