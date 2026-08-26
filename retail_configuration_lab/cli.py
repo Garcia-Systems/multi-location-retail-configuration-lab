@@ -18,6 +18,7 @@ from .purchasing import PurchasingResult, run_purchasing_experiment
 from .returns_transfers import (
     ReturnResult, TransferResult, run_returns_transfers_experiment,
 )
+from .automation import ExecutionStatus, run_automation_experiment
 
 
 def _money(value: Decimal) -> str:
@@ -345,6 +346,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("ecommerce-reconciliation", help="run the Chapter 5 native connector experiment")
     subparsers.add_parser("purchasing", help="run the Chapter 6 purchasing configuration experiment")
     subparsers.add_parser("returns-transfers", help="run the Chapter 7 returns/transfers experiment")
+    subparsers.add_parser("automation", help="run the Chapter 8 bounded automation experiment")
     return parser
 
 
@@ -366,7 +368,35 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(purchasing_report())
     elif args.command == "returns-transfers":
         print(returns_transfers_report())
+    elif args.command == "automation":
+        print(automation_report())
     return 0
+
+
+def automation_report() -> str:
+    result=run_automation_experiment(); counts=result.counts
+    transfer=next(x for x in result.executions if x.automation_id=="missing-transfer-receipt-alert" and x.status is ExecutionStatus.SUCCEEDED)
+    blocked=next(x for x in result.executions if x.status is ExecutionStatus.BLOCKED_BY_VALIDATION)
+    retry=next(x for x in result.executions if x.automation_id=="scheduled-export-movement")
+    exhausted=next(x for x in result.executions if x.status is ExecutionStatus.RETRY_EXHAUSTED)
+    duplicate=next(x for x in result.executions if x.status is ExecutionStatus.DUPLICATE_SUPPRESSED)
+    return "\n".join([
+        "James River Outfitters","Chapter 8 — Automation Layer","",
+        f"Configured automations: {len(result.configuration.automations)}","",
+        "Before automation","-----------------",f"Recurring manual steps: {result.configuration.manual_steps_before}","",
+        "After automation","----------------",f"SUCCEEDED: {counts[ExecutionStatus.SUCCEEDED]}",f"FAILED: {counts[ExecutionStatus.FAILED]}",f"RETRY EXHAUSTED: {counts[ExecutionStatus.RETRY_EXHAUSTED]}",f"BLOCKED BY VALIDATION: {counts[ExecutionStatus.BLOCKED_BY_VALIDATION]}",f"Duplicates suppressed: {counts[ExecutionStatus.DUPLICATE_SUPPRESSED]}",f"Alerts generated: {len(result.alerts)}",f"Validations run: 1",f"Reconciliation triggers: {result.reconciliation_runs}",f"Report distributions: {len(result.distributions)}",f"Residual manual intervention: {result.configuration.manual_steps_after}","",
+        f"Manual-step reduction ratio: {result.manual_step_reduction_ratio:.2%}",f"Automation success rate: {result.automation_success_rate:.2%} (SUCCEEDED / terminal action outcomes)","",
+        "Residual operational problems: missing transfer receipt; missing return reason; unresolved mapping; true quantity mismatch; accounting evidence gap; automation failure; retry exhaustion.",
+        "Automation removes routine handling; detected exceptions still require human judgment.","",
+        "Chapter 2 question impact",*[f"{qid}: {status.value.replace('_',' ')} — {reason}" for qid,status,reason in result.question_impacts],"",
+        "Current lab verdict: UNTESTED","",
+        "MISSING TRANSFER ALERT","","AUTOMATION",transfer.automation_id,"","TRANSFER",transfer.trigger_reference,"","CONDITION","sent but not received","","ACTION","create alert","","RESULT","SUCCEEDED","",
+        "MAPPING VALIDATION BLOCK","","AUTOMATION",blocked.automation_id,"","SOURCE ID",blocked.trigger_reference,"","CANONICAL ID","UNRESOLVED","","RESULT","BLOCKED BY VALIDATION","",
+        "RETRY SUCCESS","","ATTEMPT 1","FAILED","","ATTEMPT 2",retry.status.value,"",
+        "RETRY EXHAUSTION","","ATTEMPTS",str(exhausted.attempt_count),"","RESULT","RETRY EXHAUSTED","",
+        "DUPLICATE SUPPRESSION","","TRIGGER","same source event received again","","RESULT",duplicate.status.value.replace('_',' '),"",
+        "DETERMINISTIC ROUTINE WORK","        ↓","AUTOMATED","","REAL OPERATIONAL EXCEPTION","        ↓","STILL REQUIRES HUMAN JUDGMENT"
+    ])
 
 
 def purchasing_report() -> str:

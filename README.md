@@ -57,6 +57,7 @@ python -m retail_configuration_lab native-reporting
 python -m retail_configuration_lab ecommerce-reconciliation
 python -m retail_configuration_lab purchasing
 python -m retail_configuration_lab returns-transfers
+python -m retail_configuration_lab automation
 python -m retail_configuration_lab --help
 ```
 
@@ -72,6 +73,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 6. [Chapter 5 — Configure E-Commerce and Store Reconciliation](book/05-configure-ecommerce-store-reconciliation.md) — tests a fictional supported connector against order, identity, cancellation, return, and inventory evidence.
 7. [Chapter 6 — Purchasing and Inventory Configuration](book/06-purchasing-and-inventory-configuration.md) — tests configured supplier-item, PO, location, receipt, replenishment, and inventory-effect rules.
 8. [Chapter 7 — Returns and Transfers](book/07-returns-and-transfers.md) — tests configured return linkage, location, reason, transfer status, quantity, and inventory-effect rules while preserving true exceptions.
+9. [Chapter 8 — Automation Layer](book/08-automation-layer.md) — automates narrow deterministic handoffs and alerts while preserving exceptions for human judgment.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -94,10 +96,12 @@ Purchasing / inventory configuration
         ↓
 Returns / transfers configuration
         ↓
-Routine exceptions classified
+Automation
+        ↓
+Reduce routine manual handling
         ↓
 Next:
-Automation layer
+BI / reporting configuration
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 7 observes synthetic return/transfer reconciliation results, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Automation and later experiments are not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 8 observes bounded synthetic automation results, but does not prove real retailer savings or remove the operational exceptions. BI/reporting configuration and later experiments are not implemented.
