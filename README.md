@@ -63,6 +63,7 @@ python -m retail_configuration_lab process-change
 python -m retail_configuration_lab residual-gaps
 python -m retail_configuration_lab support-surface
 python -m retail_configuration_lab add-store
+python -m retail_configuration_lab acquired-store
 python -m retail_configuration_lab --help
 ```
 
@@ -84,6 +85,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 12. [Chapter 11 — What Still Hurts?](book/11-what-still-hurts.md) — reconciles the original burden and classifies the modeled operational, administrative, support, technical, and unknown residuals.
 13. [Chapter 12 — Configuration Support Surface](book/12-configuration-support-surface.md) — inventories recurring administration and support, separates labor from fictional platform cash cost, and reconciles Chapter 11 without double counting.
 14. [Chapter 13 — Add Store #7](book/13-add-store-7.md) — executes standardized growth and measures reused structure, new mappings, configuration, and capability growth.
+15. [Chapter 14 — Acquired Store Stress Test](book/14-acquired-store-stress-test.md) — contrasts standardized growth with a fragmented synthetic acquisition and keeps standardization, configuration, migration, a narrow edge, and deferral open.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -92,18 +94,18 @@ The Chapter 1 command loads and validates the structured inventory, reports unfi
 ```text
 BUY / CONFIGURE hypothesis
         ↓
-Configure existing ecosystem
-        ↓
-Measure residual burden
-        ↓
-Measure support surface
+Configure standardized ecosystem
         ↓
 Add standardized Store #7
         ↓
-Measure structural reuse
+High-reuse control case
+        ↓
+Add fragmented acquired Store #8
+        ↓
+Measure fragmentation penalty
         ↓
 Next:
-Acquired-store stress test
+Strong native suite scenario
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 13 observes standardized Store #7 structural reuse without inferring labor from object counts. It does not implement the acquired-store stress test.
+The current lab verdict remains **UNTESTED**. Chapter 14 observes synthetic fragmentation structure without converting object counts to labor or making claims about real acquisitions or vendors. Chapter 15 is not implemented.

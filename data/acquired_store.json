@@ -1,0 +1,42 @@
+{
+  "store": {"canonical_id": "JRO-STORE-008", "name": "James River Outfitters — Shenandoah Acquisition", "state": "NEWLY_ACQUIRED_NOT_STANDARDIZED"},
+  "systems": [
+    {"id": "RidgePOS", "kind": "POS", "capabilities": {"sales_export": "EXPORT_ONLY", "return_export": "EXPORT_ONLY", "category_mapping": "SUPPORTED_WITH_CONFIGURATION", "api": "UNKNOWN"}},
+    {"id": "RidgeInventory", "kind": "INVENTORY", "capabilities": {"on_hand_export": "EXPORT_ONLY", "adjustments": "EXPORT_ONLY", "receiving": "SUPPORTED_WITH_CONFIGURATION", "change_notifications": "UNKNOWN"}},
+    {"id": "RidgeSheets", "kind": "TRANSFER_SPREADSHEET", "capabilities": {"structured_export": "SUPPORTED_WITH_CONFIGURATION"}}
+  ],
+  "sku_mappings": [
+    {"local_sku": "BLTS-M-BL", "source_system": "RidgePOS", "canonical_matches": ["JRO-1042-BLU-M"], "kind": "CLEAN", "historical_aliases": ["1042BM"]},
+    {"local_sku": "1042", "source_system": "RidgePOS", "canonical_matches": ["JRO-1042-BLU-M", "JRO-1042-BLU-L"], "kind": "AMBIGUOUS", "historical_aliases": ["1042BM", "1042"]},
+    {"local_sku": "OLD-BLUE", "source_system": "RidgeInventory", "canonical_matches": [], "kind": "UNMAPPED", "historical_aliases": ["1042"]},
+    {"local_sku": "SHEN-001", "source_system": "RidgeInventory", "canonical_matches": [], "kind": "LOCAL_ONLY", "historical_aliases": []},
+    {"local_sku": "BLTS-M-BL-2", "source_system": "RidgeInventory", "canonical_matches": ["JRO-1042-BLU-M"], "kind": "APPARENT_DUPLICATE", "historical_aliases": ["1042BM"]}
+  ],
+  "returns": [
+    {"id": "RIDGE-RET-1", "reason": null, "original_transaction": null, "damaged_as_adjustment": true, "cross_store_supported": false}
+  ],
+  "transfers": [
+    {"transfer_number": "RS-88", "from_location": "Shenandoah shop", "to_location": "JRO Main", "sku": "BLTS-M-BL", "quantity_sent": 4, "quantity_received": null, "status": "done?", "manually_edited": true},
+    {"transfer_number": "RS-89", "from_location": "JRO-STORE-008", "to_location": "JRO-STORE-001", "sku": "JRO-1042-BLU-M", "quantity_sent": 2, "quantity_received": 2, "status": "RECEIVED", "manually_edited": false}
+  ],
+  "compatibility": [
+    ["identity", "REQUIRES_NEW_MAPPING", "Local and reused historical identifiers require governed mappings."],
+    ["reporting", "REUSABLE_WITH_CONFIGURATION", "CSV sales can enter configured reporting after store/category mapping."],
+    ["e-commerce", "UNKNOWN", "Cross-channel behavior has not been discovered."],
+    ["purchasing", "REQUIRES_NEW_MODULE", "Receiving export needs a bounded configured import module."],
+    ["returns", "PROCESS_GAP", "Reason and original-sale references are not consistently captured."],
+    ["transfers", "PROCESS_GAP", "Free-text spreadsheet rows require a controlled current template."],
+    ["automation", "TECHNICAL_GAP", "CSV-only POS has no known change notification."],
+    ["BI", "REUSABLE_WITH_CONFIGURATION", "Mapped daily sales can feed existing views, while return detail stays partial."],
+    ["process", "PROCESS_GAP", "No owner approves aliases and employees manually edit status."],
+    ["support", "MIGRATION_CANDIDATE", "A second platform family permanently duplicates support obligations."]
+  ],
+  "standardization": {"resolved_mappings": 1, "ambiguous_mappings": 2, "unmapped_identities": 1, "local_only_merchandise": 1, "transfer_manual_before": 2, "transfer_manual_after": 1, "residual_technical_gaps": 1},
+  "structure": {"total_items": 20, "reused_items": 5, "new_mappings": 5, "technical_gap_or_new_capability_items": 4, "blocked_or_unknown_items": 3},
+  "support_obligations": ["second POS mapping maintenance", "second inventory export", "historical alias maintenance", "extra transfer normalization", "additional acquired-store user support", "additional schema-change exposure"],
+  "question_coverage": {"What sold by store?": "PARTIAL", "Which inventory mismatches require investigation?": "PARTIAL", "Which transfers remain unresolved?": "PARTIAL", "Which returns disagree?": "NOT_ANSWERED", "Which purchasing exceptions require attention?": "UNKNOWN", "What is the central management exception briefing?": "PARTIAL"},
+  "migration_scenario": {"candidate": "RidgeInventory", "setup_hours": 120, "cleanup_hours": 80, "training_hours": 40, "effect": "reduced long-term fragmentation and support diversity"},
+  "module_scenario": {"name": "configured RidgePOS CSV import", "scope": "daily sales/category/store mapping only", "closes_gap": false},
+  "custom_candidates": [{"name": "historical identifier resolver", "residual_problem": "reused aliases cannot be resolved deterministically", "business_questions": ["What sold by store?", "Which returns disagree?"], "why_configuration_insufficient": "source context needed to disambiguate reused codes is absent", "estimated_scope": "one bounded historical lookup edge; do not implement", "bounded": true}],
+  "residual_burden": {"identity reconciliation": "REDUCES_AFTER_STANDARDIZATION", "historical cleanup": "UNCHANGED", "platform support": "INCREASES", "mapping work": "ADDITIONAL_ADMINISTRATION", "cross-channel evidence": "UNKNOWN"}
+}
