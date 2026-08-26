@@ -31,6 +31,7 @@ from .weak_native_coverage import (AnswerStatus as WeakAnswerStatus,
                                    GapClassification, derive_response,
                                    load_weak_native_coverage)
 from .custom_edge import CustomResult, run_custom_edge
+from .full_custom_counterfactual import load_full_custom_counterfactual
 
 
 def _money(value: Decimal) -> str:
@@ -370,6 +371,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("strong-native-suite", help="run the Chapter 15 strong native suite scenario")
     subparsers.add_parser("weak-native-coverage", help="run the Chapter 16 weak native coverage scenario")
     subparsers.add_parser("custom-edge", help="run the Chapter 17 narrow custom-edge experiment")
+    subparsers.add_parser("full-custom-counterfactual", help="run the Chapter 18 full-custom counterfactual")
     return parser
 
 
@@ -411,7 +413,48 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(weak_native_coverage_report())
     elif args.command == "custom-edge":
         print(custom_edge_report())
+    elif args.command == "full-custom-counterfactual":
+        print(full_custom_counterfactual_report())
     return 0
+
+
+def full_custom_counterfactual_report() -> str:
+    s=load_full_custom_counterfactual()
+    limited=next(q for q in s.question_coverage if q.configuration_status.value=="ANSWERED" and q.full_custom_status.value=="ANSWERED")
+    gain=next(q for q in s.question_coverage if q.configuration_status.value=="PARTIALLY_ANSWERED" and q.full_custom_status.value=="ANSWERED")
+    blocked=next(q for q in s.question_coverage if not q.required_source_evidence_available)
+    required=" / ".join(x.name for x in s.reliability if x.requirement.value=="REQUIRED")
+    lines=["James River Outfitters","Chapter 18 — Full Custom Counterfactual","",
+      "Comparison baseline","-------------------","Configuration-first + narrow custom edge","",
+      "Question coverage","-----------------",f"Config + edge answered: {s.configuration_answered_questions}",
+      f"Full custom answered: {s.full_custom_answered_questions}",f"Incremental questions answered: {s.incremental_question_gain_full_custom}","",
+      "Residual burden","---------------",f"Config + edge residual burden: {_money(s.configuration_burden.residual_operational)}",
+      f"Full custom residual burden: {_money(s.full_custom_burden.residual_operational)}",
+      f"Incremental modeled burden reduction: {_money(s.incremental_modeled_burden_reduction_full_custom)}","",
+      "Ownership","---------",f"Config + edge custom responsibilities: {s.configuration_custom_ownership_count}",
+      f"Full custom custom responsibilities: {s.full_custom_ownership_count}",f"Source adapters owned by full custom: {s.adapter_count}",
+      f"Runtime reliability mechanisms owned: {len(s.reliability)}","",
+      "Full-custom modeled delivery","----------------------------",f"Engineering effort: {s.engineering_hours:g} hours",
+      f"Direct delivery cost: {_money(s.direct_delivery_cost)}",f"Customer implementation price: {_money(s.implementation_price)}",
+      f"Customer annual fee: {_money(s.annual_customer_fee)}",f"Modeled internal support: {s.modeled_full_custom_support_hours:g} hours / {_money(s.modeled_full_custom_support_cost)}",
+      f"Chapter result: {s.result.value}",f"Rationale: {s.result_rationale}","Overall lab verdict: UNTESTED","",
+      "Adapter ownership","","FULL CUSTOM COMPONENT","E-commerce adapter","RESPONSIBILITY","ingest / validate / transform / map",
+      "CONFIGURATION-FIRST","native connector / configured export behavior","OWNERSHIP CHANGE","vendor/configuration → custom code","",
+      "Runtime reliability","","FULL CUSTOM","retry / replay / idempotency / monitoring required","CONFIGURATION-FIRST","partly vendor-owned / automation-platform-owned",f"REQUIRED SURFACE",required,"",
+      "Limited incremental value example","","QUESTION",limited.question,"CONFIG + EDGE",limited.configuration_status.value,"FULL CUSTOM",limited.full_custom_status.value,"INCREMENTAL VALUE","NONE","",
+      "Genuine incremental value example","","QUESTION",gain.question,"CONFIG + EDGE",gain.configuration_status.value.replace("_"," "),"FULL CUSTOM",gain.full_custom_status.value,"INCREMENTAL VALUE","YES","",
+      "Source limitation","","QUESTION",blocked.question,"CONFIG + EDGE",blocked.configuration_status.value.replace("_"," "),"FULL CUSTOM",blocked.full_custom_status.value.replace("_"," "),"WHY",blocked.rationale,"",
+      f"{'ATTRIBUTE':<38} {'CONFIG + EDGE':<24} FULL CUSTOM","-"*86,
+      f"{'Business questions answered':<38} {s.configuration_answered_questions:<24} {s.full_custom_answered_questions}",
+      f"{'Residual operational burden':<38} {_money(s.configuration_burden.residual_operational):<24} {_money(s.full_custom_burden.residual_operational)}",
+      f"{'Administration burden':<38} {_money(s.configuration_burden.administration):<24} {_money(s.full_custom_burden.administration)}",
+      f"{'Custom components owned':<38} {s.configuration_custom_ownership_count:<24} {len(s.components)}",
+      f"{'Adapters owned':<38} {0:<24} {s.adapter_count}",f"{'Runtime reliability owned':<38} {'partly vendor/platform':<24} {len(s.reliability)}",
+      f"{'Modeled implementation hours':<38} {'90 (narrow edge)':<24} {s.engineering_hours:g}",
+      f"{'Modeled direct delivery cost':<38} {_money(Decimal('11250')):<24} {_money(s.direct_delivery_cost)}",
+      f"{'Recurring support structure':<38} {'30 hours / $3,000':<24} {s.modeled_full_custom_support_hours:g} hours / {_money(s.modeled_full_custom_support_cost)}",
+      f"{'Customer recurring cash price':<38} {'not modeled':<24} {_money(s.annual_customer_fee)}/yr"]
+    return "\n".join(lines)
 
 
 def custom_edge_report() -> str:
