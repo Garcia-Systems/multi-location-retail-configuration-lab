@@ -27,6 +27,9 @@ from .add_store import TaskClassification, load_store7_experiment
 from .acquired_store import (AcquisitionResponse, CompatibilityFit,
                              load_acquired_store_experiment, recommend_response)
 from .strong_native_suite import load_strong_native_suite, derive_verdict
+from .weak_native_coverage import (AnswerStatus as WeakAnswerStatus,
+                                   GapClassification, derive_response,
+                                   load_weak_native_coverage)
 
 
 def _money(value: Decimal) -> str:
@@ -364,6 +367,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("add-store", help="run the Chapter 13 standardized Store #7 onboarding")
     subparsers.add_parser("acquired-store", help="run the Chapter 14 acquired Store #8 stress test")
     subparsers.add_parser("strong-native-suite", help="run the Chapter 15 strong native suite scenario")
+    subparsers.add_parser("weak-native-coverage", help="run the Chapter 16 weak native coverage scenario")
     return parser
 
 
@@ -401,7 +405,39 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(acquired_store_report())
     elif args.command == "strong-native-suite":
         print(strong_native_suite_report())
+    elif args.command == "weak-native-coverage":
+        print(weak_native_coverage_report())
     return 0
+
+
+def weak_native_coverage_report() -> str:
+    s=load_weak_native_coverage(); response,rationale=derive_response(s); counts=s.coverage_counts
+    gaps=lambda kind: [g for g in s.residual_gaps if g['classification'] is kind]
+    lines=["James River Outfitters","Chapter 16 — Weak Native Coverage Scenario","",
+      "Question coverage","-----------------",f"Base configured ecosystem answered: {s.base_answered}",
+      f"Strong native suite answered: {s.strong_answered}",f"Weak native coverage answered: {s.weak_answered}","",
+      "Weak native coverage","--------------------"]
+    lines += [f"{status.value.replace('_',' ')}: {counts[status]}" for status in WeakAnswerStatus]
+    lines += ["","Workaround structure","--------------------",f"Configured workaround layers: {s.workaround_layer_count}",
+      f"Questions dependent on workarounds: {s.questions_dependent_on_workarounds}",
+      f"Workaround dependency ratio: {s.workaround_dependency_ratio:.2%} (dependent/evaluated cross-system questions)","",
+      "Residual burden","---------------",f"Residual operational burden: {_money(s.residual_operational_burden)}",
+      f"Support/admin cost: {_money(s.support_admin_cost)}",f"Platform cash cost: {_money(s.platform_cost)}",
+      f"Setup/configuration cost: {_money(s.setup_cost)}",f"Annual post-configuration cost: {_money(s.annual_post_configuration_cost)}","",
+      "Technical residuals","-------------------",f"Bounded gaps: {len(gaps(GapClassification.BOUNDED))}",
+      f"Broad gaps: {len(gaps(GapClassification.BROAD))}",f"Unknowns: {len(gaps(GapClassification.UNKNOWN))}",
+      f"Scenario response: {response.value}",f"Rationale: {rationale}","Overall lab verdict: UNTESTED","",
+      "Export workaround","CAPABILITY","cross-channel order reconciliation","NATIVE SUPPORT","GAP","WORKAROUND",
+      "scheduled exports + mapping + reconciliation report","RESULT","PARTIAL / workaround dependent","",
+      "Automation cannot create missing semantics","INPUT","transfer sent record","MISSING","reliable receiving acknowledgement",
+      "AUTOMATION","can alert","AUTOMATION CANNOT","prove physical receipt","RESULT","technical/process residual remains","",
+      "BI cannot repair missing source evidence","QUESTION","Which operational records disagree with accounting?","BI","configured",
+      "ACCOUNTING TRANSACTION LINKAGE","missing","RESULT","NOT ANSWERED / PARTIAL","",
+      "Bounded technical edge","RESIDUAL","specific cross-channel reconciliation rule","INPUTS","available","OUTPUT","defined",
+      "SCOPE","bounded","CLASSIFICATION","BOUNDED TECHNICAL GAP","","Broad technical gap","RESIDUAL",
+      "accounting / operational linkage","SPANS","sales, returns, and purchasing","CLASSIFICATION","BROAD TECHNICAL GAP",
+      "LIKELY RESPONSE","migration / standardization / investigate"]
+    return "\n".join(lines)
 
 
 def strong_native_suite_report() -> str:
