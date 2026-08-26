@@ -1,0 +1,14 @@
+{
+  "identity_type": "STORE",
+  "canonical_identities": [
+    {"canonical_id": "JRO-STORE-001", "description": "Williamsburg store"},
+    {"canonical_id": "JRO-STORE-002", "description": "Richmond store"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-STORE-001", "source_system": "RiverPOS", "source_identifier": "WBG-01", "source_description": "Williamsburg register location", "status": "CONFIRMED", "provenance": "fictional RiverPOS location export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-STORE-001", "source_system": "RiverStock", "source_identifier": "STORE_1", "source_description": "Williamsburg inventory location", "status": "CONFIRMED", "provenance": "fictional RiverStock location export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-STORE-001", "source_system": "RiverBooks", "source_identifier": "LOC-WILLIAMSBURG", "status": "CONFIRMED", "provenance": "fictional accounting crosswalk", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-STORE-001", "source_system": "RiverCommerce", "source_identifier": "fulfillment_williamsburg", "status": "CONFIRMED", "provenance": "fictional fulfillment configuration", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-STORE-002", "source_system": "RiverPOS", "source_identifier": "RVA-02", "status": "CONFIRMED", "provenance": "fictional RiverPOS location export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}

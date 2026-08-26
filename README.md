@@ -52,6 +52,7 @@ pytest
 python -m retail_configuration_lab baseline
 python -m retail_configuration_lab capabilities
 python -m retail_configuration_lab questions
+python -m retail_configuration_lab identity
 python -m retail_configuration_lab --help
 ```
 
@@ -62,23 +63,25 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 1. [Chapter 0 — The BUY / CONFIGURE Hypothesis](book/00-buy-configure-hypothesis.md) — establishes the synthetic baseline; status **UNTESTED**.
 2. [Chapter 1 — Inventory What Already Exists](book/01-inventory-what-already-exists.md) — classifies the fictional ecosystem without validating the hypothesis.
 3. [Chapter 2 — Define the Business Questions](book/02-define-the-business-questions.md) — defines actionable questions and diagnostic capability-coverage hypotheses.
+4. [Chapter 3 — Standardize Retail Identity](book/03-standardize-retail-identity.md) — tests configured identity mappings against synthetic false and true exceptions.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
 ## Study path
 
 ```text
-Chapter 0
 BUY / CONFIGURE hypothesis
         ↓
-Chapter 1
 Inventory existing capabilities
         ↓
-Chapter 2
 Define business questions
         ↓
-Next:
 Standardize retail identity
+        ↓
+Measure false exceptions removed
+        ↓
+Next:
+Configure native multi-store reporting
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 1 inventories modeled claims and Chapter 2 defines fictional requirements; neither proves that BUY / CONFIGURE works. Identity standardization and later experiments are not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 3 observes synthetic reconciliation improvement from identity configuration, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Native reporting and later experiments are not implemented.

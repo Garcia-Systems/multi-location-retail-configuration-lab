@@ -1,0 +1,16 @@
+{
+  "identity_type": "SKU",
+  "canonical_identities": [
+    {"canonical_id": "JRO-1042-BLU-M", "description": "Trail Shirt, Blue / Medium", "product_id": "JRO-PRODUCT-1042", "variant_id": "JRO-VARIANT-1042-BLU-M"},
+    {"canonical_id": "JRO-1055-GRN-L", "description": "Hiking Pant, Green / Large", "product_id": "JRO-PRODUCT-1055", "variant_id": "JRO-VARIANT-1055-GRN-L"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-1042-BLU-M", "source_system": "RiverPOS", "source_identifier": "SKU-1042", "status": "CONFIRMED", "provenance": "fictional POS item export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-1042-BLU-M", "source_system": "RiverStock", "source_identifier": "1042", "status": "CONFIRMED", "provenance": "fictional inventory item export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-1042-BLU-M", "source_system": "RiverCommerce", "source_identifier": "JRO-1042-BLU-M", "status": "CONFIRMED", "provenance": "fictional commerce catalog", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-1042-BLU-M", "source_system": "RiverBuy", "source_identifier": "SUP-A-1042", "source_description": "supplier item number mapped to, but not equal to, the SKU", "status": "CONFIRMED", "provenance": "fictional purchasing crosswalk", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE", "source_identifier_kind": "SUPPLIER_ITEM"},
+    {"canonical_id": "JRO-1055-GRN-L", "source_system": "RiverPOS", "source_identifier": "SKU-1055", "status": "CONFIRMED", "provenance": "fictional POS item export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-1055-GRN-L", "source_system": "RiverStock", "source_identifier": "1055", "status": "CONFIRMED", "provenance": "fictional inventory item export", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_ids": ["JRO-1042-BLU-M", "JRO-1055-GRN-L"], "source_system": "Spreadsheet", "source_identifier": "SHIRT-M", "status": "AMBIGUOUS", "provenance": "legacy label lacks color", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}

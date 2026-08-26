@@ -1,0 +1,12 @@
+{
+  "identity_type": "CHANNEL",
+  "canonical_identities": [
+    {"canonical_id": "JRO-CHANNEL-STORE", "description": "Physical retail"},
+    {"canonical_id": "JRO-CHANNEL-ECOM", "description": "E-commerce"}
+  ],
+  "mappings": [
+    {"canonical_id": "JRO-CHANNEL-STORE", "source_system": "RiverPOS", "source_identifier": "STORE", "status": "CONFIRMED", "provenance": "fictional POS channel convention", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-CHANNEL-ECOM", "source_system": "RiverCommerce", "source_identifier": "WEB", "status": "CONFIRMED", "provenance": "fictional commerce channel convention", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"},
+    {"canonical_id": "JRO-CHANNEL-ECOM", "source_system": "RiverBooks", "source_identifier": "ECOM", "status": "CONFIRMED", "provenance": "fictional accounting channel convention", "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"}
+  ]
+}
