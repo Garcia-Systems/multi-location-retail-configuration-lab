@@ -66,6 +66,7 @@ python -m retail_configuration_lab add-store
 python -m retail_configuration_lab acquired-store
 python -m retail_configuration_lab strong-native-suite
 python -m retail_configuration_lab weak-native-coverage
+python -m retail_configuration_lab custom-edge
 python -m retail_configuration_lab --help
 ```
 
@@ -90,24 +91,29 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 15. [Chapter 14 — Acquired Store Stress Test](book/14-acquired-store-stress-test.md) — contrasts standardized growth with a fragmented synthetic acquisition and keeps standardization, configuration, migration, a narrow edge, and deferral open.
 16. [Chapter 15 — Strong Native Suite Scenario](book/15-strong-native-suite-scenario.md) — tests whether broad fictional native coverage reduces the remaining custom need enough to justify configuration despite higher cash cost, migration, administration, and dependency.
 17. [Chapter 16 — Weak Native Coverage Scenario](book/16-weak-native-coverage-scenario.md) — measures workaround sprawl, degraded question coverage, and bounded versus broad residuals when native semantics are weak.
+18. [Chapter 17 — The Narrow Custom Edge](book/17-the-narrow-custom-edge.md) — tests one deterministic cross-channel exception rule against the best configured alternative while preserving authoritative systems and explicit scope refusal.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
 ## Study path
 
 ```text
-BASE CONFIGURATION
+BUY / CONFIGURE HYPOTHESIS
         ↓
-FRAGMENTATION STRESS
+CONFIGURE FIRST
         ↓
-STRONG NATIVE SUITE
+MEASURE RESIDUAL
         ↓
-WEAK NATIVE COVERAGE
+STRONG / WEAK COVERAGE
         ↓
 IDENTIFY BOUNDED TECHNICAL RESIDUAL
         ↓
+IMPLEMENT NARROW CUSTOM EDGE
+        ↓
+MEASURE INCREMENTAL VALUE + OWNERSHIP
+        ↓
 Next:
-The narrow custom edge
+Full custom counterfactual
 ```
 
-The current lab verdict remains **UNTESTED**. Chapters 15 and 16 are synthetic sensitivity experiments, not claims about real vendors. Their scenario responses do not replace the lab verdict. Chapter 17 is not implemented.
+The current lab verdict remains **UNTESTED**. Chapters 15 and 16 are synthetic sensitivity experiments, not claims about real vendors. Chapter 17 adds only the bounded edge; its chapter-specific result does not replace the lab verdict. The full-custom counterfactual is not implemented here.
