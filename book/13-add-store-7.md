@@ -1,5 +1,7 @@
 # Chapter 13 — Add Store #7
 
+![Chapter 13 — Add Store #7](../images/chapters/13.png)
+
 Scaling is a claim until it is executed. This chapter adds the standardized synthetic **James River Outfitters — Richmond West** location (`JRO-STORE-007`) to the configured six-store control environment. It does not introduce the fragmented acquisition conditions reserved for the next experiment.
 
 ```bash

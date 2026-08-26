@@ -1,5 +1,7 @@
 # Chapter 10 — Process Change Experiment
 
+![Chapter 10 — Process Change Experiment](../images/chapters/10.png)
+
 Not every visible residual asks for software. Good software paired with a bad process can make the bad process **consistently visible**. A solutions engineer should therefore ask whether capability is absent, or whether behavior, governance, or ownership is inconsistent, before automating anything.
 
 ```text

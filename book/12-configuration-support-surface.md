@@ -1,5 +1,7 @@
 # Chapter 12 — Configuration Support Surface
 
+![Chapter 12 — Configuration Support Surface](../images/chapters/12.png)
+
 `BUY / CONFIGURE` does not mean `NO SUPPORT`. Chapter 11 measured what remains; this chapter inventories what the configured ecosystem costs to keep working after go-live. **Implementation cost** creates the configuration once. **Ongoing support cost** administers, monitors, and changes it. This model charges only the latter.
 
 ```text

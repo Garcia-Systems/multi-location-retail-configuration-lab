@@ -1,5 +1,7 @@
 # Chapter 16 — Weak Native Coverage Scenario
 
+![Chapter 16 — Weak Native Coverage Scenario](../images/chapters/16.png)
+
 > **This is a synthetic sensitivity scenario. It does not describe the capabilities or economics of any real retail software product.**
 
 Chapter 15 asked how configuration-first behaves with unusually strong native coverage. This chapter holds the business questions constant and tests the opposite boundary: useful store sales, inventory, purchasing, and returns functions remain, but cross-system semantics are weak. Run it with:

@@ -1,5 +1,7 @@
 # Chapter 20 — Capstone: Configure, Extend, Build, or Walk Away?
 
+![Chapter 20 — Capstone: Configure, Extend, Build, or Walk Away?](../images/chapters/20.png)
+
 ## 1. The hypothesis
 
 The cookbook's **BUY / CONFIGURE** verdict was a MODELED ALTERNATIVE ASSUMPTION, not an observed result. The completed synthetic lab's verdict is **INVESTIGATE**; therefore the hypothesis is **WEAKENED**. This does not mean configuration failed. It means the evidence does not support committing to any single intervention before discovery.

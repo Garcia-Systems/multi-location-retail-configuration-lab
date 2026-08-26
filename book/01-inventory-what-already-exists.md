@@ -1,5 +1,7 @@
 # Chapter 1 — Inventory What Already Exists
 
+![Chapter 1 — Inventory What Already Exists](../images/chapters/1.png)
+
 > Before proposing software, understand what the customer already owns.
 
 Configuration-first discovery begins with inventory, not architecture. A missing answer may reflect an undiscovered feature, an unconfigured identifier, or unavailable evidence—not missing software. Conversely, a feature advertised in our fictional model may be incorrectly configured or irrelevant to management's question. This chapter therefore records uncertainty without designing a solution.

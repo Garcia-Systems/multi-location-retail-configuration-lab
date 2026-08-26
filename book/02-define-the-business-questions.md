@@ -1,5 +1,7 @@
 # Chapter 2 — Define the Business Questions
 
+![Chapter 2 — Define the Business Questions](../images/chapters/2.png)
+
 Chapter 1 asked what the fictional ecosystem theoretically can do. That feature inventory is useful, but a system capability is not a business question. Chapter 2 deliberately steps away from systems and asks: **What does James River Outfitters actually need to know or act on?**
 
 > A dashboard is not a requirement. A report is not a requirement. An integration is not a requirement. The operational question comes first.

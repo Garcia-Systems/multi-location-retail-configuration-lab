@@ -1,5 +1,7 @@
 # Chapter 3 — Standardize Retail Identity
 
+![Chapter 3 — Standardize Retail Identity](../images/chapters/3.png)
+
 > Some integration problems are really identity problems.
 
 This chapter makes the lab's first configured change. It asks how much apparent
