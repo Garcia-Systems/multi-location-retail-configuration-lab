@@ -1,0 +1,34 @@
+{
+  "original_verdict": "BUY / CONFIGURE",
+  "final_verdict": "INVESTIGATE",
+  "hypothesis_effect": "WEAKENED",
+  "gates": {"existing_capability_sufficiency":"MODERATE","residual_materiality":"BROAD_MATERIAL","support_burden":"MANAGEABLE","scaling":"STRONG_REUSE","fragmentation_sensitivity":"HIGH","native_coverage_sensitivity":"HIGH_DEPENDENCE","narrow_custom_value":"JUSTIFIED","full_custom_value":"MATERIAL_INCREMENT","economics":"TOO_CLOSE"},
+  "economic_leader":"full-custom", "first_year_leader":"buy-configure", "three_year_leader":"full-custom",
+  "remaining_material_problem":"Reliable cross-system exception evidence remains incomplete: cross-channel, transfer, return, inventory, and accounting questions still depend on source evidence and platform maturity.",
+  "confidence_qualifier":"Confident for the deterministic synthetic fixtures; not validated with a real customer.",
+  "rationales": {
+    "technical":"Identity, native configuration, integrations, automation, BI, and process rules removed routine work, but did not create missing accounting evidence or uniformly close cross-system gaps.",
+    "business_question_coverage":"Coverage improved materially, while several questions remained partial, unanswered, or source-limited.",
+    "residual_burden":"Chapter 11 retains broad operational and administrative burdens; Chapter 17 isolates one useful bounded portion rather than all residuals.",
+    "support":"Chapter 12's configuration surface is manageable but recurring, and automation failures still require support.",
+    "scaling":"Store #7 reused standardized structure without a new code path.",
+    "fragmentation":"Store #8 sharply reduced reuse and made standardization or migration a prerequisite to durable integration.",
+    "economics":"Chapter 19 makes BUY / CONFIGURE the first-year leader and full custom the three-year leader; no single option wins both horizons.",
+    "sensitivity":"The modeled sensitivity set leaves full custom as the three-year leader, but horizon disagreement makes the result TOO_CLOSE rather than robust.",
+    "decision":"Mixed capability, broad residuals, high platform dependence, and split economic leaders prevent a responsible BUY / CONFIGURE, narrow-edge, or full-custom commitment before discovery."
+  },
+  "custom_boundary": {
+    "should_own":["No material custom ownership is authorized while the verdict is INVESTIGATE","If discovery justifies it: one bounded deterministic exception rule, provenance, and output to the existing workflow"],
+    "should_not_own":["POS runtime","inventory runtime","purchasing","returns system","accounting","broad synchronization","dashboard platform"]
+  },
+  "remaining_unknowns":["real vendor capability","real customer processes and transaction volumes","real labor and support burden","real licensing and change-management cost","real data access and API limits","real historical data quality"],
+  "discovery_requirements":["Are store, SKU, and channel identifiers actually standardizable?","Which existing systems are authoritative?","Which native integrations are truly supported?","Which Chapter 2 questions remain unanswered after configuration?","What manual burden and administration/support work actually remain?","Are store additions standardized or acquisition-driven, and how fragmented are platforms?","Is the bounded custom residual genuinely material?","Is accounting-level evidence accessible?","Are process problems being mistaken for software gaps?","Does the customer prefer migration or standardization over permanent integration?"],
+  "scenario_results":{"base_configured_ecosystem":"meaningful but incomplete coverage","strong_native_suite":"configuration becomes more plausible","weak_native_coverage":"workaround dependence and broad gaps increase","standardized_store_7":"strong structural reuse","fragmented_store_8":"standardize first; migration remains a candidate"},
+  "evidence_inventory": {
+    "observed_lab_results":["identity mappings eliminated synthetic false exceptions","configured reports and native connector improved synthetic coverage","automation and process change removed routine synthetic steps","Store #7 reused structure while Store #8 reduced reuse","the narrow edge reduced manual review","full custom expanded the ownership surface"],
+    "modeled_assumptions":["labor rates and burden dollars","implementation and support hours","platform costs and risk allowances"],
+    "modeled_alternative_assumptions":["fictional product capabilities","fictional strong-suite coverage","fictional weak-platform limitations"],
+    "unknown_discovery_required":["real product fit and API behavior","real volumes, licensing, support effort, and data quality"]
+  },
+  "evidence_references":["data/baseline_case.json","data/capability_inventory.json","data/business_questions.json","book/03-standardize-retail-identity.md","data/native_reporting.json","book/05-configure-ecommerce-store-reconciliation.md","book/06-purchasing-and-inventory-configuration.md","book/07-returns-and-transfers.md","book/08-automation-layer.md","book/09-bi-reporting-configuration.md","book/10-process-change-experiment.md","data/residual_gaps.json","data/support_surface.json","data/store7_onboarding.json","data/acquired_store.json","data/strong_native_suite.json","data/weak_native_coverage.json","retail_configuration_lab/custom_edge.py","retail_configuration_lab/full_custom_counterfactual.py","retail_configuration_lab/economics.py"]
+}
