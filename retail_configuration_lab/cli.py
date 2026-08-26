@@ -20,6 +20,7 @@ from .returns_transfers import (
 )
 from .automation import ExecutionStatus, run_automation_experiment
 from .bi_reporting import BIQuestionStatus, run_bi_reporting
+from .process_change import ResidualCause, run_process_change_experiment
 
 
 def _money(value: Decimal) -> str:
@@ -351,6 +352,7 @@ def build_parser() -> argparse.ArgumentParser:
     bi = subparsers.add_parser("bi-reporting", help="run the Chapter 9 configured BI experiment")
     bi.add_argument("--report", choices=["management-briefing", "transfer-exceptions"],
                     help="show only one compact report after the experiment summary")
+    subparsers.add_parser("process-change", help="run the Chapter 10 process-change experiment")
     return parser
 
 
@@ -376,7 +378,53 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(automation_report())
     elif args.command == "bi-reporting":
         print(bi_reporting_report(args.report))
+    elif args.command == "process-change":
+        print(process_change_report())
     return 0
+
+
+def process_change_report() -> str:
+    result = run_process_change_experiment()
+    lines = ["James River Outfitters", "Chapter 10 — Process Change Experiment", "",
+        f"Process scenarios evaluated: {result.scenarios_evaluated}", "",
+        "Before process change", "---------------------",
+        f"Noncompliant events: {result.noncompliant_before}",
+        f"Operational exceptions: {result.operational_exceptions_before}",
+        f"Manual follow-up steps: {result.manual_steps_before}", "",
+        "After process change", "--------------------",
+        f"Noncompliant events: {result.noncompliant_after}",
+        f"Operational exceptions: {result.operational_exceptions_after}",
+        f"Manual follow-up steps: {result.manual_steps_after}", "",
+        f"Process-caused exceptions eliminated: {result.process_caused_exceptions_eliminated}",
+        f"Data-governance exceptions eliminated: {result.data_governance_exceptions_eliminated}",
+        f"Technical exceptions unchanged: {result.technical_exceptions_unchanged}",
+        f"Unknown/mixed exceptions: {result.unknown_mixed_exceptions}", "",
+        f"Process exception reduction ratio: {result.process_exception_reduction_ratio:.2%}",
+        f"Manual process step reduction ratio: {result.manual_process_step_reduction_ratio:.2%}",
+        "  OBSERVED LAB RESULT from deterministic synthetic behavior; no success threshold is imposed.", "",
+        "PROCESS CHANGE can eliminate avoidable bad records, delayed steps, duplicate work, and unclear ownership.",
+        "PROCESS CHANGE cannot create missing platform capability, accounting evidence, or unsupported integration behavior.", "",
+        "Chapter 2 question impact"]
+    lines.extend(f"{x.question_id}: {x.status.value.replace('_', ' ')} — {x.reason}"
+                 for x in result.question_impacts)
+    lines.extend(["", "Intervention classes used so far: " + ", ".join(x.value for x in result.interventions),
+                  "", "Current lab verdict: UNTESTED"])
+    for outcome in result.outcomes:
+        scenario = outcome.scenario
+        lines.extend(["", "SCENARIO", scenario.name, "", "SYSTEM CAPABILITY",
+                      "AVAILABLE" if scenario.technology_available.value == "YES" else "UNAVAILABLE", "",
+                      "BEFORE", scenario.before.behavior, "", "AFTER PROCESS CHANGE",
+                      scenario.after.behavior, "", "ROOT CAUSE", scenario.primary_residual_cause.value.replace("_", " "), ""])
+        if scenario.primary_residual_cause is ResidualCause.TECHNICAL_GAP:
+            lines.extend(["PROCESS CHANGE", "applied where relevant", "", "ACCOUNTING EVIDENCE",
+                          "still unavailable", "", "RESULT", "UNCHANGED"])
+        else:
+            label = ("process/data-quality exception eliminated" if scenario.scenario_id == "return-reason"
+                     else "missing-receipt exception eliminated" if scenario.scenario_id == "transfer-closure"
+                     else "process-caused exception eliminated" if outcome.eliminated
+                     else "UNCHANGED")
+            lines.extend(["RESULT", label])
+    return "\n".join(lines)
 
 
 def bi_reporting_report(selected_report: str | None = None) -> str:
