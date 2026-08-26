@@ -30,6 +30,7 @@ from .strong_native_suite import load_strong_native_suite, derive_verdict
 from .weak_native_coverage import (AnswerStatus as WeakAnswerStatus,
                                    GapClassification, derive_response,
                                    load_weak_native_coverage)
+from .custom_edge import CustomResult, run_custom_edge
 
 
 def _money(value: Decimal) -> str:
@@ -368,6 +369,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("acquired-store", help="run the Chapter 14 acquired Store #8 stress test")
     subparsers.add_parser("strong-native-suite", help="run the Chapter 15 strong native suite scenario")
     subparsers.add_parser("weak-native-coverage", help="run the Chapter 16 weak native coverage scenario")
+    subparsers.add_parser("custom-edge", help="run the Chapter 17 narrow custom-edge experiment")
     return parser
 
 
@@ -407,7 +409,42 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(strong_native_suite_report())
     elif args.command == "weak-native-coverage":
         print(weak_native_coverage_report())
+    elif args.command == "custom-edge":
+        print(custom_edge_report())
     return 0
+
+
+def custom_edge_report() -> str:
+    a = run_custom_edge()
+    lines = ["James River Outfitters", "Chapter 17 — The Narrow Custom Edge", "",
+      "Selected residual", "-----------------", f"Gap: {a.definition.name} ({a.definition.residual_gap_id})",
+      f"Affected questions: {', '.join(a.definition.affected_question_ids)}", f"Scope: {a.definition.scope.value}", "",
+      "BEST CONFIGURED ALTERNATIVE", "---------------------------",
+      "export → mapping → automation → BI → manual review",
+      f"Manual reviews required: {a.manual_review_before_custom}",
+      "Question status: " + ", ".join(f"{k}={v.value}" for k,v in a.before_question_statuses.items()),
+      f"Modeled residual burden: {_money(a.modeled_burden_before_custom)}", "",
+      "BEST CONFIGURED ALTERNATIVE + NARROW CUSTOM EDGE", "-------------------------------------------------",
+      "export → mapping → narrow rule → existing BI/automation → residual manual review"]
+    lines += [f"{result.value.replace('_', ' ')}: {a.counts[result]}" for result in CustomResult]
+    lines += [f"Manual reviews required: {a.manual_review_after_custom}",
+      f"Manual-review reduction ratio: {a.custom_edge_manual_review_reduction_ratio:.2%}", "",
+      "Required traces", "---------------"]
+    for outcome in a.outcomes:
+        if outcome.record_id not in {"CLEAN-1", "TRUE-X", "MISSING", "ACCOUNT", "PURCHASE", "ACQUIRED"}: continue
+        lines += ["RECORD", outcome.record_id, "AREA", outcome.area,
+                  "BEST CONFIGURED ALTERNATIVE", "manual review", "CUSTOM RULE", a.definition.rule_version,
+                  "RESULT", outcome.result.value.replace("_", " "), "RATIONALE", outcome.rationale, ""]
+    payback = (f"{a.simple_custom_edge_payback_years:.2f} years" if a.simple_custom_edge_payback_years is not None
+               else "NO POSITIVE SIMPLE PAYBACK")
+    lines += ["Incremental economics preview", "-----------------------------",
+      f"Modeled implementation effort: {sum(x.hours for x in a.effort):g} hours (MODELED ASSUMPTION)",
+      f"Modeled setup cost: {_money(a.modeled_custom_edge_setup_cost)}",
+      f"Annual custom support cost: {_money(a.annual_custom_edge_support_cost)}",
+      f"Modeled incremental burden reduction: {_money(a.modeled_incremental_burden_reduction)}",
+      f"Simple payback: {payback}", f"Custom-edge result: {a.decision.value}",
+      f"Rationale: {a.decision_rationale}", "Overall lab verdict: UNTESTED"]
+    return "\n".join(lines)
 
 
 def weak_native_coverage_report() -> str:
