@@ -32,6 +32,7 @@ from .weak_native_coverage import (AnswerStatus as WeakAnswerStatus,
                                    load_weak_native_coverage)
 from .custom_edge import CustomResult, run_custom_edge
 from .full_custom_counterfactual import load_full_custom_counterfactual
+from .economics import analyze_economics
 
 
 def _money(value: Decimal) -> str:
@@ -372,6 +373,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("weak-native-coverage", help="run the Chapter 16 weak native coverage scenario")
     subparsers.add_parser("custom-edge", help="run the Chapter 17 narrow custom-edge experiment")
     subparsers.add_parser("full-custom-counterfactual", help="run the Chapter 18 full-custom counterfactual")
+    subparsers.add_parser("economics", help="run the Chapter 19 modeled economic comparison")
     return parser
 
 
@@ -415,7 +417,37 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(custom_edge_report())
     elif args.command == "full-custom-counterfactual":
         print(full_custom_counterfactual_report())
+    elif args.command == "economics":
+        print(economics_report())
     return 0
+
+
+def economics_report() -> str:
+    a=analyze_economics(); r=a.rankings
+    lines=["James River Outfitters","Chapter 19 — Economics After Configuration","",
+      "Original annual burden: $111,020.00","Original recoverable annual value: $51,513.80","",
+      "Option comparison","-----------------",
+      f"{'OPTION':<34} {'SETUP':>11} {'RECURRING':>11} {'ADMIN':>9} {'SUPPORT':>10} {'RISK':>9} {'RESIDUAL':>12} {'1YR NET':>12} {'3YR NET':>12} {'PAYBACK':>9}"]
+    for x in a.options:
+        pay="N/A" if x.option_id=="do-nothing" else (f"{x.simple_payback_years:.2f} yr" if x.simple_payback_years is not None else "NO POSITIVE")
+        lines.append(f"{x.option_name:<34} {_money(x.setup_cost):>11} {_money(x.annual_platform_cash_cost):>11} {_money(x.annual_administration_cost):>9} {_money(x.annual_support_cost):>10} {_money(x.annual_risk_allowance):>9} {_money(x.annual_residual_operational_burden):>12} {_money(x.first_year_net_benefit):>12} {_money(x.three_year_net_benefit):>12} {pay:>9}")
+    lines += ["","Economic leaders","----------------",
+      f"Lowest first-year cost: {r['lowest_first_year_economic_cost'].option_name}",
+      f"Highest first-year net benefit: {r['highest_first_year_net_benefit'].option_name}",
+      f"Highest three-year net benefit: {r['highest_three_year_net_benefit'].option_name}",
+      f"Shortest positive payback: {r['shortest_positive_payback'].option_name if r['shortest_positive_payback'] else 'None'}",
+      f"Lowest residual burden: {r['lowest_residual_burden'].option_name}",
+      "Dominated options: "+(", ".join(a.dominated_options) or "None"),"",
+      "Sensitivity","-----------",f"Base: {a.sensitivities[0].base_leader}"]
+    lines += [f"{x.scenario.name}: {x.leader} — leader {'CHANGES' if x.leader_changed else 'stable'}" for x in a.sensitivities]
+    config=next(x for x in a.options if x.option_id=="buy-configure"); edge=next(x for x in a.options if x.option_id=="configure-narrow-edge"); auto=next(x for x in a.options if x.option_id=="configure-automation"); full=next(x for x in a.options if x.option_id=="full-custom")
+    lines += ["",f"Chapter economic result: {a.result.value}",a.result_rationale,"Overall lab verdict: UNTESTED","",
+      "Configuration-first economics","OPTION","BUY / CONFIGURE","SETUP",_money(config.setup_cost),"ANNUAL COSTS",f"platform: {_money(config.annual_platform_cash_cost)}",f"administration: {_money(config.annual_administration_cost)}",f"support: {_money(config.annual_support_cost)}",f"risk: {_money(config.annual_risk_allowance)}","RESIDUAL BURDEN",_money(config.annual_residual_operational_burden),"FIRST-YEAR NET BENEFIT",_money(config.first_year_net_benefit),"",
+      "Narrow custom incremental economics","OPTION","CONFIGURE + NARROW CUSTOM EDGE","ADDITIONAL SETUP",_money(edge.setup_cost-auto.setup_cost),"ADDITIONAL SUPPORT",_money(edge.annual_support_cost-auto.annual_support_cost),"ADDITIONAL BURDEN REDUCTION",_money(auto.annual_residual_operational_burden-edge.annual_residual_operational_burden),"PAYBACK",f"{edge.simple_payback_years:.2f} years" if edge.simple_payback_years else "NO POSITIVE SIMPLE PAYBACK","",
+      "Full custom economics","IMPLEMENTATION PRICE",_money(full.setup_cost),"ANNUAL FEE",_money(full.annual_platform_cash_cost),"BUYER FIRST-YEAR NET BENEFIT",_money(full.first_year_net_benefit),"Provider delivery cost is excluded from buyer totals.","",
+      "Recoverable-value guardrail",*[f"{x.option_name}: captured {_money(x.modeled_annual_recoverable_value_captured)} ({x.recoverable_value_capture_ratio:.1%}); annual net {'EXCEEDS' if x.recoverable_value_guardrail_exceeded else 'does not exceed'} ceiling" for x in a.options],"",
+      "Every financial result is modeled; no financial outcome is an observed customer result."]
+    return "\n".join(lines)
 
 
 def full_custom_counterfactual_report() -> str:

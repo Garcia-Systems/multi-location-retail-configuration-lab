@@ -68,6 +68,7 @@ python -m retail_configuration_lab strong-native-suite
 python -m retail_configuration_lab weak-native-coverage
 python -m retail_configuration_lab custom-edge
 python -m retail_configuration_lab full-custom-counterfactual
+python -m retail_configuration_lab economics
 python -m retail_configuration_lab --help
 ```
 
@@ -94,6 +95,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 17. [Chapter 16 — Weak Native Coverage Scenario](book/16-weak-native-coverage-scenario.md) — measures workaround sprawl, degraded question coverage, and bounded versus broad residuals when native semantics are weak.
 18. [Chapter 17 — The Narrow Custom Edge](book/17-the-narrow-custom-edge.md) — tests one deterministic cross-channel exception rule against the best configured alternative while preserving authoritative systems and explicit scope refusal.
 19. [Chapter 18 — Full Custom Counterfactual](book/18-full-custom-counterfactual.md) — models broad adapter, reconciliation, reliability, and support ownership against configuration plus the narrow edge.
+20. [Chapter 19 — Economics After Configuration](book/19-economics-after-configuration.md) — compares transparent modeled buyer setup, ownership, residual burden, risk, payback, and three-year economics.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -102,18 +104,24 @@ The Chapter 1 command loads and validates the structured inventory, reports unfi
 ```text
 ORIGINAL BUY / CONFIGURE HYPOTHESIS
         ↓
-CONFIGURE FIRST
+CONFIGURATION-FIRST IMPLEMENTATION
         ↓
-MEASURE RESIDUAL
+RESIDUAL BURDEN
+        ↓
+SUPPORT
+        ↓
+SCALING / FRAGMENTATION
+        ↓
+STRONG / WEAK NATIVE COVERAGE
         ↓
 NARROW CUSTOM EDGE
         ↓
 FULL CUSTOM COUNTERFACTUAL
         ↓
-COMPARE INCREMENTAL VALUE vs OWNERSHIP
+ECONOMIC COMPARISON
         ↓
 Next:
-Economics after configuration
+Capstone — Configure, Extend, Build, or Walk Away?
 ```
 
-The current lab verdict remains **UNTESTED**. Chapters 15 and 16 are synthetic sensitivity experiments, not claims about real vendors. Chapter 17 adds only the bounded edge; Chapter 18 models rather than implements the full-custom counterfactual. Neither chapter-specific result replaces the lab verdict.
+The current lab verdict remains **UNTESTED**. Chapters 15 and 16 are synthetic sensitivity experiments, not claims about real vendors. Chapter 17 adds only the bounded edge; Chapter 18 models rather than implements the full-custom counterfactual. Chapter 19 adds modeled economics, not a final decision. No chapter-specific result replaces the lab verdict.
