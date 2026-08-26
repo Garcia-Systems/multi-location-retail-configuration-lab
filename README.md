@@ -64,6 +64,7 @@ python -m retail_configuration_lab residual-gaps
 python -m retail_configuration_lab support-surface
 python -m retail_configuration_lab add-store
 python -m retail_configuration_lab acquired-store
+python -m retail_configuration_lab strong-native-suite
 python -m retail_configuration_lab --help
 ```
 
@@ -86,26 +87,23 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 13. [Chapter 12 — Configuration Support Surface](book/12-configuration-support-surface.md) — inventories recurring administration and support, separates labor from fictional platform cash cost, and reconciles Chapter 11 without double counting.
 14. [Chapter 13 — Add Store #7](book/13-add-store-7.md) — executes standardized growth and measures reused structure, new mappings, configuration, and capability growth.
 15. [Chapter 14 — Acquired Store Stress Test](book/14-acquired-store-stress-test.md) — contrasts standardized growth with a fragmented synthetic acquisition and keeps standardization, configuration, migration, a narrow edge, and deferral open.
+16. [Chapter 15 — Strong Native Suite Scenario](book/15-strong-native-suite-scenario.md) — tests whether broad fictional native coverage reduces the remaining custom need enough to justify configuration despite higher cash cost, migration, administration, and dependency.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
 ## Study path
 
 ```text
-BUY / CONFIGURE hypothesis
+STANDARDIZED CONFIGURATION
         ↓
-Configure standardized ecosystem
+FRAGMENTATION STRESS
         ↓
-Add standardized Store #7
+STRONG NATIVE SUITE
         ↓
-High-reuse control case
-        ↓
-Add fragmented acquired Store #8
-        ↓
-Measure fragmentation penalty
+Does custom shrink to nothing?
         ↓
 Next:
-Strong native suite scenario
+Weak native coverage scenario
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 14 observes synthetic fragmentation structure without converting object counts to labor or making claims about real acquisitions or vendors. Chapter 15 is not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 15 is a synthetic sensitivity experiment, not a claim about a real suite or vendor. Its scenario verdict does not replace the lab verdict, and Chapter 16 is not implemented.
