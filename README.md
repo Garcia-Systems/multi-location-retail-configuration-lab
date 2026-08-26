@@ -6,7 +6,7 @@ This compact Python textbook tests a configuration-first method against a wholly
 
 ## Starting hypothesis
 
-The earlier fictional cookbook verdict was **BUY / CONFIGURE**: it assumed that an existing alternative adequately met the need at materially lower cost or risk. The current lab status is **UNTESTED**.
+The earlier fictional cookbook verdict was **BUY / CONFIGURE**: it assumed that an existing alternative adequately met the need at materially lower cost or risk. The final lab verdict is **INVESTIGATE** and the original hypothesis is **WEAKENED**.
 
 > The original BUY / CONFIGURE verdict is an input hypothesis, not a conclusion of this executable lab.
 
@@ -69,6 +69,7 @@ python -m retail_configuration_lab weak-native-coverage
 python -m retail_configuration_lab custom-edge
 python -m retail_configuration_lab full-custom-counterfactual
 python -m retail_configuration_lab economics
+python -m retail_configuration_lab capstone
 python -m retail_configuration_lab --help
 ```
 
@@ -96,32 +97,39 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 18. [Chapter 17 — The Narrow Custom Edge](book/17-the-narrow-custom-edge.md) — tests one deterministic cross-channel exception rule against the best configured alternative while preserving authoritative systems and explicit scope refusal.
 19. [Chapter 18 — Full Custom Counterfactual](book/18-full-custom-counterfactual.md) — models broad adapter, reconciliation, reliability, and support ownership against configuration plus the narrow edge.
 20. [Chapter 19 — Economics After Configuration](book/19-economics-after-configuration.md) — compares transparent modeled buyer setup, ownership, residual burden, risk, payback, and three-year economics.
+21. [Chapter 20 — Capstone: Configure, Extend, Build, or Walk Away?](book/20-capstone-configure-extend-build-or-walk-away.md) — synthesizes all gates, economics, ownership boundaries, and discovery requirements into the final verdict.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
-## Study path
+## Final result and study path
+
+**Original cookbook verdict:** BUY / CONFIGURE
+**Final lab verdict:** INVESTIGATE
+**Effect:** WEAKENED
+
+Chapter 19 splits the economic result: BUY / CONFIGURE leads first-year net benefit while FULL CUSTOM leads three-year net benefit, so economics are TOO CLOSE. Configuration achieves meaningful coverage with manageable support and strong standardized Store #7 reuse, but broad residuals, Store #8 fragmentation, and high native-platform dependence prevent a commitment before discovery.
 
 ```text
-ORIGINAL BUY / CONFIGURE HYPOTHESIS
-        ↓
-CONFIGURATION-FIRST IMPLEMENTATION
-        ↓
-RESIDUAL BURDEN
-        ↓
-SUPPORT
-        ↓
-SCALING / FRAGMENTATION
-        ↓
-STRONG / WEAK NATIVE COVERAGE
-        ↓
-NARROW CUSTOM EDGE
-        ↓
-FULL CUSTOM COUNTERFACTUAL
-        ↓
-ECONOMIC COMPARISON
-        ↓
-Next:
-Capstone — Configure, Extend, Build, or Walk Away?
+BUSINESS QUESTION → EXISTING CAPABILITY → STANDARDIZE → CONFIGURE
+→ NATIVE INTEGRATE → AUTOMATE → REPORT → CHANGE PROCESS
+→ MEASURE RESIDUAL → CUSTOM EDGE ONLY IF MATERIAL → COMPARE ECONOMICS
+→ CONFIGURE / EXTEND / BUILD / STANDARDIZE / INVESTIGATE / WALK AWAY
 ```
 
-The current lab verdict remains **UNTESTED**. Chapters 15 and 16 are synthetic sensitivity experiments, not claims about real vendors. Chapter 17 adds only the bounded edge; Chapter 18 models rather than implements the full-custom counterfactual. Chapter 19 adds modeled economics, not a final decision. No chapter-specific result replaces the lab verdict.
+### Custom-software boundary
+
+No material custom ownership is currently authorized. If discovery validates the bounded Chapter 17 residual, custom may own only its deterministic exception rule, provenance, fail-closed transformation, and workflow output. It should not own POS, inventory, purchasing, returns, accounting, broad synchronization, or dashboards.
+
+### Scaling and scenario lesson
+
+Store #7 demonstrates strong reuse under standardized growth. Fragmented Store #8 demonstrates that acquisitions may require standardization or migration before integration. Strong native coverage makes configuration more plausible; weak native coverage creates workaround sprawl and broad gaps.
+
+### Discovery checklist and unknowns
+
+Verify identifier standardization; authoritative systems; supported integrations; unanswered Chapter 2 questions; actual manual and support burden; growth/acquisition shape; platform fragmentation; bounded-gap materiality; accounting evidence; process causes; migration preference; real volumes, labor, licensing, API behavior, historical quality, and change-management cost. The executable structured checklist is `data/final_verdict.json`.
+
+### Recommended study path
+
+Read Chapters 0–2 for the hypothesis and evidence contracts; 3–10 for the intervention ladder; 11–12 for residual/support ownership; 13–16 for scaling and platform sensitivity; 17–19 for custom boundaries and economics; then run Chapter 20 for the decision.
+
+The final conclusion is a synthetic lab result, not a sales promise. Run `python -m retail_configuration_lab capstone` for its evidence chain. Chapters 0–19 retain historical `UNTESTED` text where they describe the state at that point in the experiment.

@@ -33,6 +33,7 @@ from .weak_native_coverage import (AnswerStatus as WeakAnswerStatus,
 from .custom_edge import CustomResult, run_custom_edge
 from .full_custom_counterfactual import load_full_custom_counterfactual
 from .economics import analyze_economics
+from .capstone import run_capstone
 
 
 def _money(value: Decimal) -> str:
@@ -374,6 +375,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("custom-edge", help="run the Chapter 17 narrow custom-edge experiment")
     subparsers.add_parser("full-custom-counterfactual", help="run the Chapter 18 full-custom counterfactual")
     subparsers.add_parser("economics", help="run the Chapter 19 modeled economic comparison")
+    subparsers.add_parser("capstone", help="run the Chapter 20 final evidence synthesis")
     return parser
 
 
@@ -419,7 +421,31 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(full_custom_counterfactual_report())
     elif args.command == "economics":
         print(economics_report())
+    elif args.command == "capstone":
+        print(capstone_report())
     return 0
+
+
+def capstone_report() -> str:
+    d=run_capstone(); g=d.gates
+    lines=["James River Outfitters","Chapter 20 — Capstone: Configure, Extend, Build, or Walk Away?","",
+      "Original cookbook verdict","-------------------------",d.original_cookbook_verdict,"",
+      "Final lab verdict","-----------------",d.final_verdict.value,"",
+      "Effect on original hypothesis","-----------------------------",d.hypothesis_effect.value,"",
+      "Key evidence","------------",
+      f"Existing capability sufficiency: {g['existing_capability_sufficiency']}",
+      f"Residual materiality: {g['residual_materiality']}",f"Configuration support burden: {g['support_burden']}",
+      f"Standardized scaling: {g['scaling']}",f"Fragmentation sensitivity: {g['fragmentation_sensitivity']}",
+      f"Native-coverage sensitivity: {g['native_coverage_sensitivity']}",f"Narrow custom value: {g['narrow_custom_value']}",
+      f"Full-custom incremental value: {g['full_custom_value']}",f"Economic robustness: {g['economics']}",
+      f"Chapter 19 economic leader: {d.economic_leader}",f"First-year economic leader: {d.first_year_leader}",
+      f"Three-year economic leader: {d.three_year_leader}","Sensitivity: modeled scenarios preserve the three-year leader, but the time-horizon leaders disagree.","",
+      "Why","---",d.rationales['technical'],d.rationales['business_question_coverage'],d.rationales['decision'],"",
+      "Remaining material problem","--------------------------",d.remaining_material_problem,"",
+      "Custom software boundary","------------------------","WHAT CUSTOM SOFTWARE SHOULD OWN",
+      *[f"- {x}" for x in d.custom_software_should_own],"WHAT CUSTOM SOFTWARE SHOULD NOT OWN",*[f"- {x}" for x in d.custom_software_should_not_own],"",
+      "Discovery required","------------------",*[f"- {x}" for x in d.discovery_conditions],"",f"FINAL VERDICT: {d.final_verdict.value}"]
+    return "\n".join(lines)
 
 
 def economics_report() -> str:
