@@ -7,6 +7,8 @@ from typing import Sequence
 from .baseline import assess, load_baseline
 from .capabilities import analyze_inventory, load_inventory
 from .models import CapabilityStatus
+from .models import QuestionCoverageStatus, QuestionType
+from .questions import analyze_questions, load_questions
 
 
 def _money(value: Decimal) -> str:
@@ -88,6 +90,66 @@ def capabilities_report(area: str | None = None, status: str | None = None) -> s
     return "\n".join(lines)
 
 
+def questions_report(
+    area: str | None = None, coverage: str | None = None,
+    owner: str | None = None, question_id: str | None = None,
+) -> str:
+    """Render full analysis and a filtered question inventory or one-question trace."""
+    inventory = load_questions()
+    analysis = analyze_questions(inventory)
+    selected_coverage = QuestionCoverageStatus(coverage) if coverage else None
+    rows = [item for item in inventory.questions
+            if (area is None or item.business_area.casefold() == area.casefold())
+            and (selected_coverage is None or item.coverage_status is selected_coverage)
+            and (owner is None or item.primary_owner.casefold() == owner.casefold())
+            and (question_id is None or item.question_id.casefold() == question_id.casefold())]
+    lines = [
+        inventory.customer_name,
+        "Chapter 2 — Define the Business Questions", "",
+        f"Business questions: {analysis.total_business_questions}", "", "By type:",
+    ]
+    lines.extend(f"{kind.value}: {analysis.count_by_question_type[kind]}" for kind in QuestionType)
+    lines.extend(["", "Coverage hypothesis:"])
+    lines.extend(
+        f"{status.value.replace('_', ' ')}: {analysis.count_by_coverage_status[status]}"
+        for status in QuestionCoverageStatus
+    )
+    lines.extend([
+        "", "Capability coverage is a hypothesis derived from modeled inventory. "
+        "It is not evidence that the business question has been solved.",
+        "DIRECT does not mean SOLVED.", "", "Current lab verdict: UNTESTED", "",
+    ])
+    if question_id:
+        lines.append("Question trace")
+        if not rows:
+            lines.append("No question matches the requested ID and filters.")
+        for item in rows:
+            lines.extend([
+                "BUSINESS QUESTION", item.question_text, "        ↓", "OWNER", item.primary_owner,
+                "        ↓", "DECISION / ACTION", item.decision_action, "        ↓",
+                "REQUIRED EVIDENCE", *[f"- {field}" for field in item.required_evidence],
+                "        ↓", "FRESHNESS", item.freshness.value, "        ↓",
+                "RELATED CAPABILITIES", ", ".join(item.related_capability_ids) or "None known",
+                "        ↓", "COVERAGE HYPOTHESIS", item.coverage_status.value.replace("_", " "),
+            ])
+        return "\n".join(lines)
+    lines.extend([
+        "Question inventory" + (" (filtered questions)" if area or coverage or owner else ""),
+        f"{'ID':<9} {'OWNER':<28} QUESTION", "-" * 100,
+    ])
+    for item in rows:
+        lines.extend([
+            f"{item.question_id:<9} {item.primary_owner:<28} {item.question_text}", "",
+            f"Type: {item.question_type.value}", f"Freshness: {item.freshness.value}",
+            f"Scope: {item.scope.value.replace('_', ' ')}", f"Action: {item.decision_action}",
+            f"Coverage: {item.coverage_status.value.replace('_', ' ')}",
+            "Capabilities: " + (", ".join(item.related_capability_ids) or "None known"), "",
+        ])
+    if not rows:
+        lines.append("No business questions match the requested filters.")
+    return "\n".join(lines)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the synthetic retail configuration lab.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -100,6 +162,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--status", choices=[status.value for status in CapabilityStatus],
         help="show matrix rows for one capability status",
     )
+    questions = subparsers.add_parser(
+        "questions", help="print the Chapter 2 fictional business questions"
+    )
+    questions.add_argument("--area", help="show questions for one business area")
+    questions.add_argument("--coverage", choices=[item.value for item in QuestionCoverageStatus])
+    questions.add_argument("--owner", help="show questions assigned to one primary owner")
+    questions.add_argument("--id", dest="question_id", help="trace one business question")
     return parser
 
 
@@ -109,4 +178,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(baseline_report())
     elif args.command == "capabilities":
         print(capabilities_report(args.area, args.status))
+    elif args.command == "questions":
+        print(questions_report(args.area, args.coverage, args.owner, args.question_id))
     return 0

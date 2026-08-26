@@ -20,6 +20,49 @@ class CapabilityStatus(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
+class FreshnessRequirement(StrEnum):
+    """How current evidence must be to support the intended action."""
+
+    REAL_TIME = "REAL_TIME"
+    NEAR_REAL_TIME = "NEAR_REAL_TIME"
+    DAILY = "DAILY"
+    WEEKLY = "WEEKLY"
+    PERIOD_CLOSE = "PERIOD_CLOSE"
+    ON_DEMAND = "ON_DEMAND"
+
+
+class QuestionType(StrEnum):
+    """The small Chapter 2 vocabulary of business-question purposes."""
+
+    DESCRIPTIVE = "DESCRIPTIVE"
+    EXCEPTION = "EXCEPTION"
+    RECONCILIATION = "RECONCILIATION"
+    DECISION = "DECISION"
+    CONTROL = "CONTROL"
+
+
+class QuestionScope(StrEnum):
+    """Explicit boundaries for a question rather than scope inferred from prose."""
+
+    SINGLE_STORE = "SINGLE_STORE"
+    ALL_STORES = "ALL_STORES"
+    CROSS_STORE = "CROSS_STORE"
+    ECOMMERCE_CHANNEL = "ECOMMERCE_CHANNEL"
+    CROSS_CHANNEL = "CROSS_CHANNEL"
+    PURCHASING = "PURCHASING"
+    ENTERPRISE_WIDE = "ENTERPRISE_WIDE"
+
+
+class QuestionCoverageStatus(StrEnum):
+    """Diagnostic relationship to Chapter 1—not proof of a working solution."""
+
+    DIRECT = "DIRECT"
+    PARTIAL = "PARTIAL"
+    MULTIPLE_CAPABILITIES_REQUIRED = "MULTIPLE_CAPABILITIES_REQUIRED"
+    NO_KNOWN_CAPABILITY = "NO_KNOWN_CAPABILITY"
+    UNKNOWN = "UNKNOWN"
+
+
 class BaselineValidationError(ValueError):
     """Raised when baseline input cannot represent a valid synthetic case."""
 

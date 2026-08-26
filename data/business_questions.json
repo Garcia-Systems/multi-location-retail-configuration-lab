@@ -1,0 +1,523 @@
+{
+  "customer_name": "James River Outfitters",
+  "fictional_requirements": true,
+  "stakeholder_roles": [
+    {
+      "name": "Central Operations Manager",
+      "responsibilities": [
+        "prioritize cross-store exceptions",
+        "coordinate operational follow-up"
+      ]
+    },
+    {
+      "name": "Inventory Manager",
+      "responsibilities": [
+        "investigate stock discrepancies",
+        "govern inventory adjustment follow-up"
+      ]
+    },
+    {
+      "name": "Purchasing Manager",
+      "responsibilities": [
+        "review purchase and receiving exceptions",
+        "coordinate supplier follow-up"
+      ]
+    },
+    {
+      "name": "Finance / Accounting",
+      "responsibilities": [
+        "reconcile operational and accounting records",
+        "manage period-close controls"
+      ]
+    },
+    {
+      "name": "E-Commerce Operations",
+      "responsibilities": [
+        "resolve online fulfillment exceptions",
+        "review cancellation and return effects"
+      ]
+    },
+    {
+      "name": "Store Manager",
+      "responsibilities": [
+        "act on store sales, return, receiving, and transfer exceptions"
+      ]
+    }
+  ],
+  "business_questions": [
+    {
+      "question_id": "SAL-01",
+      "business_area": "Sales",
+      "question_text": "What sold by store during the selected period?",
+      "primary_owner": "Central Operations Manager",
+      "decision_action": "Compare store performance and choose where operational review is warranted.",
+      "required_evidence": [
+        "store ID",
+        "transaction date",
+        "SKU",
+        "quantity",
+        "net sales amount"
+      ],
+      "freshness": "ON_DEMAND",
+      "scope": "ALL_STORES",
+      "importance_rationale": "A bounded store-period view supports comparison without asking for every possible metric.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "DESCRIPTIVE",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "sales-store",
+        "sales-sku",
+        "sales-period"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "SAL-02",
+      "business_area": "Sales",
+      "question_text": "What sold by channel during the selected period?",
+      "primary_owner": "E-Commerce Operations",
+      "decision_action": "Compare channel activity and investigate material channel differences.",
+      "required_evidence": [
+        "channel ID",
+        "transaction date",
+        "SKU",
+        "quantity",
+        "net sales amount"
+      ],
+      "freshness": "WEEKLY",
+      "scope": "CROSS_CHANNEL",
+      "importance_rationale": "Channel evidence informs operating review while avoiding unnecessary real-time delivery.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "DESCRIPTIVE",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "sales-channel",
+        "sales-sku",
+        "sales-period"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "SAL-03",
+      "business_area": "Sales",
+      "question_text": "Which sales or return patterns exceed management review thresholds?",
+      "primary_owner": "Central Operations Manager",
+      "decision_action": "Assign material sales or return exceptions for investigation.",
+      "required_evidence": [
+        "store ID",
+        "channel ID",
+        "period",
+        "gross sales",
+        "return quantity",
+        "return amount",
+        "review threshold"
+      ],
+      "freshness": "WEEKLY",
+      "scope": "CROSS_CHANNEL",
+      "importance_rationale": "Management needs exceptions rather than an unrestricted dashboard.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "EXCEPTION",
+      "coverage_status": "NO_KNOWN_CAPABILITY",
+      "related_capability_ids": [],
+      "known_limitations": [
+        "Chapter 1 has no reusable cross-channel exception logic"
+      ],
+      "unresolved_discovery_notes": [
+        "Define material review thresholds with stakeholders"
+      ]
+    },
+    {
+      "question_id": "INV-01",
+      "business_area": "Inventory",
+      "question_text": "Which store/SKU inventory mismatches remain unresolved at the end of the daily operating period?",
+      "primary_owner": "Inventory Manager",
+      "decision_action": "Investigate material inventory discrepancies.",
+      "required_evidence": [
+        "store ID",
+        "SKU",
+        "expected quantity",
+        "recorded quantity",
+        "variance",
+        "resolution status",
+        "as-of time"
+      ],
+      "freshness": "DAILY",
+      "scope": "ALL_STORES",
+      "importance_rationale": "Unresolved store/SKU variances can misstate availability and require named follow-up.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "EXCEPTION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "inventory-store",
+        "inventory-sku",
+        "inventory-history"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "INV-02",
+      "business_area": "Inventory",
+      "question_text": "Where do inventory adjustments appear unusual or remain unresolved?",
+      "primary_owner": "Inventory Manager",
+      "decision_action": "Review adjustment cause, authorization, and corrective action.",
+      "required_evidence": [
+        "adjustment ID",
+        "store ID",
+        "SKU",
+        "quantity",
+        "reason",
+        "timestamp",
+        "resolution status"
+      ],
+      "freshness": "DAILY",
+      "scope": "ALL_STORES",
+      "importance_rationale": "Unusual adjustments can expose process failures or stock loss.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "EXCEPTION",
+      "coverage_status": "PARTIAL",
+      "related_capability_ids": [
+        "inventory-adjust",
+        "inventory-history"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": [
+        "Agree unusual-adjustment thresholds"
+      ]
+    },
+    {
+      "question_id": "INV-03",
+      "business_area": "Inventory",
+      "question_text": "Which inventory discrepancies may be caused by store or SKU identity mapping problems?",
+      "primary_owner": "Inventory Manager",
+      "decision_action": "Route suspected identity problems to discovery rather than treating them as stock movement.",
+      "required_evidence": [
+        "source system",
+        "source store ID",
+        "source SKU",
+        "compared store ID",
+        "compared SKU",
+        "variance",
+        "mapping validation result"
+      ],
+      "freshness": "DAILY",
+      "scope": "CROSS_STORE",
+      "importance_rationale": "Separating identity defects from physical discrepancies avoids the wrong corrective action.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "RECONCILIATION",
+      "coverage_status": "UNKNOWN",
+      "related_capability_ids": [
+        "inventory-sku",
+        "inventory-location",
+        "auto-mapping"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": [
+        "Identity reliability is deliberately untested until Chapter 3"
+      ]
+    },
+    {
+      "question_id": "ECOM-01",
+      "business_area": "E-commerce",
+      "question_text": "Which online orders cannot be reconciled to the expected fulfillment store?",
+      "primary_owner": "E-Commerce Operations",
+      "decision_action": "Correct or escalate fulfillment-location exceptions.",
+      "required_evidence": [
+        "online order ID",
+        "channel",
+        "fulfillment location",
+        "order status",
+        "SKU",
+        "quantity"
+      ],
+      "freshness": "NEAR_REAL_TIME",
+      "scope": "ECOMMERCE_CHANNEL",
+      "importance_rationale": "Location exceptions can delay fulfillment, while synchronous evidence is not assumed necessary.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "RECONCILIATION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "commerce-order",
+        "commerce-fulfillment",
+        "commerce-sku",
+        "inventory-location"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "ECOM-02",
+      "business_area": "E-commerce",
+      "question_text": "Which online cancellations or returns produced unresolved inventory effects?",
+      "primary_owner": "E-Commerce Operations",
+      "decision_action": "Investigate and correct unresolved stock effects from cancelled or returned orders.",
+      "required_evidence": [
+        "online order ID",
+        "event type",
+        "event timestamp",
+        "fulfillment store",
+        "SKU",
+        "quantity",
+        "expected inventory effect",
+        "recorded inventory effect"
+      ],
+      "freshness": "DAILY",
+      "scope": "ECOMMERCE_CHANNEL",
+      "importance_rationale": "Unresolved effects can make sellable stock unreliable.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "EXCEPTION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "commerce-cancel",
+        "commerce-return",
+        "commerce-impact",
+        "return-inventory"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "TRN-01",
+      "business_area": "Transfers",
+      "question_text": "Which transfers were sent but not recorded as received?",
+      "primary_owner": "Inventory Manager",
+      "decision_action": "Investigate receiving or transfer-recording exceptions.",
+      "required_evidence": [
+        "transfer ID",
+        "sending store",
+        "receiving store",
+        "sent timestamp/status",
+        "received timestamp/status",
+        "SKU",
+        "quantity"
+      ],
+      "freshness": "DAILY",
+      "scope": "CROSS_STORE",
+      "importance_rationale": "Missing receipts obscure location stock and ownership.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "CONTROL",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "transfer-id",
+        "transfer-from",
+        "transfer-to",
+        "transfer-sent",
+        "transfer-received",
+        "transfer-unresolved"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "TRN-02",
+      "business_area": "Transfers",
+      "question_text": "Which transfer quantities disagree between sending and receiving locations?",
+      "primary_owner": "Inventory Manager",
+      "decision_action": "Resolve quantity differences with the sending and receiving stores.",
+      "required_evidence": [
+        "transfer ID",
+        "sending store",
+        "receiving store",
+        "SKU",
+        "sent quantity",
+        "received quantity",
+        "difference"
+      ],
+      "freshness": "DAILY",
+      "scope": "CROSS_STORE",
+      "importance_rationale": "Quantity disagreement indicates stock or process records need correction.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "RECONCILIATION",
+      "coverage_status": "PARTIAL",
+      "related_capability_ids": [
+        "transfer-id",
+        "transfer-from",
+        "transfer-to"
+      ],
+      "known_limitations": [
+        "Chapter 1 does not explicitly establish sent and received quantity fields"
+      ],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "RET-01",
+      "business_area": "Returns",
+      "question_text": "Which returns disagree across transaction, inventory, or accounting evidence?",
+      "primary_owner": "Finance / Accounting",
+      "decision_action": "Determine whether transaction, stock, or accounting correction is required.",
+      "required_evidence": [
+        "return ID",
+        "original transaction ID",
+        "return store",
+        "SKU",
+        "quantity",
+        "inventory effect",
+        "accounting effect"
+      ],
+      "freshness": "PERIOD_CLOSE",
+      "scope": "ENTERPRISE_WIDE",
+      "importance_rationale": "Cross-record disagreement affects close accuracy and operational stock.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "RECONCILIATION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "return-original",
+        "return-store",
+        "return-inventory",
+        "return-accounting",
+        "acct-return",
+        "acct-reconcile"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "RET-02",
+      "business_area": "Returns",
+      "question_text": "Which returns are missing useful reason information?",
+      "primary_owner": "Store Manager",
+      "decision_action": "Complete reason information or correct the return workflow.",
+      "required_evidence": [
+        "return ID",
+        "return store",
+        "return timestamp",
+        "reason code",
+        "reason completeness status"
+      ],
+      "freshness": "DAILY",
+      "scope": "ALL_STORES",
+      "importance_rationale": "Missing reasons prevent targeted operational improvement.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "CONTROL",
+      "coverage_status": "DIRECT",
+      "related_capability_ids": [
+        "return-reason"
+      ],
+      "known_limitations": [
+        "Historical reason-code completeness is unknown"
+      ],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "PUR-01",
+      "business_area": "Purchasing",
+      "question_text": "Which purchase orders or receipts require purchasing attention?",
+      "primary_owner": "Purchasing Manager",
+      "decision_action": "Determine whether buyer, receiving, or supplier follow-up is required.",
+      "required_evidence": [
+        "purchase order ID",
+        "supplier ID",
+        "PO status",
+        "expected date",
+        "receiving status",
+        "ordered quantity",
+        "received quantity",
+        "exception reason"
+      ],
+      "freshness": "DAILY",
+      "scope": "PURCHASING",
+      "importance_rationale": "A focused exception queue prevents indiscriminate PO review.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "DECISION",
+      "coverage_status": "DIRECT",
+      "related_capability_ids": [
+        "po-exceptions"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "PUR-02",
+      "business_area": "Purchasing",
+      "question_text": "Which receiving discrepancies remain unresolved?",
+      "primary_owner": "Purchasing Manager",
+      "decision_action": "Assign unresolved receiving differences to store, purchasing, or supplier follow-up.",
+      "required_evidence": [
+        "purchase order ID",
+        "receipt ID",
+        "supplier ID",
+        "location",
+        "ordered quantity",
+        "received quantity",
+        "resolution status"
+      ],
+      "freshness": "DAILY",
+      "scope": "PURCHASING",
+      "importance_rationale": "Unresolved receipts affect supplier follow-up, stock, and liabilities.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "EXCEPTION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "po-orders",
+        "po-supplier",
+        "po-receiving",
+        "po-quantity"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "FIN-01",
+      "business_area": "Finance/accounting",
+      "question_text": "Which operational sales, return, or purchasing records fail to reconcile with accounting evidence?",
+      "primary_owner": "Finance / Accounting",
+      "decision_action": "Investigate missing, duplicate, or differing accounting postings before close.",
+      "required_evidence": [
+        "source record ID",
+        "record type",
+        "store ID",
+        "operational amount",
+        "accounting amount",
+        "posting status",
+        "difference"
+      ],
+      "freshness": "PERIOD_CLOSE",
+      "scope": "ENTERPRISE_WIDE",
+      "importance_rationale": "Close controls require explainable agreement with operational records.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "RECONCILIATION",
+      "coverage_status": "MULTIPLE_CAPABILITIES_REQUIRED",
+      "related_capability_ids": [
+        "acct-sales",
+        "acct-return",
+        "acct-purchase",
+        "acct-location",
+        "acct-reconcile"
+      ],
+      "known_limitations": [],
+      "unresolved_discovery_notes": []
+    },
+    {
+      "question_id": "MGT-01",
+      "business_area": "Management",
+      "question_text": "What is the smallest cross-store exception briefing central management needs this week?",
+      "primary_owner": "Central Operations Manager",
+      "decision_action": "Prioritize and assign the material unresolved exceptions needing central coordination.",
+      "required_evidence": [
+        "exception ID",
+        "business area",
+        "store or channel",
+        "materiality",
+        "age",
+        "owner",
+        "resolution status",
+        "next action"
+      ],
+      "freshness": "WEEKLY",
+      "scope": "ENTERPRISE_WIDE",
+      "importance_rationale": "A small action briefing reduces noise and dashboard-for-dashboard's-sake work.",
+      "evidence_category": "MODELED ASSUMPTION",
+      "question_type": "DECISION",
+      "coverage_status": "NO_KNOWN_CAPABILITY",
+      "related_capability_ids": [],
+      "known_limitations": [
+        "No established capability combines governed exceptions across business areas"
+      ],
+      "unresolved_discovery_notes": [
+        "Agree inclusion thresholds and escalation ownership"
+      ]
+    }
+  ]
+}
