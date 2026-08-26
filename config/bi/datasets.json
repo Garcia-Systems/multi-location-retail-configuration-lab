@@ -1,0 +1,12 @@
+{
+  "platform": "RiverBI",
+  "modeled_capability": "MODELED ALTERNATIVE ASSUMPTION",
+  "datasets": [
+    {"id":"cross_store_sales","sources":["chapter4_native_sales"],"fields":["store","canonical_sku","category","period","gross_sales","returns","net_sales","units"],"canonical_dimensions":["canonical_store","canonical_sku","canonical_product_category"],"relationships":[]},
+    {"id":"inventory_exceptions","sources":["chapter5_channel_reconciliation","chapter7_returns","chapter7_transfers"],"fields":["exception_id","store","canonical_sku","exception_type","source_evidence","expected_effect","observed_effect","status"],"canonical_dimensions":["canonical_store","canonical_sku"],"relationships":["canonical_store","canonical_sku"]},
+    {"id":"purchasing_exceptions","sources":["chapter6_purchasing_reconciliation"],"fields":["po","supplier","destination_store","canonical_sku","ordered_quantity","received_quantity","reconciliation_result","external_accounting_evidence_required"],"canonical_dimensions":["canonical_store","canonical_sku","canonical_supplier"],"relationships":["canonical_store","canonical_sku","canonical_supplier"]},
+    {"id":"return_exceptions","sources":["chapter7_returns"],"fields":["return_id","original_reference","original_channel","return_store","canonical_sku","reason","reconciliation_result","inventory_effect"],"canonical_dimensions":["canonical_store","canonical_sku","canonical_channel"],"relationships":["canonical_store","canonical_sku","canonical_channel"]},
+    {"id":"transfer_exceptions","sources":["chapter7_transfers"],"fields":["transfer_id","sending_store","receiving_store","canonical_sku","quantity_sent","quantity_received","transfer_result"],"canonical_dimensions":["canonical_store","canonical_sku"],"relationships":["canonical_store","canonical_sku"]},
+    {"id":"channel_reconciliation","sources":["chapter5_channel_reconciliation"],"fields":["online_order","channel","fulfillment_store","canonical_sku","order_status","reconciliation_result","unresolved_issue"],"canonical_dimensions":["canonical_store","canonical_sku","canonical_channel"],"relationships":["canonical_store","canonical_sku","canonical_channel"]}
+  ]
+}

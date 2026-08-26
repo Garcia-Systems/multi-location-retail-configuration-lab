@@ -1,0 +1,8 @@
+{"metrics":[
+  {"id":"NET_SALES","dataset":"cross_store_sales","field":"net_sales","aggregation":"SUM","question_id":"SAL-01"},
+  {"id":"OPEN_TRANSFER_EXCEPTIONS","dataset":"transfer_exceptions","field":"transfer_id","aggregation":"COUNT","question_id":"TRN-01"},
+  {"id":"OPEN_PURCHASING_EXCEPTIONS","dataset":"purchasing_exceptions","field":"po","aggregation":"COUNT","question_id":"PUR-01"},
+  {"id":"RETURN_DATA_QUALITY_EXCEPTIONS","dataset":"return_exceptions","field":"return_id","aggregation":"COUNT","question_id":"RET-02"},
+  {"id":"CHANNEL_RECONCILIATION_EXCEPTIONS","dataset":"channel_reconciliation","field":"online_order","aggregation":"COUNT","question_id":"ECOM-01"},
+  {"id":"INVENTORY_EFFECT_EXCEPTIONS","dataset":"inventory_exceptions","field":"exception_id","aggregation":"COUNT","question_id":"INV-01"}
+]}

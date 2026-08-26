@@ -1,0 +1,7 @@
+{"exception_views":[
+  {"id":"actionable_inventory","dataset":"inventory_exceptions","filter":{"field":"status","operator":"NOT_IN","values":["RECONCILED"]}},
+  {"id":"actionable_purchasing","dataset":"purchasing_exceptions","filter":{"field":"reconciliation_result","operator":"NOT_IN","values":["RECONCILED"]}},
+  {"id":"actionable_returns","dataset":"return_exceptions","filter":{"field":"reconciliation_result","operator":"NOT_IN","values":["RECONCILED","CROSS_STORE_RECONCILED"]}},
+  {"id":"actionable_transfers","dataset":"transfer_exceptions","filter":{"field":"transfer_result","operator":"IN","values":["MISSING_RECEIPT","PARTIAL_RECEIPT","OVER_RECEIPT","LOCATION_EXCEPTION","INVENTORY_EFFECT_EXCEPTION","UNRESOLVED_IDENTITY"]}},
+  {"id":"actionable_channel","dataset":"channel_reconciliation","filter":{"field":"reconciliation_result","operator":"NOT_IN","values":["RECONCILED"]}}
+]}

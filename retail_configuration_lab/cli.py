@@ -19,6 +19,7 @@ from .returns_transfers import (
     ReturnResult, TransferResult, run_returns_transfers_experiment,
 )
 from .automation import ExecutionStatus, run_automation_experiment
+from .bi_reporting import BIQuestionStatus, run_bi_reporting
 
 
 def _money(value: Decimal) -> str:
@@ -347,6 +348,9 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("purchasing", help="run the Chapter 6 purchasing configuration experiment")
     subparsers.add_parser("returns-transfers", help="run the Chapter 7 returns/transfers experiment")
     subparsers.add_parser("automation", help="run the Chapter 8 bounded automation experiment")
+    bi = subparsers.add_parser("bi-reporting", help="run the Chapter 9 configured BI experiment")
+    bi.add_argument("--report", choices=["management-briefing", "transfer-exceptions"],
+                    help="show only one compact report after the experiment summary")
     return parser
 
 
@@ -370,7 +374,54 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(returns_transfers_report())
     elif args.command == "automation":
         print(automation_report())
+    elif args.command == "bi-reporting":
+        print(bi_reporting_report(args.report))
     return 0
+
+
+def bi_reporting_report(selected_report: str | None = None) -> str:
+    result = run_bi_reporting(); before, after = result.count_before, result.count_after
+    labels = ((BIQuestionStatus.ANSWERED, "ANSWERED"),
+              (BIQuestionStatus.PARTIALLY_ANSWERED, "PARTIALLY ANSWERED"),
+              (BIQuestionStatus.NOT_ANSWERED, "NOT ANSWERED"),
+              (BIQuestionStatus.UNKNOWN, "UNKNOWN"))
+    lines = ["James River Outfitters", "Chapter 9 — BI / Reporting Configuration", "",
+        f"Configured datasets/views: {result.configured_datasets_views}",
+        f"Configured reports: {len(result.configuration.reports)}", "",
+        "Question coverage before BI", "---------------------------",
+        *[f"{label}: {before[status]}" for status, label in labels], "",
+        "Question coverage after BI", "--------------------------",
+        *[f"{label}: {after[status]}" for status, label in labels], "",
+        "Questions improved by BI: " + ", ".join(result.questions_improved_by_bi),
+        f"BI question answer rate: {result.bi_question_answer_rate:.2%}",
+        f"Incremental questions answered: {result.bi_incremental_question_gain}",
+        f"Exception records surfaced in management briefing: {result.exception_records_surfaced}", "",
+        f"Manual reporting steps before: {result.manual_reporting_steps_before}",
+        f"Manual reporting steps after: {result.manual_reporting_steps_after}",
+        f"Manual reporting step reduction ratio: {result.manual_reporting_step_reduction_ratio:.2%}",
+        "  Assembly/presentation work only; investigation remains.", "",
+        "QUESTION", "Which purchase orders or receipts require purchasing attention?", "",
+        "BEFORE BI", "evidence exists in purchasing reconciliation output", "",
+        "AFTER BI", "configured exception view surfaces open purchasing exceptions", "",
+        "RESULT", "ANSWERED", "", "QUESTION",
+        "Which operational sales, return, or purchasing records fail to reconcile with accounting evidence?", "",
+        "BI INPUT", "operational exception evidence available", "", "ACCOUNTING EVIDENCE",
+        "not available", "", "RESULT", "PARTIALLY ANSWERED", "",
+        "Current lab verdict: UNTESTED", "", "Central Management Exception Briefing",
+        "======================================"]
+    rows = (result.reports["transfer-status-report"] if selected_report == "transfer-exceptions"
+            else result.management_briefing)
+    for row in rows:
+        reference = row.get("transfer_id") or row.get("po") or row.get("return_id") or row.get("online_order") or row.get("exception_id")
+        status = row.get("transfer_result") or row.get("reconciliation_result") or row.get("status")
+        if selected_report == "transfer-exceptions" and status == "RECONCILED": continue
+        lines.append(f"{row.get('section', 'transfer')} | {reference} | {status} | SKU: {row.get('canonical_sku', 'UNRESOLVED')}")
+    lines += ["", "TRANSFER", "JRO-TR-1007", "", "RESULT", "MISSING RECEIPT", "",
+              "BI EFFECT", "visible in management briefing", "", "OPERATIONAL EFFECT", "unchanged", "",
+              "REPORTING organizes and presents reconciliation results.",
+              "RECONCILIATION determines whether evidence agrees.",
+              "VISIBLE EXCEPTION != RESOLVED EXCEPTION"]
+    return "\n".join(lines)
 
 
 def automation_report() -> str:
