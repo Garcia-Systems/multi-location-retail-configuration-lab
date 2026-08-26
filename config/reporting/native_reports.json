@@ -1,0 +1,19 @@
+{
+  "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE",
+  "modeled_capability": "MODELED ALTERNATIVE ASSUMPTION",
+  "date_boundary": {"business_timezone": "America/New_York", "start_time": "00:00:00", "end_time": "00:00:00", "start_inclusive": true, "end_inclusive": false},
+  "metrics": {
+    "GROSS_SALES": "sum SALE amount",
+    "RETURNS": "sum absolute RETURN amount",
+    "NET_SALES": "GROSS_SALES - RETURNS",
+    "UNITS_SOLD": "SALE quantity - RETURN quantity"
+  },
+  "question_references": ["SAL-01", "SAL-02", "INV-02", "RET-01", "RET-02"],
+  "reports": [
+    {"id": "store-sales", "name": "Store Sales Summary", "kind": "SALES", "store_group": "ALL_STORES", "metrics": ["GROSS_SALES", "RETURNS", "NET_SALES", "UNITS_SOLD"], "group_by": ["store"], "transaction_types": ["SALE", "RETURN"], "return_treatment": "SUBTRACT"},
+    {"id": "sales-category", "name": "Sales by Category", "kind": "SALES", "store_group": "ALL_STORES", "metrics": ["NET_SALES", "UNITS_SOLD"], "group_by": ["store", "common_category"], "transaction_types": ["SALE", "RETURN"], "return_treatment": "SUBTRACT"},
+    {"id": "sku-activity", "name": "SKU Activity by Store", "kind": "SALES", "store_group": "ALL_STORES", "metrics": ["NET_SALES", "UNITS_SOLD"], "group_by": ["store", "canonical_sku"], "transaction_types": ["SALE", "RETURN"], "return_treatment": "SUBTRACT"},
+    {"id": "inventory-snapshot", "name": "Store Inventory Snapshot", "kind": "SNAPSHOT", "store_group": "ALL_STORES", "metrics": ["ON_HAND"], "group_by": ["store", "canonical_sku"], "transaction_types": [], "return_treatment": "NOT_APPLICABLE"},
+    {"id": "inventory-adjustments", "name": "Inventory Adjustment Activity", "kind": "ADJUSTMENT", "store_group": "ALL_STORES", "metrics": ["ADJUSTMENT_QUANTITY"], "group_by": ["store", "canonical_sku"], "transaction_types": [], "return_treatment": "NOT_APPLICABLE"}
+  ]
+}

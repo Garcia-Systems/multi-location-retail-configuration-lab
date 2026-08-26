@@ -1,0 +1,7 @@
+{
+  "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE",
+  "store_groups": [
+    {"id": "ALL_STORES", "store_ids": ["JRO-STORE-001", "JRO-STORE-002", "JRO-STORE-003", "JRO-STORE-004", "JRO-STORE-005", "JRO-STORE-006"]},
+    {"id": "HISTORIC_TRIANGLE", "store_ids": ["JRO-STORE-001", "JRO-STORE-003"]}
+  ]
+}

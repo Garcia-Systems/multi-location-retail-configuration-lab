@@ -53,6 +53,7 @@ python -m retail_configuration_lab baseline
 python -m retail_configuration_lab capabilities
 python -m retail_configuration_lab questions
 python -m retail_configuration_lab identity
+python -m retail_configuration_lab native-reporting
 python -m retail_configuration_lab --help
 ```
 
@@ -64,6 +65,7 @@ The baseline command loads `data/baseline_case.json`, validates its evidence lab
 2. [Chapter 1 — Inventory What Already Exists](book/01-inventory-what-already-exists.md) — classifies the fictional ecosystem without validating the hypothesis.
 3. [Chapter 2 — Define the Business Questions](book/02-define-the-business-questions.md) — defines actionable questions and diagnostic capability-coverage hypotheses.
 4. [Chapter 3 — Standardize Retail Identity](book/03-standardize-retail-identity.md) — tests configured identity mappings against synthetic false and true exceptions.
+5. [Chapter 4 — Configure Native Multi-Store Reporting](book/04-configure-native-multi-store-reporting.md) — measures which questions configured synthetic POS/inventory reports can answer.
 
 The Chapter 1 command loads and validates the structured inventory, reports unfiltered counts, and prints a capability matrix. Optional `--area` and `--status` filters narrow only the displayed matrix rows.
 
@@ -78,10 +80,12 @@ Define business questions
         ↓
 Standardize retail identity
         ↓
-Measure false exceptions removed
+Configure native multi-store reporting
+        ↓
+Measure questions answered
         ↓
 Next:
-Configure native multi-store reporting
+Configure native e-commerce/store integration
 ```
 
-The current lab verdict remains **UNTESTED**. Chapter 3 observes synthetic reconciliation improvement from identity configuration, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Native reporting and later experiments are not implemented.
+The current lab verdict remains **UNTESTED**. Chapter 4 observes synthetic native-reporting results, but does not observe real retailer savings or prove that BUY / CONFIGURE works. Later integration experiments are not implemented.

@@ -1,0 +1,18 @@
+{
+  "transactions": [
+    {"id":"T1","timestamp":"2026-01-15T10:00:00-05:00","store_id":"JRO-STORE-001","source_sku":"SKU-1042","source_category":"Clothing","type":"SALE","quantity":2,"amount":"100.00"},
+    {"id":"T2","timestamp":"2026-01-15T12:00:00-05:00","store_id":"JRO-STORE-001","source_sku":"SKU-1042","source_category":"Clothing","type":"RETURN","quantity":1,"amount":"50.00"},
+    {"id":"T3","timestamp":"2026-01-15T11:00:00-05:00","store_id":"JRO-STORE-002","source_sku":"SKU-1055","source_category":"Apparel","type":"SALE","quantity":1,"amount":"80.00"},
+    {"id":"T4","timestamp":"2026-01-15T13:00:00-05:00","store_id":"JRO-STORE-003","source_sku":"SKU-1042","source_category":"Clothing","type":"SALE","quantity":1,"amount":"50.00"},
+    {"id":"T5","timestamp":"2026-01-15T14:00:00-05:00","store_id":"JRO-STORE-004","source_sku":"SKU-1055","source_category":"Apparel","type":"SALE","quantity":2,"amount":"160.00"},
+    {"id":"T6","timestamp":"2026-01-15T15:00:00-05:00","store_id":"JRO-STORE-005","source_sku":"SKU-1042","source_category":"Clothing","type":"SALE","quantity":1,"amount":"50.00"},
+    {"id":"T7","timestamp":"2026-01-15T16:00:00-05:00","store_id":"JRO-STORE-006","source_sku":"SKU-1055","source_category":"Apparel","type":"SALE","quantity":1,"amount":"80.00"},
+    {"id":"T8","timestamp":"2026-01-14T16:00:00-05:00","store_id":"JRO-STORE-001","source_sku":"SKU-1055","source_category":"Apparel","type":"SALE","quantity":1,"amount":"80.00"}
+  ],
+  "inventory": [
+    {"store_id":"JRO-STORE-001","source_sku":"1042","on_hand":8}, {"store_id":"JRO-STORE-002","source_sku":"1055","on_hand":4},
+    {"store_id":"JRO-STORE-003","source_sku":"1042","on_hand":6}, {"store_id":"JRO-STORE-004","source_sku":"1055","on_hand":7},
+    {"store_id":"JRO-STORE-005","source_sku":"1042","on_hand":3}, {"store_id":"JRO-STORE-006","source_sku":"1055","on_hand":5}
+  ],
+  "adjustments": [{"id":"A1","timestamp":"2026-01-15T17:00:00-05:00","store_id":"JRO-STORE-002","source_sku":"1055","quantity":-2,"reason":"cycle count","status":"REVIEW_REQUIRED"}]
+}

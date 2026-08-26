@@ -10,6 +10,7 @@ from .models import CapabilityStatus
 from .models import QuestionCoverageStatus, QuestionType
 from .questions import analyze_questions, load_questions
 from .identity import IdentityType, load_identity_configuration, run_identity_experiment
+from .native_reporting import QuestionResult, load_reporting_configuration, run_native_reporting
 
 
 def _money(value: Decimal) -> str:
@@ -214,6 +215,41 @@ def identity_report(show_mappings: bool = False, identity_type: str | None = Non
     return "\n".join(lines)
 
 
+def native_reporting_report() -> str:
+    configuration = load_reporting_configuration()
+    result = run_native_reporting(configuration)
+    counts = result.count_by_result
+    outside = [q for q in result.questions if q.after_configuration is QuestionResult.NOT_ANSWERED]
+    lines = [
+        "James River Outfitters", "Chapter 4 — Configure Native Multi-Store Reporting", "",
+        f"Configured native reports: {len(configuration.reports)}",
+        f"Configuration records used: {result.configuration_records_used}", "",
+        "Question coverage", "-----------------",
+        f"ANSWERED: {counts[QuestionResult.ANSWERED]}",
+        f"PARTIALLY ANSWERED: {counts[QuestionResult.PARTIALLY_ANSWERED]}",
+        f"NOT ANSWERED: {counts[QuestionResult.NOT_ANSWERED]}",
+        f"UNKNOWN: {counts[QuestionResult.UNKNOWN]}", "",
+        f"Native question answer rate: {result.native_question_answer_rate:.2%}",
+        "  OBSERVED LAB RESULT from synthetic native reports; no success threshold is imposed.",
+        "Improved through configuration: " + (", ".join(result.questions_improved_by_configuration) or "none"), "",
+        "Still outside native POS/inventory reporting:",
+        *[f"- {q.question_id}: {q.question}" for q in outside], "",
+        "Current lab verdict: UNTESTED", "", "STORE SALES SUMMARY", "",
+        f"{'Store':<17} {'Gross':>10} {'Returns':>10} {'Net':>10} {'Units':>7}",
+    ]
+    for row in result.reports["store-sales"]:
+        lines.append(f"{row['store']:<17} {_money(row['gross_sales']):>10} {_money(row['returns']):>10} "
+                     f"{_money(row['net_sales']):>10} {row['units_sold']:>7}")
+    answered = result.questions[0]; failed = next(q for q in result.questions if q.question_id == "RET-01")
+    lines.extend(["", "QUESTION", answered.question, "", "REQUIRED EVIDENCE",
+                  "- store", "- sales", "- returns", "- period", "", "NATIVE REPORT",
+                  "Store Sales Summary", "", "RESULT", answered.after_configuration.value, "",
+                  "QUESTION", failed.question, "", "NATIVE EVIDENCE", "POS return activity",
+                  "Inventory effect", "", "MISSING", *[f"- {x}" for x in failed.missing], "",
+                  "RESULT", failed.after_configuration.value])
+    return "\n".join(lines)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run the synthetic retail configuration lab.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -239,6 +275,7 @@ def build_parser() -> argparse.ArgumentParser:
     identity.add_argument("--show-mappings", action="store_true", help="show mapping provenance")
     identity.add_argument("--type", choices=[item.value.lower() for item in IdentityType],
                           help="filter displayed mappings by identity type")
+    subparsers.add_parser("native-reporting", help="run the Chapter 4 native reporting experiment")
     return parser
 
 
@@ -252,4 +289,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(questions_report(args.area, args.coverage, args.owner, args.question_id))
     elif args.command == "identity":
         print(identity_report(args.show_mappings, args.type))
+    elif args.command == "native-reporting":
+        print(native_reporting_report())
     return 0
