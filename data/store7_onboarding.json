@@ -1,0 +1,462 @@
+{
+  "store": {
+    "canonical_id": "JRO-STORE-007",
+    "name": "James River Outfitters \u2014 Richmond West",
+    "source_mappings": {
+      "RiverPOS": "STORE-RW",
+      "RiverStock": "STORE_7",
+      "RiverBooks": "LOC-RICHMOND-WEST",
+      "RiverCommerce": "fulfillment_richmond_west"
+    }
+  },
+  "store_groups": {
+    "ALL_STORES": [
+      "JRO-STORE-001",
+      "JRO-STORE-002",
+      "JRO-STORE-003",
+      "JRO-STORE-004",
+      "JRO-STORE-005",
+      "JRO-STORE-006",
+      "JRO-STORE-007"
+    ],
+    "CENTRAL_VIRGINIA": [
+      "JRO-STORE-002",
+      "JRO-STORE-005",
+      "JRO-STORE-007"
+    ]
+  },
+  "assortment": {
+    "carried_skus": [
+      "JRO-1042-BLU-M"
+    ],
+    "excluded_skus": [
+      "JRO-1055-GRN-L"
+    ]
+  },
+  "fulfillment_store": "JRO-STORE-007",
+  "purchasing_destination": "JRO-STORE-007",
+  "process_owner": "Richmond West Store Manager",
+  "configuration_artifacts": [
+    "config/automation/automations.json",
+    "config/bi/reports.json",
+    "config/identity/skus.json",
+    "config/identity/stores.json",
+    "config/integrations/ecommerce_store_native.json",
+    "config/process/process_rules.json",
+    "config/purchasing/po_rules.json",
+    "config/purchasing/receiving_rules.json",
+    "config/reporting/native_reports.json",
+    "config/reporting/store_groups.json",
+    "config/returns_transfers/return_rules.json",
+    "config/returns_transfers/transfer_rules.json",
+    "data/business_questions.json",
+    "data/store7_onboarding.json"
+  ],
+  "tasks": [
+    {
+      "task_id": "S7-01",
+      "category": "identity",
+      "description": "Store identity",
+      "required": true,
+      "configuration_artifact": "config/identity/stores.json",
+      "classification": "NEW_MAPPING",
+      "reused_unchanged": false,
+      "configured_from_template": false,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "approved fictional location",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-02",
+      "category": "groups",
+      "description": "ALL_STORES membership",
+      "required": true,
+      "configuration_artifact": "config/reporting/store_groups.json",
+      "classification": "REUSED_WITH_STORE_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-03",
+      "category": "catalog",
+      "description": "Canonical catalog reuse",
+      "required": true,
+      "configuration_artifact": "config/identity/skus.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-04",
+      "category": "assortment",
+      "description": "Store assortment",
+      "required": true,
+      "configuration_artifact": "data/store7_onboarding.json",
+      "classification": "NEW_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-05",
+      "category": "report",
+      "description": "Store sales reporting",
+      "required": true,
+      "configuration_artifact": "config/reporting/native_reports.json",
+      "classification": "REUSED_WITH_STORE_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-06",
+      "category": "inventory-report",
+      "description": "Inventory snapshot",
+      "required": true,
+      "configuration_artifact": "config/reporting/native_reports.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-07",
+      "category": "fulfillment",
+      "description": "Online fulfillment location",
+      "required": true,
+      "configuration_artifact": "config/integrations/ecommerce_store_native.json",
+      "classification": "NEW_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-08",
+      "category": "online-reconciliation",
+      "description": "Online reconciliation",
+      "required": true,
+      "configuration_artifact": "config/integrations/ecommerce_store_native.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-09",
+      "category": "purchasing-destination",
+      "description": "Purchasing destination",
+      "required": true,
+      "configuration_artifact": "config/purchasing/po_rules.json",
+      "classification": "NEW_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-10",
+      "category": "receiving",
+      "description": "Purchasing receipt reconciliation",
+      "required": true,
+      "configuration_artifact": "config/purchasing/receiving_rules.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-11",
+      "category": "returns",
+      "description": "Return reconciliation",
+      "required": true,
+      "configuration_artifact": "config/returns_transfers/return_rules.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-12",
+      "category": "cross-return",
+      "description": "Cross-store return",
+      "required": true,
+      "configuration_artifact": "config/returns_transfers/return_rules.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-13",
+      "category": "transfers",
+      "description": "Store transfer reconciliation",
+      "required": true,
+      "configuration_artifact": "config/returns_transfers/transfer_rules.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-14",
+      "category": "automation-scope",
+      "description": "Report distribution scope",
+      "required": true,
+      "configuration_artifact": "config/automation/automations.json",
+      "classification": "REUSED_WITH_STORE_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-15",
+      "category": "automation-logic",
+      "description": "Mapping and reconciliation automations",
+      "required": true,
+      "configuration_artifact": "config/automation/automations.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-16",
+      "category": "bi",
+      "description": "BI datasets and views",
+      "required": true,
+      "configuration_artifact": "config/bi/reports.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-17",
+      "category": "process",
+      "description": "Operating process rules",
+      "required": true,
+      "configuration_artifact": "config/process/process_rules.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-18",
+      "category": "access",
+      "description": "Store manager role assignment",
+      "required": true,
+      "configuration_artifact": "data/store7_onboarding.json",
+      "classification": "NEW_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-19",
+      "category": "transaction-fixtures",
+      "description": "Store transaction evidence",
+      "required": true,
+      "configuration_artifact": "data/store7_onboarding.json",
+      "classification": "NEW_CONFIGURATION",
+      "reused_unchanged": false,
+      "configured_from_template": true,
+      "new_store_specific_value": true,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    },
+    {
+      "task_id": "S7-20",
+      "category": "questions",
+      "description": "Chapter 2 business questions",
+      "required": true,
+      "configuration_artifact": "data/business_questions.json",
+      "classification": "REUSED_UNCHANGED",
+      "reused_unchanged": true,
+      "configured_from_template": false,
+      "new_store_specific_value": false,
+      "validation_result": "PASSED",
+      "dependency": "canonical Store #7 identity",
+      "support_implication": "incremental configuration/transaction volume; no new engine",
+      "evidence_classification": "OBSERVED IMPLEMENTATION STRUCTURE"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "S7-SALE-1",
+      "kind": "SALE",
+      "store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "quantity": 2,
+      "channel": "STORE"
+    },
+    {
+      "id": "S7-ONLINE-1",
+      "kind": "ONLINE_FULFILLMENT",
+      "store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "quantity": 1,
+      "channel": "ONLINE"
+    },
+    {
+      "id": "S7-RECEIPT-1",
+      "kind": "RECEIPT",
+      "store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "quantity": 8,
+      "result": "RECONCILED"
+    },
+    {
+      "id": "S7-RETURN-1",
+      "kind": "RETURN",
+      "store": "JRO-STORE-007",
+      "original_store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "quantity": 1,
+      "result": "RECONCILED"
+    },
+    {
+      "id": "S7-XRETURN-1",
+      "kind": "RETURN",
+      "store": "JRO-STORE-001",
+      "original_store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "quantity": 1,
+      "result": "CROSS_STORE_RECONCILED"
+    },
+    {
+      "id": "S7-TRANSFER-IN",
+      "kind": "TRANSFER",
+      "from_store": "JRO-STORE-001",
+      "to_store": "JRO-STORE-007",
+      "sku": "JRO-1042-BLU-M",
+      "sent": 3,
+      "received": 3,
+      "result": "RECONCILED"
+    },
+    {
+      "id": "S7-TRANSFER-OUT",
+      "kind": "TRANSFER",
+      "from_store": "JRO-STORE-007",
+      "to_store": "JRO-STORE-002",
+      "sku": "JRO-1042-BLU-M",
+      "sent": 4,
+      "received": 2,
+      "result": "PARTIAL_RECEIPT"
+    }
+  ],
+  "growth": {
+    "canonical_stores": [
+      6,
+      7
+    ],
+    "store_mappings": [
+      9,
+      13
+    ],
+    "report_definitions": [
+      5,
+      5
+    ],
+    "automation_definitions": [
+      6,
+      6
+    ],
+    "bi_report_definitions": [
+      7,
+      7
+    ],
+    "process_rule_definitions": [
+      5,
+      5
+    ],
+    "new_code_paths": [
+      0,
+      0
+    ]
+  },
+  "issue_trace": {
+    "task": "Store manager report access",
+    "initial_result": "BLOCKED \u2014 missing role assignment",
+    "fix": "copy the existing Store Manager role template and assign Richmond West scope",
+    "final_result": "configured successfully"
+  },
+  "support": {
+    "incremental_annual_support_cost_store7": 720,
+    "evidence_classification": "MODELED ASSUMPTION",
+    "note": "identity/access review and incremental exception volume only; not a 7/6 multiplier"
+  }
+}
