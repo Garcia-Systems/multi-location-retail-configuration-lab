@@ -23,6 +23,7 @@ from .bi_reporting import BIQuestionStatus, run_bi_reporting
 from .process_change import ResidualCause, run_process_change_experiment
 from .residual_gaps import ResidualStatus, analyze_residual_gaps, load_residual_gaps
 from .support_surface import analyze_support_surface, load_support_inventory
+from .add_store import TaskClassification, load_store7_experiment
 
 
 def _money(value: Decimal) -> str:
@@ -357,6 +358,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("process-change", help="run the Chapter 10 process-change experiment")
     subparsers.add_parser("residual-gaps", help="run the Chapter 11 residual-gap analysis")
     subparsers.add_parser("support-surface", help="run the Chapter 12 support-surface analysis")
+    subparsers.add_parser("add-store", help="run the Chapter 13 standardized Store #7 onboarding")
     return parser
 
 
@@ -388,7 +390,45 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(residual_gaps_report())
     elif args.command == "support-surface":
         print(support_surface_report())
+    elif args.command == "add-store":
+        print(add_store_report())
     return 0
+
+
+def add_store_report() -> str:
+    result = load_store7_experiment()
+    label = lambda value: value.value.replace("_", " ")
+    lines = ["James River Outfitters", "Chapter 13 — Add Store #7", "",
+        "Before onboarding", "-----------------", f"Stores: {len(result.before_store_ids)}", "",
+        "After onboarding", "----------------", f"Stores: {len(result.after_store_ids)}",
+        "New store: JRO-STORE-007", "", "Onboarding structure", "--------------------",
+        f"Total applicable tasks: {result.total_onboarding_tasks}"]
+    for classification in (TaskClassification.REUSED_UNCHANGED,
+            TaskClassification.REUSED_WITH_STORE_CONFIGURATION, TaskClassification.NEW_MAPPING,
+            TaskClassification.NEW_CONFIGURATION, TaskClassification.NEW_CAPABILITY_REQUIRED,
+            TaskClassification.BLOCKED, TaskClassification.UNKNOWN):
+        lines.append(f"{label(classification)}: {result.count(classification)}")
+    lines += ["", f"Structural reuse ratio: {result.structural_reuse_ratio:.2%}",
+        "  Denominator: all required, applicable onboarding tasks; NOT APPLICABLE is excluded.",
+        f"New capability ratio: {result.new_capability_ratio:.2%}", "", "Implementation growth",
+        "---------------------"]
+    names = {"canonical_stores":"Canonical stores", "store_mappings":"Store mappings",
+        "report_definitions":"Report definitions", "automation_definitions":"Automation definitions",
+        "bi_report_definitions":"BI report definitions", "process_rule_definitions":"Process rule definitions",
+        "new_code_paths":"New code paths"}
+    lines += [f"{names[k]}: {v[0]} → {v[1]}" for k,v in result.growth.items()]
+    issue=result.issue_trace
+    lines += ["", "TASK", "Store identity", "", "SOURCE", "RiverPOS STORE-RW", "",
+        "CANONICAL", "JRO-STORE-007", "", "CLASSIFICATION", "NEW MAPPING", "",
+        "TASK", "Store sales reporting", "", "EXISTING REPORT", "Store Sales Summary", "",
+        "CHANGE", "add Store #7 to configured store scope", "", "CLASSIFICATION",
+        "REUSED WITH STORE CONFIGURATION", "", "NEW REPORT LOGIC", "NO", "",
+        "TASK", "Store transfer reconciliation", "", "EXISTING LOGIC", "reused unchanged", "",
+        "STORE #7 SCENARIO", "reconciles / preserves true partial-receipt exception", "",
+        "CLASSIFICATION", "REUSED UNCHANGED", "", "TASK", issue["task"], "",
+        "INITIAL RESULT", issue["initial_result"], "", "FIX", issue["fix"], "",
+        "FINAL RESULT", issue["final_result"], "", "Current lab verdict: UNTESTED"]
+    return "\n".join(lines)
 
 
 def support_surface_report() -> str:
